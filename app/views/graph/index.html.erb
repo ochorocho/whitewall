@@ -68,7 +68,7 @@
 					<tr>
 						<td></td>
 						<% for week in @weeks -%>
-							  <td><%= l(:label_whitewall_week) %>&nbsp;<%= week %></td>
+							  <td><%= l(:label_whitewall_week) %>&nbsp;<%= week.gsub(",", " / ") %></td>
 						<% end -%>
 					</tr>
 				</thead>
@@ -91,7 +91,7 @@
 											  s1 = [['23-May-08',1],['24-May-08',4],['25-May-08',2],['26-May-08', 6]];
 											  s2 = [['23-May-08',5],['24-May-08',8],['25-May-08',1],['26-May-08', 3]];
 											 
-											  plot1 = $.jqplot('graph<%= user.id %><%= week %>',[s1,s2],{
+											  plot1 = $.jqplot('graph<%= user.id %><%= week.gsub(",", "_") %>',[s1,s2],{
 											     axes: {
 											         xaxis: {
 											             renderer: $.jqplot.DateAxisRenderer,
@@ -116,7 +116,7 @@
 											  });
 											});
 										</script>
-									    <div id="graph<%= user.id %><%= week %>"></div>
+									    <div id="graph<%= user.id %><%= week.gsub(",", "_") %>"></div>
 								</td>
 							<% end -%>
 						</tr>

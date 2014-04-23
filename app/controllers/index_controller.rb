@@ -27,32 +27,34 @@ class IndexController < ApplicationController
 			# CHECK PARAMS
 						
 			if !params[:from].nil?
-				@fromDate = Date.parse(params[:from])
+				@fromDate = Date.parse(params[:from]).beginning_of_week + 4.days
 			else
-				@fromDate = Date.today
+				@fromDate = Date.today.beginning_of_week + 4.days
 			end
 			if !params[:to].nil?
-				@toDate = Date.parse(params[:to])
+				@toDate = Date.parse(params[:to]).beginning_of_week + 4.days
 			else
-				@toDate = Date.today + 4.weeks
+				@toDate = (Date.today.beginning_of_week + 4.days) + 4.weeks
 			end
 			
 			# CONVERT GIVEN DATE TO WEEK
 			@fromWeek = @fromDate.strftime("%U").to_i
 			@toWeek = @toDate.strftime("%U").to_i
 
-
-			@test = @toDate
-	
-			# CALC WEEKS TO SHOW
-			@weeksToShow = @toWeek - @fromWeek
-	
-			# BUILD WEEKS-TO-SHOW ARRAY
-			@weeks = []
-			@weeksToShow.times do |x|
-				@weeks << (x + @fromWeek)
+			start = Date.new( 2012, 5, 10 )
+			ende = Date.new( 2013, 6, 20 )
+			
+			weeks = []
+			while @fromDate < @toDate
+				weeks << [@fromDate.cweek, @fromDate.year]  # <-- enhanced
+				@fromDate += 1.week
 			end
-	
+			
+			@weeks = []
+			weeks.each do |w,y|   # <-- take two arguments in the block
+				@weeks << "#{w},#{y}"  #     and print them both out
+			end
+				
 			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
 			
 			if !params[:user_select].nil?
@@ -62,12 +64,23 @@ class IndexController < ApplicationController
 			else
 				@users = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
 			end
-			
+			@test = []
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
-	 				wkBegin = Date.commercial(2014, week, 1)
-	 				wkEnd = Date.commercial(2014, week, 7)
-	 				user["week#{week}"] = Issue.where(:assigned_to_id => user.id, :start_date => wkBegin..wkEnd).select { |i| i.project.active? }
+	 				
+	 				if week.split(',')[0].to_f == '53'
+	 					calYear = week.split(',')[1].to_i
+	 					calWeek = week.split(',')[0].to_i
+	 				else
+	 					calYear = week.split(',')[1].to_i
+	 					calWeek = week.split(',')[0].to_i
+	 				end
+
+	 				weekBegin = Date.commercial(calYear, calWeek, 1)
+	 				weekEnd = Date.commercial(calYear, calWeek, 7)
+
+	 				@test << weekBegin
+					user["week#{calWeek}year#{calYear}"] = Issue.where(:assigned_to_id => user.id, :start_date => weekBegin..weekEnd).select { |i| i.project.active? }
 	  			end
 			end
 		else

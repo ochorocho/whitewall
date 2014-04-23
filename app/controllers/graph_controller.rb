@@ -39,14 +39,19 @@ class GraphController < ApplicationController
 			# CONVERT GIVEN DATE TO WEEK
 			@fromWeek = @fromDate.strftime("%U").to_i
 			@toWeek = @toDate.strftime("%U").to_i
-	
-			# CALC WEEKS TO SHOW
-			@weeksToShow = @toWeek - @fromWeek
-	
-			# BUILD WEEKS-TO-SHOW ARRAY
+
+			start = Date.new( 2012, 5, 10 )
+			ende = Date.new( 2013, 6, 20 )
+			
+			weeks = []
+			while @fromDate < @toDate
+				weeks << [@fromDate.cweek, @fromDate.year]  # <-- enhanced
+				@fromDate += 1.week
+			end
+			
 			@weeks = []
-			@weeksToShow.times do |x|
-				@weeks << (x + @fromWeek)
+			weeks.each do |w,y|   # <-- take two arguments in the block
+				@weeks << "#{w},#{y}"  #     and print them both out
 			end
 
 			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
@@ -61,13 +66,21 @@ class GraphController < ApplicationController
 
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
-	 				wkBegin = Date.commercial(2014, week, 1)
-	 				wkEnd = Date.commercial(2014, week, 7)
+	 				if week.split(',')[0].to_f == '53'
+	 					calYear = week.split(',')[1].to_i
+	 					calWeek = week.split(',')[0].to_i
+	 				else
+	 					calYear = week.split(',')[1].to_i
+	 					calWeek = week.split(',')[0].to_i
+	 				end
+
+	 				weekBegin = Date.commercial(calYear, calWeek, 1)
+	 				weekEnd = Date.commercial(calYear, calWeek, 7)
 	 				
 	 				@dates = []
 	 				7.times do |day|
 	 					day = day + 1
-	 					date = Date.commercial(2014, week, day)
+	 					date = Date.commercial(calYear, calWeek, day)
 		 				@dates << date
 
 						# ISSUE COUNT
@@ -77,7 +90,7 @@ class GraphController < ApplicationController
 						# ESTIMATED HOURS
 		 				@estimated = 0
 		 				@issues.each do |issue| 
-			 				@estimated = @estimated + issue.estimated_hours
+			 				#@estimated = @estimated + issue.estimated_hours
 		 				end
 		 				user["estimatedHours_#{date}"] = @estimated
 	 				end	 				

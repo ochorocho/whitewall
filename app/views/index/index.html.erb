@@ -51,7 +51,7 @@
 	</div>
 
 <!-- 	<%= debug(@users) %> -->
-	<%= debug(@test) %>
+<!-- 	<%= debug(@test) %> -->
 
 	<div id="wall">		
 	<!-- WALL TABLE -->
@@ -69,7 +69,7 @@
 				<tr>
 					<td></td>
 					<% for week in @weeks -%>
-						  <td><%= l(:label_whitewall_week) %>&nbsp;<%= week %></td>
+						  <td><%= l(:label_whitewall_week) %>&nbsp;<%= week.gsub(",", " / ") %></td>
 					<% end -%>
 				</tr>
 			</thead>
@@ -82,7 +82,7 @@
 						<% for week in @weeks -%>
 							<td>
 							  	<ul class="sortItCon">
-									<% for issue in user["week#{week}"] -%>
+									<% for issue in user["week#{week.split(',')[0]}year#{week.split(',')[1]}"] -%>
 										<li class="postIt" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 											<div class="title">
 												<%= link_to_issue(issue, :subject => true, :truncate => 18, :tracker => false) %>
