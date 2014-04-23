@@ -1,0 +1,23 @@
+#top-menu a.whitewall, #top-menu a.whitewall-list {
+    background-position: 0 40%;
+    background-repeat: no-repeat;
+    padding-bottom: 3px;
+    padding-left: 20px;
+    padding-top: 2px;
+}
+
+#top-menu a.whitewall {
+    background-image: url("../images/note.png");
+}
+
+.colorPrev {
+	width: 20px;
+	height: 21px;
+	border: 1px solid #606060;
+	display: inline-block;
+	float: left;
+}
+
+.picker {
+	margin-top: 0px;
+}

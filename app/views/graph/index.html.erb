@@ -1,0 +1,132 @@
+<% html_title l(:label_whitewall_menu) %>
+
+<% content_for :header_tags do %>
+
+	<%= stylesheet_link_tag 'jquery.jqplot.css', :plugin => 'whitewall' %>
+    <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
+
+    <%= javascript_include_tag 'jqplot/excanvas.js', :plugin => 'whitewall' %>
+    <%= javascript_include_tag 'jqplot/jquery.jqplot.js', :plugin => 'whitewall' %>
+    <%= javascript_include_tag 'jqplot/plugins/jqplot.dateAxisRenderer.js', :plugin => 'whitewall' %>
+    <%= javascript_include_tag 'jqplot/plugins/jqplot.barRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasTextRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.categoryAxisRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.highlighter.js', :plugin => 'whitewall' %>
+
+	<link rel="stylesheet" type="text/css" hrf="../jquery.jqplot.min.css" />
+
+    <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
+<% end %>
+
+<% if @UserAllowed == 'true' %>
+
+<div id="whitewall">
+	<h2><%= l(:label_whitewall_menu) %></h2>
+
+	<!-- WALL FILTER -->
+	<div id="filter">
+		<div id="timespan">
+			<%= form_tag("/whitewall_graph", method: "get") do %>
+				<span id="statsBack"><%= link_to l(:label_whitewall_menu), :controller => "index", :action => "index" %></span>
+				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
+				<input type="text" id="from" name="from" value="<%= @fromDate %>">
+				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
+				<input type="text" id="to" name="to" value="<%= @toDate %>">
+				<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
+				<div id="wallFunctions">
+					<span id="showUsers">
+						<div><%= l(:label_whitewall_users) %></div>
+						<ul>
+							<li class="invert"><b><%= l(:whitewall_users_select) %></b><input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" /></li>
+							<% for user in @usersAll -%>
+								<li class="<%= cycle('odd', 'even') %>">
+									<label for="user<%= user.id %>">
+										<% if @users.include? user %>
+											<input checked="checked" type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
+										<% else %>
+											<input type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
+										<% end %>
+										<%= user.name %>
+									</label>
+								</li>
+							<% end -%>
+						</ul>
+					</span>
+				</div>
+			<% end %>
+		</div>
+	</div>
+
+
+<!-- 	<%= debug(@users) %> -->
+
+	<div id="wall" class="graph">		
+	<!-- WALL TABLE -->
+		<div id="scroll">
+			<table>
+				<thead>		
+					<tr>
+						<td></td>
+						<% for week in @weeks -%>
+							  <td><%= l(:label_whitewall_week) %>&nbsp;<%= week %></td>
+						<% end -%>
+					</tr>
+				</thead>
+				<tbody>			
+					<% for user in @users -%>
+						<tr class="<%= cycle('odd', 'even') %>">
+							<td><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></td>
+	
+							<!-- LOOPS THROUGH TICKETS -->
+							<% for week in @weeks -%>
+								<td>
+										<%= debug(@dates) %>
+										<%= debug(user) %>
+										<script type="text/javascript">
+
+											$(document).ready(function () {
+											 
+											  $.jqplot.config.enablePlugins = true;
+											 
+											  s1 = [['23-May-08',1],['24-May-08',4],['25-May-08',2],['26-May-08', 6]];
+											  s2 = [['23-May-08',5],['24-May-08',8],['25-May-08',1],['26-May-08', 3]];
+											 
+											  plot1 = $.jqplot('graph<%= user.id %><%= week %>',[s1,s2],{
+											     axes: {
+											         xaxis: {
+											             renderer: $.jqplot.DateAxisRenderer,
+											             tickOptions: {
+											                 formatString: '%#m/%#d/%y'
+											             },
+											             numberTicks: 4
+											         },
+											         yaxis: {
+											             tickOptions: {
+											                 formatString: '%.2f hours'
+											             }
+											         }
+											     },
+											     highlighter: {
+											         sizeAdjust: 10,
+											         tooltipLocation: 'n',
+											         tooltipAxes: 'y',
+											         tooltipFormatString: '%.2f hours',
+											         useAxesFormatters: false
+											     }
+											  });
+											});
+										</script>
+									    <div id="graph<%= user.id %><%= week %>"></div>
+								</td>
+							<% end -%>
+						</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<% else %>
+	<div id="flash_notice" class="flash error"><%= l(:label_whitewall_noaccess) %></div>
+<% end %>

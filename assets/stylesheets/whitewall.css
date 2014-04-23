@@ -1,0 +1,258 @@
+body li {
+	list-style: none
+}
+
+.postIt {
+	background:#fefabc; 
+	padding: 6px 6px;
+	margin: 10px;
+	font-size:15px; 
+	color: #000; 
+	width:236px; 
+	font-size: 10px;
+	box-shadow: 0px 4px 6px #333;
+	-moz-box-shadow: 0px 4px 6px #333;
+	-webkit-box-shadow: 0px 4px 6px #333;
+	cursor: pointer;
+}
+
+#relDialog .postIt {
+	cursor: default
+}
+
+#relDialog .postIt a {
+	font-weight: bold !important;
+}
+
+.colorPrev {
+	background:#fefabc;
+}
+
+.postIt a {
+	color: #000 !important;
+}
+
+.postIt .title {
+	font-size: 12px;
+}
+
+.postIt .dueDate {
+	padding: 4px 0px;
+}
+
+.postIt .done {
+	clear: both;
+	float: none;
+	margin-top: 4px;
+}
+
+.postIt .estimated {
+	float: right;
+	font-weight: bold;
+	font-size: 80%;
+}
+
+.postIt .error {
+	color: #ff0000;
+	white-space: nowrap;
+}
+
+/* THE WALL ITSELF */
+#whitewall li {
+	list-style: none;
+}
+
+#scroll {
+}
+
+#wall table {
+}
+
+#wall table tr td:first-child {
+	width: 240px;
+	white-space:nowrap;
+}
+
+#wall table tr td {
+	width: 260px;
+}
+
+#wall thead td {
+	text-align: center;
+	font-weight: bold;
+	color: #606060;
+}
+
+#wall tbody ul {
+	min-height: 100%;
+	margin: 0px;
+	padding: 0px 0px;
+	min-height: 32px;
+}
+
+#wall tbody td {
+	vertical-align: text-top;
+}
+
+#wall fieldset {
+	border: 0px;
+}
+
+#wall fieldset .colorPrev {
+	width: 10px;
+	height: 10px;
+	float: none;
+	margin-bottom: -1px;
+}
+
+#wall fieldset label {
+	float: none;
+	margin-top: -2px;
+	margin-right: 6px;
+}
+
+#wall legend {
+	font-weight: bold;
+}
+
+
+.graph #scroll {
+	clear: both;
+	margin-top: 50px;
+}
+
+/* FILTER */
+#filter {
+	float: right;
+	margin-top: -30px;
+}
+
+#filter input[type=text] {
+	width: 100px;
+}
+
+#noRel, #stats a, #statsBack a, #showDetails, #showUsers div {
+    background-position: 0 40%;
+    background-repeat: no-repeat;
+    padding-bottom: 3px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-right: 6px;
+    margin-right: 2px;
+    margin-left: 4px;
+    background-image: url("../images/stop.png");
+    cursor: pointer;
+}
+
+
+#stats a {
+    background-image: url("../images/chart.png");	
+    border-right: 1px solid #606060;
+}
+
+#statsBack a {
+    background-image: url("../images/note.png");	
+    border-right: 1px solid #606060;	
+}
+
+#showDetails {
+    background-image: url("../images/info.png");
+}
+
+#showUsers {
+	background: none;
+    position: relative;
+    padding-right: 0px !important;
+    margin-right: 2px !important;
+}
+
+#showUsers div {
+    background-image: url("../images/group.png");
+    padding-right: 2px;
+}
+
+#showUsers ul {
+	display: none;
+	position: absolute;
+	width: 300px;
+	background: #fff;
+	box-shadow: 0px 4px 6px #333;
+	-moz-box-shadow: 0px 4px 6px #333;
+	-webkit-box-shadow: 0px 4px 6px #333;
+	z-index: 500;
+	right: 0px;
+}
+
+#showUsers li label {
+	display: block;
+	padding: 10px;
+}
+
+#showUsers li b {
+	padding: 5px;
+	cursor: pointer;
+}
+
+#showUsers div {
+	display: inline;
+}
+
+#relDialog {
+	display: none;
+}
+
+#relSort { list-style-type: none; margin: 0; padding: 0; }
+#relSort li { margin: 10px; float: left; width: 200px; }
+
+#wallFunctions {
+	text-align: right;
+	margin-top: 10px;
+}
+
+#wallFunctions span {
+    border-right: 1px solid #606060;
+    padding-bottom: 3px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-right: 6px;
+    margin-left: 4px;
+}
+
+#wallFunctions span:last-child {
+	border-right: 0px !important;
+	margin-left: 2px;
+}
+
+#wallFunctions ul {
+	padding-left: 0px;
+	margin-left: 0px;
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+
+#wallFunctions li {
+	padding-left: 0px;
+	margin-left: 0px;
+	text-align: left;
+}
+
+#wallFunctions li.invert {
+	clear: both !important;
+	float: none !important;
+	display: block;
+	text-align: right;
+	padding: 10px 0px;
+}
+
+/* JQUERY UI MODs */
+.ui-progressbar {
+	height: 6px !important;
+	
+}
+
+.ui-progressbar .ui-widget-header {
+	font-size: 10px !important;
+	color: #999999;
+	text-align: center;
+}
