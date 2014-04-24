@@ -26,14 +26,18 @@ class GraphController < ApplicationController
 					
 			# CHECK PARAMS
 			if !params[:from].nil?
-				@fromDate = Date.parse(params[:from])
+				@fromDate = Date.parse(params[:from]).beginning_of_week + 4.days
+				@fromInput = Date.parse(params[:from]).beginning_of_week
 			else
-				@fromDate = Date.today
+				@fromDate = Date.today.beginning_of_week + 4.days
+				@fromInput = Date.parse("#{Date.today}").beginning_of_week
 			end
 			if !params[:to].nil?
-				@toDate = Date.parse(params[:to])
+				@toDate = Date.parse(params[:to]).end_of_week + 4.days
+				@toInput = Date.parse(params[:to]).end_of_week
 			else
-				@toDate = Date.today + 4.weeks
+				@toDate = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
+				@toInput = (Date.today.end_of_week + 4.days).end_of_week
 			end
 			
 			# CONVERT GIVEN DATE TO WEEK

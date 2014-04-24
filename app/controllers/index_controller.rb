@@ -25,20 +25,19 @@ class IndexController < ApplicationController
 			@issuesUndefined = Issue.where("assigned_to_id IS NULL OR start_date IS NULL").all
 					
 			# CHECK PARAMS
-						
 			if !params[:from].nil?
 				@fromDate = Date.parse(params[:from]).beginning_of_week + 4.days
 				@fromInput = Date.parse(params[:from]).beginning_of_week
 			else
 				@fromDate = Date.today.beginning_of_week + 4.days
-				@fromInput = Date.parse(params[:from]).beginning_of_week
+				@fromInput = Date.parse("#{Date.today}").beginning_of_week
 			end
 			if !params[:to].nil?
 				@toDate = Date.parse(params[:to]).end_of_week + 4.days
 				@toInput = Date.parse(params[:to]).end_of_week
 			else
-				@toDate = (Date.today.end_of_week + 4.days) + 4.weeks
-				@toInput = (Date.today.end_of_week + 4.days) + 4.weeks
+				@toDate = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
+				@toInput = (Date.today.end_of_week + 4.days).end_of_week
 			end
 			
 			# CONVERT GIVEN DATE TO WEEK
@@ -47,13 +46,13 @@ class IndexController < ApplicationController
 			
 			weeks = []
 			while @fromDate < @toDate
-				weeks << [@fromDate.cweek, @fromDate.year]  # <-- enhanced
+				weeks << [@fromDate.cweek, @fromDate.year]
 				@fromDate += 1.week
 			end
 			
 			@weeks = []
-			weeks.each do |w,y|   # <-- take two arguments in the block
-				@weeks << "#{w},#{y}"  #     and print them both out
+			weeks.each do |w,y|
+				@weeks << "#{w},#{y}"
 			end
 				
 			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
@@ -86,30 +85,4 @@ class IndexController < ApplicationController
 			
 		end
 	end
-
-# 	def check_for_group
-# 
-# 		@usersGroup = User.current.groups.all
-# 		@usersGroup.each do |group|
-# 
-# 			@settings = Setting.plugin_whitewall["whitewall_group"]
-# 			if @settings.nil?
-# 				@UserAllowed = 'false'
-# 			else
-# 				@settings = Setting.plugin_whitewall["whitewall_group"]["#{group.id}"]
-# 				if @settings.blank?
-# 					@UserAllowed = 'false'
-# 				else 
-# 					@UserAllowed = 'true'
-# 				end
-# 			end			
-# 		end
-# 
-# 		if @UserAllowed == 'true'
-# 	      return true
-# 	    else
-# 	      return false
-# 	    end
-# 	end
-
 end
