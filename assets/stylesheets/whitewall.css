@@ -57,6 +57,8 @@ body li {
 	white-space: nowrap;
 }
 
+
+
 /* THE WALL ITSELF */
 #whitewall li {
 	list-style: none;
@@ -115,6 +117,15 @@ body li {
 	font-weight: bold;
 }
 
+#wall .tracker.open {
+	opacity: 0.55;
+	-webkit-opacity: 0.55;
+	filter:alpha(opacity=55);
+}
+
+.tracker, .tracker label {
+	cursor: pointer !important;
+}
 
 .graph #scroll {
 	clear: both;

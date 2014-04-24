@@ -20,15 +20,18 @@
 			<%= form_tag("/whitewall", method: "get") do %>
 				<span id="stats"><%= link_to l(:label_whitewall_menu_graph), :controller => "graph", :action => "index" %></span>
 				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
-				<input type="text" id="from" name="from" value="<%= @fromDate %>">
+				<input type="text" id="from" name="from" value="<%= @fromInput %>">
 				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
-				<input type="text" id="to" name="to" value="<%= @toDate %>">
+				<input type="text" id="to" name="to" value="<%= @toInput %>">
 				<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
 				<div id="wallFunctions">
 					<span id="showUsers">
 						<div><%= l(:label_whitewall_users) %></div>
 						<ul>
-							<li class="invert"><b><%= l(:whitewall_users_select) %></b><input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" /></li>
+							<li class="invert">
+								<b><%= l(:whitewall_users_select) %></b>
+								<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
+							</li>
 							<% for user in @usersAll -%>
 								<li class="<%= cycle('odd', 'even') %>">
 									<label for="user<%= user.id %>">
@@ -51,7 +54,6 @@
 	</div>
 
 <!-- 	<%= debug(@users) %> -->
-<!-- 	<%= debug(@test) %> -->
 
 	<div id="wall">		
 	<!-- WALL TABLE -->
@@ -59,8 +61,10 @@
 		<legend><%= l(:whitewall_legend) %></legend>
 		<% all_tracker = Tracker.all.sort %>
 		<% all_tracker.each do |tracker| %>
-			<span class="colorPrev" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{tracker.id}_settings"] %>"></span>
-			<label for="settings_whitewall_color<%= tracker.id %>_settings"><%= tracker.name %></label>
+			<span id="tracker<%= tracker.name %>" class="tracker">
+				<span class="colorPrev" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{tracker.id}_settings"] %>"></span>
+				<label><%= tracker.name %></label>
+			</span>
 		<% end -%>
 	</fieldset>
 	<div id="scroll">
@@ -83,7 +87,7 @@
 							<td>
 							  	<ul class="sortItCon">
 									<% for issue in user["week#{week.split(',')[0]}year#{week.split(',')[1]}"] -%>
-										<li class="postIt" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
+										<li class="postIt tracker<%= issue.tracker %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 											<div class="title">
 												<%= link_to_issue(issue, :subject => true, :truncate => 18, :tracker => false) %>
 												<% if !issue.due_date.blank? %>

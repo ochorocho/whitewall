@@ -102,7 +102,20 @@ $(function() {
 			
 		})
 	});
+
+	$('.tracker').click(function() {
+		var trackerId = $(this).attr('id');
+		if($(this).hasClass('open')) {
+        	$(this).removeClass('open');
+            $('.' + trackerId).slideToggle(200);
+		} else {
+        	$(this).addClass('open');
+			$('.' + trackerId).slideToggle(200);
+		}
+	});
 	
+
+
 	
 /*
 	// SORTABLE

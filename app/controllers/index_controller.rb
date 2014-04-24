@@ -28,21 +28,22 @@ class IndexController < ApplicationController
 						
 			if !params[:from].nil?
 				@fromDate = Date.parse(params[:from]).beginning_of_week + 4.days
+				@fromInput = Date.parse(params[:from]).beginning_of_week
 			else
 				@fromDate = Date.today.beginning_of_week + 4.days
+				@fromInput = Date.parse(params[:from]).beginning_of_week
 			end
 			if !params[:to].nil?
-				@toDate = Date.parse(params[:to]).beginning_of_week + 4.days
+				@toDate = Date.parse(params[:to]).end_of_week + 4.days
+				@toInput = Date.parse(params[:to]).end_of_week
 			else
-				@toDate = (Date.today.beginning_of_week + 4.days) + 4.weeks
+				@toDate = (Date.today.end_of_week + 4.days) + 4.weeks
+				@toInput = (Date.today.end_of_week + 4.days) + 4.weeks
 			end
 			
 			# CONVERT GIVEN DATE TO WEEK
 			@fromWeek = @fromDate.strftime("%U").to_i
 			@toWeek = @toDate.strftime("%U").to_i
-
-			start = Date.new( 2012, 5, 10 )
-			ende = Date.new( 2013, 6, 20 )
 			
 			weeks = []
 			while @fromDate < @toDate
@@ -64,7 +65,6 @@ class IndexController < ApplicationController
 			else
 				@users = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
 			end
-			@test = []
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
 	 				
@@ -79,7 +79,6 @@ class IndexController < ApplicationController
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
 
-	 				@test << weekBegin
 					user["week#{calWeek}year#{calYear}"] = Issue.where(:assigned_to_id => user.id, :start_date => weekBegin..weekEnd).select { |i| i.project.active? }
 	  			end
 			end
