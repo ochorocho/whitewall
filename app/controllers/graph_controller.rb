@@ -49,13 +49,13 @@ class GraphController < ApplicationController
 			
 			weeks = []
 			while @fromDate < @toDate
-				weeks << [@fromDate.cweek, @fromDate.year]  # <-- enhanced
+				weeks << [@fromDate.cweek, @fromDate.year]
 				@fromDate += 1.week
 			end
 			
 			@weeks = []
-			weeks.each do |w,y|   # <-- take two arguments in the block
-				@weeks << "#{w},#{y}"  #     and print them both out
+			weeks.each do |w,y|
+				@weeks << "#{w},#{y}"
 			end
 
 			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
@@ -94,7 +94,7 @@ class GraphController < ApplicationController
 						# ESTIMATED HOURS
 		 				@estimated = 0
 		 				@issues.each do |issue| 
-			 				#@estimated = @estimated + issue.estimated_hours
+			 			#@estimated = @estimated + issue.estimated_hours
 		 				end
 		 				user["estimatedHours_#{date}"] = @estimated
 	 				end	 				

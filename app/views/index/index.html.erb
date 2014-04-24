@@ -1,11 +1,11 @@
 <% html_title l(:label_whitewall_menu) %>
 
 <% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'jquery.fixedheadertable.css', :plugin => 'whitewall' %>
     <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
+    <%= stylesheet_link_tag 'jquery.stickyheader.css', :plugin => 'whitewall' %>
 
-    <%= javascript_include_tag 'jquery.mousewheel.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'jquery.fixedheadertable.js', :plugin => 'whitewall' %>
+    <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
+    <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
 <% end %>
 
@@ -53,8 +53,6 @@
 		</div>
 	</div>
 
-<!-- 	<%= debug(@users) %> -->
-
 	<div id="wall">		
 	<!-- WALL TABLE -->
 	<fieldset>
@@ -71,16 +69,16 @@
 		<table>
 			<thead>		
 				<tr>
-					<td></td>
+					<th></th>
 					<% for week in @weeks -%>
-						  <td><%= l(:label_whitewall_week) %>&nbsp;<%= week.gsub(",", " / ") %></td>
+						  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week.gsub(",", " / ") %></th>
 					<% end -%>
 				</tr>
 			</thead>
 			<tbody>			
 				<% for user in @users -%>
 					<tr class="<%= cycle('odd', 'even') %>">
-						<td><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></td>
+						<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>
 
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>

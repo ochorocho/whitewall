@@ -64,7 +64,7 @@ $(function() {
 	});
 
 	// DRAG X AXIS WAL
-	$("#wall table").draggable({ axis: "x", scroll: false, cursor: "move" });
+	// $("#wall table.sticky-enabled").draggable({ axis: "x", scroll: false, cursor: "move" });
 
 	$('.hidden').hide(0);
 

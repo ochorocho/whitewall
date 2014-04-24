@@ -4,6 +4,8 @@
 
 	<%= stylesheet_link_tag 'jquery.jqplot.css', :plugin => 'whitewall' %>
     <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
+    <%= stylesheet_link_tag 'jquery.stickyheader.css', :plugin => 'whitewall' %>
+
 
     <%= javascript_include_tag 'jqplot/excanvas.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jqplot/jquery.jqplot.js', :plugin => 'whitewall' %>
@@ -13,8 +15,8 @@
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.categoryAxisRenderer.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.highlighter.js', :plugin => 'whitewall' %>
 
-	<link rel="stylesheet" type="text/css" hrf="../jquery.jqplot.min.css" />
-
+    <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
+    <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
 <% end %>
 
@@ -29,9 +31,9 @@
 			<%= form_tag("/whitewall_graph", method: "get") do %>
 				<span id="statsBack"><%= link_to l(:label_whitewall_menu), :controller => "index", :action => "index" %></span>
 				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
-				<input type="text" id="from" name="from" value="<%= @fromDate %>">
+				<input type="text" id="from" name="from" value="<%= @fromInput %>">
 				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
-				<input type="text" id="to" name="to" value="<%= @toDate %>">
+				<input type="text" id="to" name="to" value="<%= @toInput %>">
 				<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
 				<div id="wallFunctions">
 					<span id="showUsers">
@@ -66,16 +68,16 @@
 			<table>
 				<thead>		
 					<tr>
-						<td></td>
+						<th></th>
 						<% for week in @weeks -%>
-							  <td><%= l(:label_whitewall_week) %>&nbsp;<%= week.gsub(",", " / ") %></td>
+							  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week.gsub(",", " / ") %></th>
 						<% end -%>
 					</tr>
 				</thead>
 				<tbody>			
 					<% for user in @users -%>
 						<tr class="<%= cycle('odd', 'even') %>">
-							<td><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></td>
+							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>
 	
 							<!-- LOOPS THROUGH TICKETS -->
 							<% for week in @weeks -%>
