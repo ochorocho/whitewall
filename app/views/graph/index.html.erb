@@ -60,9 +60,6 @@
 		</div>
 	</div>
 
-
-<!-- 	<%= debug(@users) %> -->
-
 	<div id="wall" class="graph">		
 	<!-- WALL TABLE -->
 		<div id="scroll">
@@ -83,29 +80,31 @@
 							<!-- LOOPS THROUGH TICKETS -->
 							<% for week in @weeks -%>
 								<td>
-										<%= debug(@dates) %>
-										<%= debug(user) %>
+<!-- 										<%= debug(@dates) %> -->
+<!-- 										<%= debug(user) %> -->
 										<script type="text/javascript">
 
 											$(document).ready(function () {
 											 
-											  $.jqplot.config.enablePlugins = true;
-											 
-											  s1 = [['23-May-08',1],['24-May-08',4],['25-May-08',2],['26-May-08', 6]];
-											  s2 = [['23-May-08',5],['24-May-08',8],['25-May-08',1],['26-May-08', 3]];
-											 
-											  plot1 = $.jqplot('graph<%= user.id %><%= week.gsub(",", "_") %>',[s1,s2],{
-											     axes: {
-											         xaxis: {
-											             renderer: $.jqplot.DateAxisRenderer,
-											             tickOptions: {
-											                 formatString: '%#m/%#d/%y'
-											             },
-											             numberTicks: 4
+												$.jqplot.config.enablePlugins = true;
+												s1 = [<% for day in @dates %>['<%= day %>',5],<% end -%>];
+												s2 = [<% for day in @dates %>['<%= day %>',3],<% end -%>];
+
+												// s1 = [['23-May-08',1],['24-May-08',4],['25-May-08',2],['26-May-08', 6]];
+												// s2 = [['23-May-08',5],['24-May-08',8],['25-May-08',1],['26-May-08', 3]];
+											  
+												plot1 = $.jqplot('graph<%= user.id %><%= week.gsub(",", "_") %>',[s1,s2],{
+													axes: {
+														xaxis: {
+															renderer: $.jqplot.DateAxisRenderer,
+															tickOptions: {
+																formatString: '%#m/%#d/%y'
+															},
+															numberTicks: <%= @dates.count %>
 											         },
 											         yaxis: {
 											             tickOptions: {
-											                 formatString: '%.2f hours'
+											                 formatString: '%.2f'
 											             }
 											         }
 											     },
@@ -113,13 +112,13 @@
 											         sizeAdjust: 10,
 											         tooltipLocation: 'n',
 											         tooltipAxes: 'y',
-											         tooltipFormatString: '%.2f hours',
+											         tooltipFormatString: '%.2f',
 											         useAxesFormatters: false
 											     }
 											  });
 											});
 										</script>
-									    <div id="graph<%= user.id %><%= week.gsub(",", "_") %>"></div>
+									    <div class="weeklyGraph" id="graph<%= user.id %><%= week.gsub(",", "_") %>"></div>
 								</td>
 							<% end -%>
 						</tr>

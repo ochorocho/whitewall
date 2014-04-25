@@ -132,6 +132,12 @@ body li {
 	margin-top: 50px;
 }
 
+.weeklyGraph {
+	width: 280px;
+	height: 160px;
+	margin: 5px 10px;
+}
+
 /* FILTER */
 #filter {
 	float: right;

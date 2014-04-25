@@ -92,7 +92,7 @@ class GraphController < ApplicationController
 		 				user["issueCount_#{date}"] = @issues.count
 
 						# ESTIMATED HOURS
-		 				@estimated = 0
+		 				@estimated = 10
 		 				@issues.each do |issue| 
 			 			#@estimated = @estimated + issue.estimated_hours
 		 				end
