@@ -93,7 +93,7 @@ body li {
 }
 
 #wall tbody td, #wall tbody th {
-	vertical-align: top;
+	vertical-align: top !important;
 }
 
 #wall fieldset {
@@ -129,7 +129,7 @@ body li {
 
 .graph #scroll {
 	clear: both;
-	margin-top: 50px;
+	margin-top: 40px;
 }
 
 .weeklyGraph {
