@@ -257,6 +257,12 @@ body li {
 }
 
 /* JQUERY UI MODs */
+#from, #to {
+	position: relative;
+	z-index: 500;
+}
+
+
 .ui-progressbar {
 	height: 6px !important;
 	
