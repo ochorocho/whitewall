@@ -1,3 +1,5 @@
+<% locale = User.current.language.blank? ? ::I18n.locale : User.current.language %>
+
 <% html_title l(:label_whitewall_menu) %>
 
 <% content_for :header_tags do %>
@@ -5,7 +7,6 @@
 	<%= stylesheet_link_tag 'jquery.jqplot.css', :plugin => 'whitewall' %>
     <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
     <%= stylesheet_link_tag 'jquery.stickyheader.css', :plugin => 'whitewall' %>
-
 
     <%= javascript_include_tag 'jqplot/excanvas.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jqplot/jquery.jqplot.js', :plugin => 'whitewall' %>
