@@ -37,7 +37,7 @@ class IndexController < ApplicationController
 				@toInput = Date.parse(params[:to]).end_of_week
 			else
 				@toDate = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
-				@toInput = (Date.today.end_of_week + 4.days).end_of_week
+				@toInput = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
 			end
 			
 			# CONVERT GIVEN DATE TO WEEK

@@ -1,6 +1,5 @@
-# Italian strings go here for Rails i18n
 it:
-  # my_label: "My label"
+  # WHITEWALL
   label_whitewall_menu: "Il Grande Muro Bianco"
   label_whitewall_users: "Mostra utenti"
   label_whitewall_undefined: "Nessuna relazione trovata"

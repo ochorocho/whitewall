@@ -74,10 +74,6 @@
 				</thead>
 				<tbody>			
 				
-				
-<!-- 					<%= debug(@users) %> -->
-<!-- 					<%= debug(@users) %> -->
-
 					<% for user in @users -%>
 						<tr class="<%= cycle('odd', 'even') %>">
 							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>	
@@ -85,16 +81,11 @@
 							<% for week in @weeks -%>
 								<td>
 										<script type="text/javascript">
-
-											$(document).ready(function () {
+											$(document).ready(function() {
 												$.jqplot.config.enablePlugins = true;
-												s1 = [<% for day in week[2] %>['<%= day %>',<%= user["issueCount_#{day}"] %>],<% end -%>];
-												s2 = [<% for day in week[2] %>['<%= day %>',<%= user["estimatedHours_#{day}"] %>],<% end -%>];
-
-												// s1 = [['23-May-08',1],['24-May-08',4],['25-May-08',2],['26-May-08', 6]];
-												// s2 = [['23-May-08',5],['24-May-08',8],['25-May-08',1],['26-May-08', 3]];
-											  
-												plot1 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>',[s1,s2],{
+												s1 = [ <% for day in week[2] %> ['<%= day %>', <%= user["issueCount_#{day}"] %> ], <% end -%> ];
+												s2 = [ <% for day in week[2] %> ['<%= day %>', <%= user["estimatedHours_#{day}"] %> ], <% end -%> ];
+												plot1 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>', [s1, s2], {
 													axes: {
 														xaxis: {
 															renderer: $.jqplot.DateAxisRenderer,
@@ -102,41 +93,41 @@
 																formatString: '%#m/%#d/%y'
 															},
 															numberTicks: <%= week[2].count %>
-											         },
-											         yaxis: {
-											             tickOptions: {
-											                 formatString: '%.2f'
-											             }
-											         },
-											     },
-											     highlighter: {
-											         sizeAdjust: 10,
-											         tooltipLocation: 'n',
-											         tooltipAxes: 'y',
-											         tooltipFormatString: '%.2f',
-											         useAxesFormatters: false
-											     },
-											     series:[{
-          											     highlighter: {
-													         sizeAdjust: 10,
-													         tooltipLocation: 'n',
-													         tooltipAxes: 'y',
-													         tooltipFormatString: '%.2f <%= l(:label_graph_tickets) %>',
-													         useAxesFormatters: false
-													     },
-												      },{
-          											     highlighter: {
-													         sizeAdjust: 10,
-													         tooltipLocation: 'n',
-													         tooltipAxes: 'y',
-													         tooltipFormatString: '%.2f <%= l(:label_graph_estimated) %>',
-													         useAxesFormatters: false
-													     },
-												      }],
-											  });
+														},
+														yaxis: {
+															tickOptions: {
+																formatString: '%.2f'
+															}
+														},
+													},
+													highlighter: {
+														sizeAdjust: 10,
+														tooltipLocation: 'n',
+														tooltipAxes: 'y',
+														tooltipFormatString: '%.2f',
+														useAxesFormatters: false
+													},
+													series: [{
+														highlighter: {
+															sizeAdjust: 10,
+															tooltipLocation: 'n',
+															tooltipAxes: 'y',
+															tooltipFormatString: '%.2f <%= l(:label_graph_tickets) %>',
+															useAxesFormatters: false
+														},
+													}, {
+														highlighter: {
+															sizeAdjust: 10,
+															tooltipLocation: 'n',
+															tooltipAxes: 'y',
+															tooltipFormatString: '%.2f <%= l(:label_graph_estimated) %>',
+															useAxesFormatters: false
+														},
+													}],
+												});
 											});
 										</script>
-									    <div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
+										<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
 								</td>
 							<% end -%>
 						</tr>

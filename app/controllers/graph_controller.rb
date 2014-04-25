@@ -54,18 +54,13 @@ class GraphController < ApplicationController
 			end
 			
 			@weeks = []
-			@test = []
 			weeks.each do |w,y|
 				date = []
 				7.times do |day|
 					day = day + 1
-					date << Date.parse("#{Date.commercial(y, w, day)}").to_s(:short_date)
-#					Date.parse("#{Date.commercial(y, w, day)}")
-					
+					date << Date.parse("#{Date.commercial(y, w, day)}").to_s(:short_date)					
 				end
-			
 				@weeks << [w,y,date]
-				@test << [w,y,date]
 			end
 
 			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
@@ -78,7 +73,6 @@ class GraphController < ApplicationController
 				@users = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
 			end
 
-
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
 	 				if week[0].to_f == '53'
@@ -89,16 +83,12 @@ class GraphController < ApplicationController
 	 					calWeek = week[0].to_i
 	 				end
 
-	 				
-
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
-# 					@dates = []
+	 				
 	 				7.times do |day|
 	 					day = day + 1
 	 					date = Date.commercial(calYear, calWeek, day)
-# 		 				@dates << week
-		 				#week << @dates
 
 						# ISSUE COUNT
 		 				@issues = Issue.where(:assigned_to_id => user.id, :start_date => date).select { |i| i.project.active? }
@@ -114,7 +104,7 @@ class GraphController < ApplicationController
 	  			end
 			end
 		else
-			
+			# ELSE	
 		end
 	end
 end

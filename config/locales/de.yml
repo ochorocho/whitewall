@@ -1,6 +1,5 @@
-# English strings go here for Rails i18n
 de:
-  # my_label: "My label"
+  # WHITEWALL
   label_whitewall_menu: "Die Weiße Wand"
   label_whitewall_users: "Benutzer Anzeigen"
   label_whitewall_undefined: "Nicht zugewiesen oder kein Startdatum gesetzt"
