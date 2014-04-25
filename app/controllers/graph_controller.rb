@@ -43,9 +43,6 @@ class GraphController < ApplicationController
 			# CONVERT GIVEN DATE TO WEEK
 			@fromWeek = @fromDate.strftime("%U").to_i
 			@toWeek = @toDate.strftime("%U").to_i
-
-			start = Date.new( 2012, 5, 10 )
-			ende = Date.new( 2013, 6, 20 )
 			
 			weeks = []
 			while @fromDate < @toDate

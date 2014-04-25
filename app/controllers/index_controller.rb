@@ -52,7 +52,12 @@ class IndexController < ApplicationController
 			
 			@weeks = []
 			weeks.each do |w,y|
-				@weeks << "#{w},#{y}"
+				date = []
+				7.times do |day|
+					day = day + 1
+					date << Date.parse("#{Date.commercial(y, w, day)}").to_s(:short_date)					
+				end
+				@weeks << [w,y,date]
 			end
 				
 			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
@@ -67,12 +72,12 @@ class IndexController < ApplicationController
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
 	 				
-	 				if week.split(',')[0].to_f == '53'
-	 					calYear = week.split(',')[1].to_i
-	 					calWeek = week.split(',')[0].to_i
+	 				if week[0].to_f == '53'
+	 					calYear = week[1].to_i
+	 					calWeek = week[0].to_i
 	 				else
-	 					calYear = week.split(',')[1].to_i
-	 					calWeek = week.split(',')[0].to_i
+	 					calYear = week[1].to_i
+	 					calWeek = week[0].to_i
 	 				end
 
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
