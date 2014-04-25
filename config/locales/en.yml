@@ -21,5 +21,6 @@ en:
   label_whitewall_noaccess: "You do not have the permission to access this area"
   #GRAPH
   label_whitewall_menu_graph: "Wall Graph"
-  label_graph_estimated: "Total hours"
+  label_graph_estimated: "hours"
   label_graph_issues: "Ticket count"
+  label_graph_tickets: "Ticket(s)"

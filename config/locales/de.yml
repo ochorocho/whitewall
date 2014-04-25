@@ -21,5 +21,6 @@ de:
   label_whitewall_noaccess: "Ihr Benutzer hat keinen Zugriff auf diesen Bereich"
   #GRAPH
   label_whitewall_menu_graph: "Wand Statistik"
-  label_graph_estimated: "Stunden gesamt"
+  label_graph_estimated: "Stunden"
   label_graph_issues: "Ticket-Anzahl"
+  label_graph_tickets: "Ticket(s)"

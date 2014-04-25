@@ -68,45 +68,46 @@
 					<tr>
 						<th></th>
 						<% for week in @weeks -%>
-							  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week.gsub(",", " / ") %></th>
+							  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/<%= week[1] %></th>
 						<% end -%>
 					</tr>
 				</thead>
 				<tbody>			
+				
+				
+<!-- 					<%= debug(@users) %> -->
+<!-- 					<%= debug(@users) %> -->
+
 					<% for user in @users -%>
 						<tr class="<%= cycle('odd', 'even') %>">
-							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>
-	
+							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>	
 							<!-- LOOPS THROUGH TICKETS -->
 							<% for week in @weeks -%>
 								<td>
-<!-- 										<%= debug(@dates) %> -->
-<!-- 										<%= debug(user) %> -->
 										<script type="text/javascript">
 
 											$(document).ready(function () {
-											 
 												$.jqplot.config.enablePlugins = true;
-												s1 = [<% for day in @dates %>['<%= day %>',5],<% end -%>];
-												s2 = [<% for day in @dates %>['<%= day %>',3],<% end -%>];
+												s1 = [<% for day in week[2] %>['<%= day %>',<%= user["issueCount_#{day}"] %>],<% end -%>];
+												s2 = [<% for day in week[2] %>['<%= day %>',<%= user["estimatedHours_#{day}"] %>],<% end -%>];
 
 												// s1 = [['23-May-08',1],['24-May-08',4],['25-May-08',2],['26-May-08', 6]];
 												// s2 = [['23-May-08',5],['24-May-08',8],['25-May-08',1],['26-May-08', 3]];
 											  
-												plot1 = $.jqplot('graph<%= user.id %><%= week.gsub(",", "_") %>',[s1,s2],{
+												plot1 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>',[s1,s2],{
 													axes: {
 														xaxis: {
 															renderer: $.jqplot.DateAxisRenderer,
 															tickOptions: {
 																formatString: '%#m/%#d/%y'
 															},
-															numberTicks: <%= @dates.count %>
+															numberTicks: <%= week[2].count %>
 											         },
 											         yaxis: {
 											             tickOptions: {
 											                 formatString: '%.2f'
 											             }
-											         }
+											         },
 											     },
 											     highlighter: {
 											         sizeAdjust: 10,
@@ -114,11 +115,28 @@
 											         tooltipAxes: 'y',
 											         tooltipFormatString: '%.2f',
 											         useAxesFormatters: false
-											     }
+											     },
+											     series:[{
+          											     highlighter: {
+													         sizeAdjust: 10,
+													         tooltipLocation: 'n',
+													         tooltipAxes: 'y',
+													         tooltipFormatString: '%.2f <%= l(:label_graph_tickets) %>',
+													         useAxesFormatters: false
+													     },
+												      },{
+          											     highlighter: {
+													         sizeAdjust: 10,
+													         tooltipLocation: 'n',
+													         tooltipAxes: 'y',
+													         tooltipFormatString: '%.2f <%= l(:label_graph_estimated) %>',
+													         useAxesFormatters: false
+													     },
+												      }],
 											  });
 											});
 										</script>
-									    <div class="weeklyGraph" id="graph<%= user.id %><%= week.gsub(",", "_") %>"></div>
+									    <div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
 								</td>
 							<% end -%>
 						</tr>

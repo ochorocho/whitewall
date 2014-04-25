@@ -37,7 +37,7 @@ class GraphController < ApplicationController
 				@toInput = Date.parse(params[:to]).end_of_week
 			else
 				@toDate = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
-				@toInput = (Date.today.end_of_week + 4.days).end_of_week
+				@toInput = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
 			end
 			
 			# CONVERT GIVEN DATE TO WEEK
@@ -54,8 +54,18 @@ class GraphController < ApplicationController
 			end
 			
 			@weeks = []
+			@test = []
 			weeks.each do |w,y|
-				@weeks << "#{w},#{y}"
+				date = []
+				7.times do |day|
+					day = day + 1
+					date << Date.parse("#{Date.commercial(y, w, day)}").to_s(:short_date)
+#					Date.parse("#{Date.commercial(y, w, day)}")
+					
+				end
+			
+				@weeks << [w,y,date]
+				@test << [w,y,date]
 			end
 
 			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
@@ -68,33 +78,36 @@ class GraphController < ApplicationController
 				@users = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?)", [2]])
 			end
 
+
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
-	 				if week.split(',')[0].to_f == '53'
-	 					calYear = week.split(',')[1].to_i
-	 					calWeek = week.split(',')[0].to_i
+	 				if week[0].to_f == '53'
+	 					calYear = week[1].to_i
+	 					calWeek = week[0].to_i
 	 				else
-	 					calYear = week.split(',')[1].to_i
-	 					calWeek = week.split(',')[0].to_i
+	 					calYear = week[1].to_i
+	 					calWeek = week[0].to_i
 	 				end
+
+	 				
 
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
-	 				
-	 				@dates = []
+# 					@dates = []
 	 				7.times do |day|
 	 					day = day + 1
 	 					date = Date.commercial(calYear, calWeek, day)
-		 				@dates << date
+# 		 				@dates << week
+		 				#week << @dates
 
 						# ISSUE COUNT
 		 				@issues = Issue.where(:assigned_to_id => user.id, :start_date => date).select { |i| i.project.active? }
 		 				user["issueCount_#{date}"] = @issues.count
 
 						# ESTIMATED HOURS
-		 				@estimated = 10
+		 				@estimated = 0
 		 				@issues.each do |issue| 
-			 			#@estimated = @estimated + issue.estimated_hours
+			 				@estimated = @estimated + issue.estimated_hours
 		 				end
 		 				user["estimatedHours_#{date}"] = @estimated
 	 				end	 				
