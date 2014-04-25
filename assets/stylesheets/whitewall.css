@@ -92,8 +92,8 @@ body li {
 	min-height: 32px;
 }
 
-#wall tbody td {
-	vertical-align: text-top;
+#wall tbody td, #wall tbody th {
+	vertical-align: top;
 }
 
 #wall fieldset {

@@ -21,5 +21,6 @@ it:
   #GRAPH
   label_whitewall_menu_graph: "Grafico del Muro"
   label_graph_estimated: "Ore"
+  label_graph_estimated_total: "Ore totali"
   label_graph_issues: "Numero di ticket"
   label_graph_tickets: "Numero di ticket"

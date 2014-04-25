@@ -18,6 +18,9 @@ table {
 
 td,th {
 	padding:.75em 1.5em;
+}
+
+tbody th {
 	text-align:left;
 }
 
