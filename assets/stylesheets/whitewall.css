@@ -57,6 +57,9 @@ body li {
 	white-space: nowrap;
 }
 
+.postIt .projectName {
+	font-size: 10px !important;
+}
 
 
 /* THE WALL ITSELF */

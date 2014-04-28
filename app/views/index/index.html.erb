@@ -99,6 +99,11 @@
 												<% if !issue.estimated_hours.nil? %>
 													<span class="estimated">~<%= issue.estimated_hours %>h</span>
 												<% end %>
+												<% if !issue.project.nil? %>
+													<div class="projectName">
+														<%= link_to truncate("#{issue.project}", length: 40), "/projects/#{issue.project.identifier}" %>
+													</div>
+												<% end %>
 											</div>
 											<div class="hidden">
 												<div class="dueDate">
