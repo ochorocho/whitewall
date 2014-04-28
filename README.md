@@ -1,8 +1,9 @@
-whitewall
-=========
+# whitewall
 
-Installation
-========
+The whitewall plugin gives you a better overview of your working mates activities displayed in a table matrix per week.
+In addition there is Whitewall Graph page which shows the current workload per day.
+
+## Installation
 
 _Clone repository:_
 
