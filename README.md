@@ -4,15 +4,21 @@ whitewall
 Installation
 ========
 
-Clone repository
+_Clone repository:_
 
+```
   git clone https://github.com/ochorocho/whitewall.git
+```
 
-Run:
+_Run:_
 
-  bundle install
+```
+bundle install
+```
 
-Restart Redmine
+_Restart Redmine:_
 
-  cd /your/redmine/root/
-  touch tmp/restart.txt
+```
+cd /your/redmine/root/
+touch tmp/restart.txt
+```

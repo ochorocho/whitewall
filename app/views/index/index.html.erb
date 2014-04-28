@@ -95,7 +95,7 @@
 									<% for issue in user["week#{week[0]}year#{week[1]}"] -%>
 										<li class="postIt tracker<%= issue.tracker %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 											<div class="title">
-												<%= link_to_issue(issue, :subject => true, :truncate => 24, :tracker => false) %>
+												<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
 												<% if !issue.estimated_hours.nil? %>
 													<span class="estimated">~<%= issue.estimated_hours %>h</span>
 												<% end %>
