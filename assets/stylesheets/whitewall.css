@@ -58,6 +58,9 @@ body li {
 }
 
 .postIt .projectName {
+	border-top: 1px solid #8f8f8f;
+	padding-top: 2px;
+	margin-top: 2px;
 	font-size: 10px !important;
 }
 
