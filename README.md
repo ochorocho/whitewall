@@ -8,7 +8,7 @@ In addition there is Whitewall Graph page which shows the current workload per d
 _Clone repository:_
 
 ```
-  git clone https://github.com/ochorocho/whitewall.git
+git clone https://github.com/ochorocho/whitewall.git
 ```
 
 _Run:_
