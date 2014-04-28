@@ -94,7 +94,11 @@ class GraphController < ApplicationController
 						# ESTIMATED HOURS
 		 				@estimated = 0
 		 				@issues.each do |issue| 
-			 				@estimated = @estimated + issue.estimated_hours
+			 				if issue.estimated_hours.nil?
+			 					@estimated = @estimated + 0
+			 				else
+			 					@estimated = @estimated + issue.estimated_hours
+			 				end
 		 				end
 		 				user["estimatedHours_#{date}"] = @estimated
 	 				end	 				
