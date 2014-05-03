@@ -26,7 +26,14 @@
 	<div id="filter">
 		<div id="timespan">
 			<%= form_tag("/whitewall", method: "get") do %>
-				<span id="stats"><%= link_to l(:label_whitewall_menu_graph), :controller => "graph", :action => "index" %></span>
+				<span id="stats">
+					<%= link_to l(:label_whitewall_menu_graph),
+						:controller => "graph",
+						:action => "index",
+						:from => params[:from],
+						:to => params[:to],
+						:user_select => params[:user_select] %>
+				</span>
 				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
 				<input type="text" id="from" name="from" value="<%= @fromInput %>">
 				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
