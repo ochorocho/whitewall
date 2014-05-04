@@ -24,3 +24,5 @@ de:
   label_graph_estimated_total: "Stunden gesamt"
   label_graph_issues: "Ticket-Anzahl"
   label_graph_tickets: "Ticket(s)"
+  whitewall_headline3_settings: "Diagramm"
+  whitewall_limit: "Max. Linie"

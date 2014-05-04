@@ -24,3 +24,5 @@ it:
   label_graph_estimated_total: "Ore totali"
   label_graph_issues: "Numero di ticket"
   label_graph_tickets: "Numero di ticket"
+  whitewall_headline3_settings: "Grafico"
+  whitewall_limit: "Limit line"

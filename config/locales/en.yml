@@ -24,3 +24,5 @@ en:
   label_graph_estimated_total: "Hours total"
   label_graph_issues: "Ticket count"
   label_graph_tickets: "Ticket(s)"
+  whitewall_headline3_settings: "Graph"
+  whitewall_limit: "Limit line"

@@ -12,7 +12,9 @@
     <%= javascript_include_tag 'jqplot/jquery.jqplot.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jqplot/plugins/jqplot.dateAxisRenderer.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jqplot/plugins/jqplot.barRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasAxisTickRenderer.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasTextRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasOverlay.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.categoryAxisRenderer.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.highlighter.js', :plugin => 'whitewall' %>
 
@@ -89,50 +91,51 @@
 								<td>
 										<script type="text/javascript">
 											$(document).ready(function() {
+
 												$.jqplot.config.enablePlugins = true;
-												s1 = [ <% for day in week[2] %> ['<%= day %>', <%= user["issueCount_#{day}"] %> ], <% end -%> ];
-												s2 = [ <% for day in week[2] %> ['<%= day %>', <%= user["estimatedHours_#{day}"] %> ], <% end -%> ];
-												plot1 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>', [s1, s2], {
-													axes: {
-														xaxis: {
-															renderer: $.jqplot.DateAxisRenderer,
-															tickOptions: {
-																formatString: '%#m/%#d/%y'
-															},
-															numberTicks: <%= week[2].count %>
-														},
-														yaxis: {
-															tickOptions: {
-																formatString: '%.2f'
-															},
-															min:0
-														},
-													},
+												var plot2 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>', [[[2,'Tickets'], [30,'Stunden']]], {
+										            seriesDefaults:{
+										                renderer:$.jqplot.BarRenderer,
+										                rendererOptions: {
+										                    barDirection: 'horizontal',
+										                    varyBarColor: true
+										                },
+										                shadow: false
+										            },
+										            axes: {
+										                yaxis: {
+										                    renderer: $.jqplot.CategoryAxisRenderer,
+										                },
+										                xaxis: {
+															min: 1,
+															max: <% if !Setting.plugin_whitewall["whitewall_limit"].empty? %><%= Setting.plugin_whitewall["whitewall_limit"].to_i + 10 %><% else %>40<% end %>,
+										                }
+										            },
 													highlighter: {
-														sizeAdjust: 10,
-														tooltipLocation: 'n',
+														sizeAdjust: 0,
+														tooltipLocation: 'e',
 														tooltipAxes: 'y',
 														tooltipFormatString: '%.2f',
-														useAxesFormatters: false
+														useAxesFormatters: false,
+													    showMarker: false,
 													},
-													series: [{
-														highlighter: {
-															sizeAdjust: 10,
-															tooltipLocation: 'n',
-															tooltipAxes: 'y',
-															tooltipFormatString: '%.2f <%= l(:label_graph_tickets) %>',
-															useAxesFormatters: false
-														},
-													}, {
-														highlighter: {
-															sizeAdjust: 10,
-															tooltipLocation: 'n',
-															tooltipAxes: 'y',
-															tooltipFormatString: '%.2f <%= l(:label_graph_estimated) %>',
-															useAxesFormatters: false
-														},
-													}],
-												});
+													<% if !Setting.plugin_whitewall["whitewall_limit"].empty? %>
+													canvasOverlay: {
+														show: true,
+														objects: [
+														{verticalLine: {
+															name: 'pebbles',
+															x: <%= Setting.plugin_whitewall["whitewall_limit"] %>,
+															lineWidth: 1,
+															yOffset: 0,
+															lineCap: 'butt',
+															color: '#ff0000',
+															shadow: false
+														}},
+														]
+													}
+													<% end %>
+										        });
 											});
 										</script>
 										<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
