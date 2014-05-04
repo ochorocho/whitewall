@@ -82,8 +82,9 @@ class IndexController < ApplicationController
 
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
+	 				
+	 				user["week#{calWeek}year#{calYear}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["assigned_to_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 
-					user["week#{calWeek}year#{calYear}"] = Issue.where(:assigned_to_id => user.id, :start_date => weekBegin..weekEnd).select { |i| i.project.active? }
 	  			end
 			end
 		else

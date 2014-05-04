@@ -10,6 +10,7 @@ de:
   label_whitewall_timespan_to: "bis"
   label_whitewall_timespan_apply: "anwenden"
   label_whitewall_week: "Woche"
+  label_whitewall_hours: "Woche"
   label_whitewall_details: "Details ein-/ausblenden"
   label_whitewall_undefined_short: "Nicht zugeordnet"
   whitewall_headline1_settings: "Erlaubte Gruppen"
