@@ -65,6 +65,13 @@ body li {
 }
 
 
+.closedIssue {
+	opacity: 0.55;
+	-webkit-opacity: 0.55;
+	filter:alpha(opacity=55);	
+}
+
+
 /* THE WALL ITSELF */
 #whitewall li {
 	list-style: none;
