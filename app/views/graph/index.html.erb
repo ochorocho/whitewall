@@ -83,7 +83,7 @@
 				</thead>
 				<tbody>			
 				
-<!-- 					<%= debug(@users) %> -->
+					<%= debug(@users) %>
 					<% for user in @users -%>
 						<tr class="<%= cycle('odd', 'even') %>">
 							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>	
@@ -92,13 +92,6 @@
 								<td>
 										<script type="text/javascript">
 											$(document).ready(function() {
-
-												<% @count = 0 %>
-												<% @hours = 0 %>
-												<% for day in week[2] %>
-													<%= @count = @count.to_i + user["issueCount_#{day}"].to_i %>
-													<%= @hours = @hours.to_i + user["estimatedHours_#{day}"].to_i %>
-												<% end -%>
 
 												$.jqplot.config.enablePlugins = true;
 												var plot2 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>', [[[<%= @hours %>,'<%= l(:label_graph_estimated) %>'],[<%= @count %>,'<%= l(:label_graph_tickets) %>']]], {

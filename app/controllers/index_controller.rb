@@ -5,6 +5,7 @@ class IndexController < ApplicationController
 		require "date"
 
 		@usersGroup = User.current.groups.all
+		@groupIds = []
 		@usersGroup.each do |group|
 
 			@settings = Setting.plugin_whitewall["whitewall_group"]
@@ -12,10 +13,12 @@ class IndexController < ApplicationController
 				@UserAllowed = 'false'
 			else
 				@settings = Setting.plugin_whitewall["whitewall_group"]["#{group.id}"]
+
 				if @settings.blank?
 					@UserAllowed = 'false'
 				else 
 					@UserAllowed = 'true'
+					@groupIds << group.id
 				end
 			end			
 		end
@@ -60,14 +63,15 @@ class IndexController < ApplicationController
 				@weeks << [w,y,date]
 			end
 				
-			@usersAll = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?) AND status NOT IN (?)", [2], [3]])
+			@usersAll = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", [2], [3], @groupIds])
 			
 			if !params[:user_select].nil?
 				@userSelect = params[:user_select]
 				@userSelect << 2
-				@users = User.find(:all, :order => "login asc", :conditions => ["id IN (?) AND id NOT IN (?) AND status NOT IN (?)", @userSelect, [2], [3]])
+				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", @userSelect, [2], [3], @groupIds])
+				
 			else
-				@users = User.find(:all, :order => "login asc", :conditions => ["id NOT IN (?) AND status NOT IN (?)", [2], [3]])
+				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", [2], [3], @groupIds])
 			end
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
