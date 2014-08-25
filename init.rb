@@ -12,5 +12,21 @@ Redmine::Plugin.register :whitewall do
   
 end
 
+
+# EXTEND CORE MODEL - REQUIRE SOME STUFF FOR NO REASON ?!
+require 'redmine'
+require 'user'
+
 # BRING EM IN! -- THIS PICKY BITCH WANTS TO BE REQUIRED TO WORK! - NO AUTO-MAGIC
 require 'whitewall/hooks/view_layouts_base_html_head_hook'
+
+module UserPatch
+  def self.included(base)
+    base.class_eval do
+      unloadable
+      has_many :issues, :dependent => :nullify, :foreign_key => 'assigned_to_id'
+    end
+  end
+end
+	
+User.send(:include, UserPatch)

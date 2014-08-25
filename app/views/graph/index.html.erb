@@ -25,6 +25,8 @@
 
 <% if @UserAllowed == 'true' %>
 
+<% debug(@manu) %>
+
 <div id="whitewall">
 	<h2><%= l(:label_whitewall_menu) %></h2>
 
@@ -73,76 +75,9 @@
 	<!-- WALL TABLE -->
 		<div id="scroll">
 			<table>
-				<thead>		
-					<tr>
-						<th></th>
-						<% for week in @weeks -%>
-							  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/<%= week[1] %></th>
-						<% end -%>
-					</tr>
-				</thead>
 				<tbody>			
 				
 					<%= debug(@users) %>
-					<% for user in @users -%>
-						<tr class="<%= cycle('odd', 'even') %>">
-							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>	
-							<!-- LOOPS THROUGH TICKETS -->
-							<% for week in @weeks -%>
-								<td>
-										<script type="text/javascript">
-											$(document).ready(function() {
-
-												$.jqplot.config.enablePlugins = true;
-												var plot2 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>', [[[<%= @hours %>,'<%= l(:label_graph_estimated) %>'],[<%= @count %>,'<%= l(:label_graph_tickets) %>']]], {
-										            seriesDefaults:{
-										                renderer:$.jqplot.BarRenderer,
-										                rendererOptions: {
-										                    barDirection: 'horizontal',
-										                    varyBarColor: true
-										                },
-										                shadow: false
-										            },
-										            axes: {
-										                yaxis: {
-										                    renderer: $.jqplot.CategoryAxisRenderer,
-										                },
-										                xaxis: {
-															tickInterval : 10,
-															min: 0,
-															max: <% if !Setting.plugin_whitewall["whitewall_limit"].empty? %><%= Setting.plugin_whitewall["whitewall_limit"].to_i + 10 %><% else %>40<% end %>,
-										                }
-										            },
-													highlighter: {
-														sizeAdjust: 5,
-														tooltipLocation: 'e',
-														tooltipAxes: 'x',
-													    showMarker: false,
-													},
-													<% if !Setting.plugin_whitewall["whitewall_limit"].empty? %>
-													canvasOverlay: {
-														show: true,
-														objects: [
-														{verticalLine: {
-															name: 'pebbles',
-															x: <%= Setting.plugin_whitewall["whitewall_limit"] %>,
-															lineWidth: 1,
-															yOffset: 0,
-															lineCap: 'butt',
-															color: '#ff0000',
-															shadow: false
-														}},
-														]
-													}
-													<% end %>
-										        });
-											});
-										</script>
-										<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
-								</td>
-							<% end -%>
-						</tr>
-					<% end -%>
 				</tbody>
 			</table>
 		</div>

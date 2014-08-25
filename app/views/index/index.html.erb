@@ -90,15 +90,16 @@
 					<% end -%>
 				</tr>
 			</thead>
-			<tbody>			
+			<tbody>
+					
 				<% for user in @users -%>
 					<tr class="<%= cycle('odd', 'even') %>">
 						<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>
-
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>
 							<td>
 							  	<ul class="sortItCon">
+									
 									<% for issue in user["week#{week[0]}year#{week[1]}"] -%>
 										<li class="postIt tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 											<div class="title">
@@ -114,6 +115,26 @@
 											</div>
 											<div class="hidden">
 												<div class="dueDate">
+
+												<!-- FÜR MEINEN SEELFENFRIEDEN - > <%= issue.start_date.strftime("%U").to_i + 1 %> != <%= week[0].to_i %> < -->
+<!--
+													<div class="estimatedWeek"><%= ((Date.commercial(week[1], week[0], 7).to_date - issue.start_date.to_date).to_i) * ((issue.estimated_hours / (issue.due_date.to_date - issue.start_date.to_date)).round(2)) %></div>
+													<div class="estimatedWeek"><%= (issue.estimated_hours / (issue.due_date.to_date - issue.start_date.to_date)).round(2) %>h * <%= (Date.commercial(week[1], week[0], 7).to_date - issue.start_date.to_date).to_i %></div>
+-->
+
+												<% if (issue.start_date.strftime("%U").to_i + 1) == week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) == week[0].to_i %>
+													<div>GLEICHE WOCHE</div>
+												<% end %>												
+												<% if (issue.start_date.strftime("%U").to_i + 1) == week[0].to_i %>
+													<div>START WOCHE</div>
+												<% end %>
+												<% if (issue.due_date.strftime("%U").to_i + 1) == week[0].to_i %>
+													<div>END WOCHE</div>												
+												<% end %>
+												<% if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i %>
+													<div>WEDER START NOCH STOP</div>
+												<% end %>
+												
 													<b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
 													<% if issue.due_date.blank? %>
 													    <span class="error"><%= l(:label_whitewall_finish_error) %></span>
