@@ -16,7 +16,6 @@
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasTextRenderer.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasOverlay.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.categoryAxisRenderer.js', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'jqplot/plugins/jqplot.highlighter.js', :plugin => 'whitewall' %>
 
     <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
@@ -118,12 +117,6 @@
 															max: <% if !Setting.plugin_whitewall["whitewall_limit"].empty? %><%= Setting.plugin_whitewall["whitewall_limit"].to_i + 10 %><% else %>40<% end %>,
 										                }
 										            },
-													highlighter: {
-														sizeAdjust: 5,
-														tooltipLocation: 'e',
-														tooltipAxes: 'x',
-													    showMarker: false,
-													},
 													<% if !Setting.plugin_whitewall["whitewall_limit"].empty? %>
 													canvasOverlay: {
 														show: true,

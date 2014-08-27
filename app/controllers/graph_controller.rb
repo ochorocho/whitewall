@@ -93,12 +93,12 @@ class GraphController < ApplicationController
 	 				@estimated = 0
 	 				@issues.each do |issue| 
 		 				
-		 				if issue.due_date.blank?
+		 				if issue.due_date.blank? || issue.start_date.blank? || issue.estimated_hours.blank?
 							@estimated += 0
 		 				else
 
 		 					@workDaysTotal = working_days(issue.start_date, issue.due_date)
-		 					issue['multiplierHours'] = issue.estimated_hours / (@workDaysTotal + 1).to_i
+		 					issue['multiplierHours'] = issue.estimated_hours / (@workDaysTotal + 1)
 	
 		 					### DECIDE WHETHER WE ARE IN A "START", "MIDDLE" OR "END" WEEK
 							if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i
@@ -106,7 +106,7 @@ class GraphController < ApplicationController
 							end
 	
 							if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
-								issue['multiplierDays'] = (issue.estimated_hours / (issue.due_date.to_date - issue.start_date.to_date) + 1).to_i
+								issue['multiplierDays'] = issue.estimated_hours / (issue.due_date.to_date - issue.start_date.to_date) + 1
 							end
 						
 							if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
