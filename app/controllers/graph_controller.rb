@@ -115,15 +115,11 @@ class GraphController < ApplicationController
 			 				
 			 			end
 	 				end
-
-	 				user["estimatedHours_#{calWeek}"] = @estimated
-	 				#user["issueCount_#{calWeek}"] = @issueDaysInWeek
-	 				#user["issueDaysInWeek_#{calWeek}"] = @issueDaysInWeek
-	 				
+	 				user["estimatedHours_#{calWeek}"] = @estimated	 				
 	  			end
 			end
 		else
-			# ELSE	
+			# NOT LOGGED IN
 		end
 	end
 end

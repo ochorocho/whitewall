@@ -114,7 +114,7 @@ class IndexController < ApplicationController
 	  			end
 			end
 		else
-			
+			# NOT LOGGED IN
 		end
 	end
 end
