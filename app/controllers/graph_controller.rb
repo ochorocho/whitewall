@@ -1,6 +1,8 @@
 class GraphController < ApplicationController
   unloadable
 
+	include Redmine::Utils::DateCalculation
+
 	def index
 		require "date"
 
@@ -67,11 +69,10 @@ class GraphController < ApplicationController
 			if !params[:user_select].nil?
 				@userSelect = params[:user_select]
 				@userSelect << 2
-				@users = User.find(:all, :joins => :issues, :order => "login asc", :include => [:issues], :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
+				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", @userSelect, [2], [3], @groupIds])
 			else
-				@users = User.find(:all, :joins => :issues, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", [2], [3], @groupIds])
+				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", [2], [3], @groupIds])
 			end
-						
 
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
@@ -86,9 +87,38 @@ class GraphController < ApplicationController
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
 
-# 	 				user["estimatedHours_#{calWeek}"] = @estimated
-# 	 				user["issueCount_#{calWeek}"] = @issues.count
-# 	 				user["issueDaysInWeek_#{calWeek}"] = @issueDaysInWeek
+		 			@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["assigned_to_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
+
+					# ESTIMATED HOURS
+	 				@estimated = 0
+	 				@issues.each do |issue| 
+		 				
+		 				if !issue.start_date.nil? && !issue.due_date.nil?
+
+		 					@workDaysTotal = working_days(issue.start_date, issue.due_date)
+		 					issue['multiplierHours'] = issue.estimated_hours / (@workDaysTotal + 1).to_i
+	
+		 					### DECIDE WHETHER WE ARE IN A "START", "MIDDLE" OR "END" WEEK
+							if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i
+								issue['multiplierDays'] = (issue.start_date.end_of_week.to_date - (issue.start_date.to_date + 1 )).to_i
+							end
+	
+							if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
+								issue['multiplierDays'] = (issue.estimated_hours / (issue.due_date.to_date - issue.start_date.to_date) + 1).to_i
+							end
+						
+							if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
+								issue['multiplierDays'] = 5 * issue['multiplierHours']
+							end
+	
+							@estimated += (issue['multiplierDays'] * issue['multiplierHours']).round(2)
+			 				
+			 			end
+	 				end
+
+	 				user["estimatedHours_#{calWeek}"] = @estimated
+	 				#user["issueCount_#{calWeek}"] = @issueDaysInWeek
+	 				#user["issueDaysInWeek_#{calWeek}"] = @issueDaysInWeek
 	 				
 	  			end
 			end
