@@ -93,7 +93,9 @@ class GraphController < ApplicationController
 	 				@estimated = 0
 	 				@issues.each do |issue| 
 		 				
-		 				if !issue.start_date.nil? && !issue.due_date.nil?
+		 				if issue.due_date.blank?
+							@estimated += 0
+		 				else
 
 		 					@workDaysTotal = working_days(issue.start_date, issue.due_date)
 		 					issue['multiplierHours'] = issue.estimated_hours / (@workDaysTotal + 1).to_i

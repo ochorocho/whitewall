@@ -92,24 +92,31 @@ class IndexController < ApplicationController
 	 				user["week#{calWeek}year#{calYear}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["assigned_to_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 	 				
 	 				user["week#{calWeek}year#{calYear}"].each do |issue|
-	 					@workDaysTotal = working_days(issue.start_date, issue.due_date)
-	 					issue['multiplierHours'] = issue.estimated_hours / (@workDaysTotal + 1).to_i
 
-	 					### DECIDE WHETHER WE ARE IN A "START", "MIDDLE" OR "END" WEEK
-						if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i
-							issue['multiplierDays'] = (issue.start_date.end_of_week.to_date - (issue.start_date.to_date + 1 )).to_i
-						end
+		 				if issue.due_date.blank?
+							issue['hoursToServe'] = '0'
+		 				else
 
-						if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
-							issue['multiplierDays'] = (issue.estimated_hours / (issue.due_date.to_date - issue.start_date.to_date) + 1).to_i
-						end
-					
-						if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
-							issue['multiplierDays'] = 5 * issue['multiplierHours']
-						end
+		 					@workDaysTotal = working_days(issue.start_date, issue.due_date)
+		 					issue['multiplierHours'] = issue.estimated_hours / (@workDaysTotal + 1).to_i
+	
+		 					### DECIDE WHETHER WE ARE IN A "START", "MIDDLE" OR "END" WEEK
+							if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i
+								issue['multiplierDays'] = (issue.start_date.end_of_week.to_date - (issue.start_date.to_date + 1 )).to_i
+							end
+	
+							if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
+								issue['multiplierDays'] = (issue.estimated_hours / (issue.due_date.to_date - issue.start_date.to_date) + 1).to_i
+							end
+						
+							if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
+								issue['multiplierDays'] = 5 * issue['multiplierHours']
+							end
+	
+							issue['hoursToServe'] = (issue['multiplierDays'] * issue['multiplierHours']).round(2)
 
-						issue['hoursToServe'] = (issue['multiplierDays'] * issue['multiplierHours']).round(2)
-
+		 				end
+		 				
 	 				end	 				
 	  			end
 			end

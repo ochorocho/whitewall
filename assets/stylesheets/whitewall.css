@@ -52,7 +52,7 @@ body li {
 	font-size: 80%;
 }
 
-.postIt .error {
+.postIt .error, .postIt.error .todaysHours {
 	color: #ff0000;
 	white-space: nowrap;
 }
