@@ -46,7 +46,7 @@ body li {
 	margin-top: 4px;
 }
 
-.postIt .estimated {
+.postIt .estimated, .postIt .todaysHours {
 	float: right;
 	font-weight: bold;
 	font-size: 80%;
@@ -64,6 +64,14 @@ body li {
 	font-size: 10px !important;
 }
 
+.postIt .hidden {
+	margin-top: 4px;
+}
+
+.postIt hr {
+	border: 0px !important;
+	background: #8f8f8f;
+}
 
 .closedIssue {
 	opacity: 0.55;
@@ -273,6 +281,14 @@ body li {
 	display: block;
 	text-align: right;
 	padding: 10px 0px;
+}
+
+
+.whitewallTip {
+	font-size: 12px !important;
+	border: 1px solid #ddd !important;
+	box-shadow: none !important;
+	padding: 3px 5px;
 }
 
 /* JQUERY UI MODs */

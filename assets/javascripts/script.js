@@ -22,13 +22,20 @@ $(function() {
 			$("#from").datepicker("option", "maxDate", selectedDate);
 		}
 	});
-/*
-	// ### THE WALL ###
 	
-	$('#wall tbody ul').sortable({
-		connectWith: '.sortItCon'
+	$('.sticky-enabled').tooltip({
+		position: {
+			my: "right center",
+			at: "left-5 center",
+		},
+		show: {
+			duration: "fast"
+		},
+		hide: {
+			effect: "hide"
+		},
+		tooltipClass: "whitewallTip"
 	});
-*/
 	
 	// ### DIALOG ###
 	

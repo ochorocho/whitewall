@@ -13,6 +13,7 @@ de:
   label_whitewall_hours: "Woche"
   label_whitewall_details: "Details ein-/ausblenden"
   label_whitewall_undefined_short: "Nicht zugeordnet"
+  label_whitewall_servehours_hint: "Errechnete, durschnittliche Arbeitszeit pro Tag!"
   whitewall_headline1_settings: "Erlaubte Gruppen"
   whitewall_headline2_settings: "Farbe des Trackers"
   whitewall_legend: "Legende"

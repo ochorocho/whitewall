@@ -12,6 +12,7 @@ en:
   label_whitewall_week: "week"
   label_whitewall_details: "Show/hide details"
   label_whitewall_undefined_short: "No relation"
+  label_whitewall_servehours_hint: "Calculated, average time per day!"
   whitewall_headline1_settings: "Allowed Groups"
   whitewall_headline2_settings: "Tracker colors"
   whitewall_legend: "Legend"

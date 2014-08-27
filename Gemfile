@@ -1,2 +1,1 @@
-source 'https://rubygems.org'
-gem "heroku"
+gem "business_time"
