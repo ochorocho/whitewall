@@ -3,8 +3,8 @@ Redmine::Plugin.register :whitewall do
   author 'Jochen Roth'
   description 'Organize HR by week'
   version '0.0.1'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
+  url 'https://github.com/ochorocho/whitewall'
+  author_url 'http://dokuwiki.knallimall.org/'
 
   #  INCLUDE TO TOP MENU
   menu :top_menu, :whitewall, { :controller => 'index', :action => 'index'}, :caption => :label_whitewall_menu, :if => Proc.new { User.current.logged? }
