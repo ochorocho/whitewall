@@ -112,8 +112,13 @@ class IndexController < ApplicationController
 							if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
 								issue['multiplierDays'] = 5 * issue['multiplierHours']
 							end
-	
-							issue['hoursToServe'] = (issue['multiplierDays'] * issue['multiplierHours']).round(2)
+
+
+			 				if issue.start_date == issue.due_date
+				 				issue['hoursToServe'] = issue.estimated_hours
+				 			else
+								issue['hoursToServe'] = (issue['multiplierDays'] * issue['multiplierHours']).round(2)
+				 			end
 
 		 				end
 		 				
