@@ -28,3 +28,5 @@ de:
   label_graph_tickets: "Ticket(s)"
   whitewall_headline3_settings: "Diagramm"
   whitewall_limit: "Max. Linie"
+  whitewall_headline4_settings: "Benutzer"
+  whitewall_hideuser: "Benutzer verbergen"

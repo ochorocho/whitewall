@@ -64,14 +64,15 @@ class GraphController < ApplicationController
 				@weeks << [w,y,date]
 			end
 
-			@usersAll = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", [2], [3]])
+			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
+			@usersAll = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 			
 			if !params[:user_select].nil?
 				@userSelect = params[:user_select]
 				@userSelect << 2
 				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
 			else
-				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", [2], [3]])
+				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 			end
 
 	 		@users.each do |user|  

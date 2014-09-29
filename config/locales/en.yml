@@ -27,3 +27,5 @@ en:
   label_graph_tickets: "Ticket(s)"
   whitewall_headline3_settings: "Graph"
   whitewall_limit: "Limit line"
+  whitewall_headline4_settings: "User"
+  whitewall_hideuser: "Hide user"
