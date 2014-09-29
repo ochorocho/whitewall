@@ -1,4 +1,26 @@
 $(function() {
+	$('#timespan form').submit(function(e) {
+		var from = $('#from');
+		var to = $('#to');
+
+		if(Date.parse(from.val())) {
+			$(from).removeClass('error');
+		} else {
+			$(from).addClass('error');
+			e.preventDefault();
+		}
+
+		if(Date.parse(to.val())) {
+			$(to).removeClass('error');
+		} else {
+			$(to).addClass('error');
+			e.preventDefault();
+		}
+
+
+	});
+
+
 	// DATEPICKER - TIMESPAN
 	$("#from").datepicker({
 		defaultDate: "+1w",

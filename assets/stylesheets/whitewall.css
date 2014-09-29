@@ -317,3 +317,12 @@ body li {
     font-size: 1.5em !important;
     padding: 0px 4px !important;
 }
+
+
+#timespan input[type=text] {
+	border: 2px solid #c1c1c1;
+}
+
+#timespan input.error {
+	border: 2px solid #ff0000 !important;
+}
