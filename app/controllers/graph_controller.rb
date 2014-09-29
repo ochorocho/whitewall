@@ -65,6 +65,8 @@ class GraphController < ApplicationController
 			end
 
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
+			@hideUser << 2
+			
 			@usersAll = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 			
 			if !params[:user_select].nil?
