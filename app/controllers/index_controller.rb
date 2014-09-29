@@ -116,7 +116,6 @@ class IndexController < ApplicationController
 								issue['multiplierDays'] = 5 * issue['multiplierHours']
 							end
 
-
 			 				if issue.start_date == issue.due_date
 				 				issue['hoursToServe'] = issue.estimated_hours
 				 			elsif issue.start_date == issue.due_date - 1

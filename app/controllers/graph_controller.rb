@@ -115,8 +115,17 @@ class GraphController < ApplicationController
 							if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
 								issue['multiplierDays'] = 5 * issue['multiplierHours']
 							end
-	
-							@estimated += (issue['multiplierDays'] * issue['multiplierHours']).round(2)
+							
+			 				if issue.start_date == issue.due_date
+				 				@estimated += issue.estimated_hours
+				 			elsif issue.start_date == issue.due_date - 1
+				 				@estimated += (issue['multiplierDays'] / 2).round(2)
+				 			else
+				 				@estimated += (issue['multiplierDays'] * issue['multiplierHours']).round(2)
+				 			end
+
+							
+							
 			 				
 			 			end
 	 				end
