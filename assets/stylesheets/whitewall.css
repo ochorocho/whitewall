@@ -153,6 +153,10 @@ body li {
 	margin-top: 40px;
 }
 
+.totals {
+	padding: 10px;
+}
+
 .weeklyGraph {
 	width: 280px;
 	height: 100px;

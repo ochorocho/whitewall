@@ -65,15 +65,15 @@ class IndexController < ApplicationController
 				@weeks << [w,y,date]
 			end
 				
-			@usersAll = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", [2], [3], @groupIds])
+			@usersAll = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", [2], [3]])
 			
 			if !params[:user_select].nil?
 				@userSelect = params[:user_select]
 				@userSelect << 2
-				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", @userSelect, [2], [3], @groupIds])
+				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
 				
 			else
-				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?) AND groups_users.id IN (?)", [2], [3], @groupIds])
+				@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", [2], [3]])
 			end
 	 		@users.each do |user|  
 	 			@weeks.each do |week|

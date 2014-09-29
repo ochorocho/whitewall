@@ -137,6 +137,9 @@
 											});
 										</script>
 										<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
+										<div class="totals">
+											<%= l(:label_graph_estimated) %>: <%= user["estimatedHours_#{week[0]}"] %>
+										</div>
 								</td>
 							<% end -%>
 						</tr>
