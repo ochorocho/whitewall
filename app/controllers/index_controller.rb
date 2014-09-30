@@ -117,7 +117,7 @@ class IndexController < ApplicationController
 							end
 
 			 				if issue.start_date == issue.due_date
-				 				issue['hoursToServe'] = issue.estimated_hours
+				 				issue['hoursToServe'] = issue.estimated_hours.round(2)
 				 			elsif issue.start_date == issue.due_date - 1
 				 				issue['hoursToServe'] = (issue.estimated_hours / 2).round(2)				 				
 				 			else
