@@ -21,6 +21,7 @@ ru:
   #GRAPH
   label_whitewall_menu_graph: "Статистика белой доски"
   label_graph_estimated: "Часов"
+  label_graph_estimated_h: "Часов"
   label_graph_estimated_total: "Часов"
   label_graph_issues: "Количество тикетов"
   label_graph_tickets: "Количество"

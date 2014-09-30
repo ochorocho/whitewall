@@ -154,12 +154,16 @@ body li {
 }
 
 .totals {
-	padding: 10px;
+	padding: 0px 10px 4px 28px;
+}
+
+.totals span {
+	font-weight: bold;
 }
 
 .weeklyGraph {
 	width: 280px;
-	height: 100px;
+	height: 70px;
 	margin: 5px 10px;
 }
 

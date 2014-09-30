@@ -119,9 +119,9 @@ class GraphController < ApplicationController
 			 				if issue.start_date == issue.due_date
 				 				@estimated += issue.estimated_hours
 				 			elsif issue.start_date == issue.due_date - 1
-				 				@estimated += (issue['multiplierDays'] / 2).round(2)
+				 				@estimated += issue['multiplierDays'] / 2
 				 			else
-				 				@estimated += (issue['multiplierDays'] * issue['multiplierHours']).round(2)
+				 				@estimated += issue['multiplierDays'] * issue['multiplierHours']
 				 			end
 
 							
@@ -129,7 +129,7 @@ class GraphController < ApplicationController
 			 				
 			 			end
 	 				end
-	 				user["estimatedHours_#{calWeek}"] = @estimated	 				
+	 				user["estimatedHours_#{calWeek}"] = @estimated.round(2)				
 	  			end
 			end
 		else

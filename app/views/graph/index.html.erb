@@ -97,7 +97,9 @@
 										                renderer:$.jqplot.BarRenderer,
 										                rendererOptions: {
 										                    barDirection: 'horizontal',
-										                    varyBarColor: true
+										                    color: '#467AA7',
+										                    varyBarColor: true,
+														    barWidth: 20
 										                },
 										                shadow: false
 										            },
@@ -117,6 +119,7 @@
 															max: <% if !Setting.plugin_whitewall["whitewall_limit"].empty? %><%= Setting.plugin_whitewall["whitewall_limit"].to_i + 10 %><% else %>40<% end %>,
 										                }
 										            },
+										            seriesColors: [ "#467AA7"],
 													<% if !Setting.plugin_whitewall["whitewall_limit"].empty? %>
 													canvasOverlay: {
 														show: true,
@@ -138,7 +141,7 @@
 										</script>
 										<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
 										<div class="totals">
-											<%= l(:label_graph_estimated) %>: <%= user["estimatedHours_#{week[0]}"] %>
+											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
 										</div>
 								</td>
 							<% end -%>
