@@ -31,3 +31,6 @@ de:
   whitewall_limit: "Max. Linie"
   whitewall_headline4_settings: "Benutzer"
   whitewall_hideuser: "Benutzer verbergen"
+  #OVERALL
+  label_whitewall_menu_overall: "Wand Übersicht"
+  overall_hedline1: "Statistik - Übersicht"

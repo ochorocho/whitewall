@@ -30,3 +30,6 @@ en:
   whitewall_limit: "Limit line"
   whitewall_headline4_settings: "User"
   whitewall_hideuser: "Hide user"
+  #OVERALL
+  label_whitewall_menu_overall: "Wall overview"
+  overall_hedline1: "Statistics - Overview"

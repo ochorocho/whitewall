@@ -177,7 +177,7 @@ body li {
 	width: 100px;
 }
 
-#noRel, #stats a, #statsBack a, #showDetails, #showUsers div {
+#noRel, #stats a, #statsBack a, #statsOverall a, #showDetails, #showUsers div {
     background-position: 0 40%;
     background-repeat: no-repeat;
     padding-bottom: 3px;
@@ -199,6 +199,11 @@ body li {
 #statsBack a {
     background-image: url("../images/note.png");	
     border-right: 1px solid #606060;	
+}
+
+#statsOverall a {
+    background-image: url("../images/chartOverall.png");	
+    border-right: 1px solid #606060;
 }
 
 #showDetails {

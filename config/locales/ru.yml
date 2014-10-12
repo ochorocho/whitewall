@@ -27,3 +27,6 @@ ru:
   label_graph_tickets: "Количество"
   whitewall_headline3_settings: "Статистика"
   whitewall_limit: "Limit line"
+  #OVERALL
+  label_whitewall_menu_overall: "Wall overview"
+  overall_hedline1: "Statistics - Overview"

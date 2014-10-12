@@ -34,6 +34,14 @@
 						:to => params[:to],
 						:user_select => params[:user_select] %>
 				</span>
+				<span id="statsOverall">
+					<%= link_to l(:label_whitewall_menu_overall),
+						:controller => "overall",
+						:action => "index",
+						:from => params[:from],
+						:to => params[:to],
+						:user_select => params[:user_select] %>
+				</span>
 				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
 				<input type="text" id="from" name="from" value="<%= @fromInput %>">
 				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>

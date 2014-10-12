@@ -27,3 +27,6 @@ it:
   label_graph_tickets: "Numero di ticket"
   whitewall_headline3_settings: "Grafico"
   whitewall_limit: "Limit line"
+  #OVERALL
+  label_whitewall_menu_overall: "Wall overview"
+  overall_hedline1: "Statistics - Overview"
