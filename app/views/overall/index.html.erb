@@ -122,6 +122,8 @@
 			                rendererOptions:{
 			                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
 			                },
+			                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
+            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
 			                tickOptions:{
 			                    fontSize:'6pt',
 			                    fontFamily:'Tahoma',
