@@ -30,29 +30,32 @@ class OverallController < ApplicationController
 					
 			# CHECK PARAMS
 			if !params[:from].nil?
-				@fromDate = Date.parse(params[:from]).beginning_of_week + 4.days
-				@fromInput = Date.parse(params[:from]).beginning_of_week
+				@fromDate = Date.parse(params[:from])
+				@fromInput = Date.parse(params[:from])
 			else
-				@fromDate = Date.today.beginning_of_week + 4.days
-				@fromInput = Date.parse("#{Date.today}").beginning_of_week
+				@fromDate = Date.today
+				@fromInput = Date.parse("#{Date.today}")
 			end
 			if !params[:to].nil?
-				@toDate = Date.parse(params[:to]).end_of_week + 4.days
-				@toInput = Date.parse(params[:to]).end_of_week
+				@toDate = Date.parse(params[:to])
+				@toInput = Date.parse(params[:to])
 			else
-				@toDate = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
-				@toInput = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
+				@toDate = Date.today + 2.weeks
+				@toInput = Date.today + 2.weeks
 			end
 						
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
 			@hideUser << 2
 			
+			### TICKETS PER TRACKER
 			@trackers = Tracker.find(:all)
+      
+			@chartLines = []
 			@trackers.each do | tracker |
-			  		  
-        (@toDate.to_datetime.to_i .. @fromDate.to_datetime.to_i).step(1.day) do |date|
-          @issues = Issue.find(:all, :include => [ :priority ]).select { |i| i.project.active? }
-        end
+        @chartLines << tracker.name
+			  @fromDate.upto(@toDate) { |date|
+          tracker["issues#{date}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["tracker_id = ? AND (created_on BETWEEN ? AND ?)", tracker.id, date, date.end_of_day]).count
+        }
 			end			
 						
 		else

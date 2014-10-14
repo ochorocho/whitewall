@@ -18,6 +18,9 @@
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.categoryAxisRenderer.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.cursor.js', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'jqplot/plugins/jqplot.dateAxisRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.enhancedLegendRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.logAxisRenderer.js', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jqplot/plugins/jqplot.highlighter.js', :plugin => 'whitewall' %>
 
     <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
@@ -50,7 +53,12 @@
 						:to => params[:to],
 						:user_select => params[:user_select] %>
 				</span>
-				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
+				<select id="section">
+					<option value="daily">Täglich</option>
+					<option value="weekly">Wöchentlich</option>
+					<option value="yearly">Jährlich</option>
+				</select>
+				von
 				<input type="text" id="from" name="from" value="<%= @fromInput %>">
 				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
 				<input type="text" id="to" name="to" value="<%= @toInput %>">
@@ -63,129 +71,86 @@
 
 	<script type="text/javascript">
 
-var goog = [["6/22/2009 16:00:00",425.32],
-["23/9/2009 16:00:00",424.84],
-["21/9/2009 16:00:00",424.84],
-["18/9/2009 16:00:00",424.84],
-["17/9/2009 16:00:00",424.84],
-["16/9/2009 16:00:00",424.84],
-["15/9/2009 16:00:00",424.84],
-["13/9/2009 16:00:00",424.84],
-["11/9/2009 16:00:00",424.84],
-["9/9/2009 16:00:00",424.84],
-["7/9/2009 16:00:00",424.84],
-["5/9/2009 16:00:00",424.84],
-["3/9/2009 16:00:00",424.84],
-["1/9/2009 16:00:00",424.84],
-["30/8/2009 16:00:00",424.84],
-["28/8/2009 16:00:00",424.84],
-["26/8/2009 16:00:00",424.84],
-["24/8/2009 16:00:00",424.84],
-["22/8/2009 16:00:00",424.84],
-["19/8/2009 16:00:00",424.84],
-["16/8/2009 16:00:00",424.84],
-["15/8/2009 16:00:00",424.84],
-["14/8/2009 16:00:00",424.84],
-["12/8/2009 16:00:00",424.84],
+	<% for tracker in @trackers -%>
+		var <%= tracker.name %> = [
+		<% for date in @fromDate.upto(@toDate) -%>
+		  ['<%= date.strftime('%Y-%m-%d') %>', <%= tracker["issues#{date}"] %>],
+		<% end -%>
+		];				
+	<% end -%>
 
+//<%= @chartLines.to_s.gsub('"', '') %>
+	$(document).ready(function(){
+			$.jqplot.config.enablePlugins = true;
 
-
-
-
-["10/8/2009 16:00:00",424.84],
-["7/8/2009 16:00:00",424.84],
-["6/8/2009 16:00:00",424.84],
-["5/26/2009 16:00:00",417.23],
-["5/11/2009 16:00:00",390],
-["4/27/2009 16:00:00",393.69],
-["4/13/2009 16:00:00",392.24],
-["3/30/2009 16:00:00",369.78],
-["3/16/2009 16:00:00",330.16],
-["3/2/2009 16:00:00",308.57],
-["2/17/2009 16:00:00",346.45],
-["2/2/2009 16:00:00",371.28],
-["1/20/2009 16:00:00",324.7],
-["1/5/2009 16:00:00",315.07],
-["12/22/2008 16:00:00",300.36],
-["12/8/2008 16:00:00",315.76],
-["11/24/2008 16:00:00",292.96],
-["11/10/2008 16:00:00",310.02],
-["10/27/2008 16:00:00",359.36],
-["10/13/2008 16:00:00",372.54],
-["9/29/2008 16:00:00",386.91],
-["9/15/2008 16:00:00",449.15],
-["9/2/2008 16:00:00",444.25],
-["8/25/2008 16:00:00",463.29],
-["8/11/2008 16:00:00",510.15],
-["7/28/2008 16:00:00",467.86],
-["7/14/2008 16:00:00",481.32],
-["6/30/2008 16:00:00",537],
-["6/16/2008 16:00:00",546.43],
-["6/2/2008 16:00:00",567],
-["5/19/2008 16:00:00",544.62],
-["5/5/2008 16:00:00",573.2],
-["4/21/2008 16:00:00",544.06],
-["4/7/2008 16:00:00",457.45],
-["3/24/2008 16:00:00",438.08],
-["3/10/2008 16:00:00",437.92],
-["2/25/2008 16:00:00",471.18],
-["2/11/2008 16:00:00",529.64],
-["1/28/2008 16:00:00",515.9],
-["1/14/2008 16:00:00",600.25],
-["12/31/2007 16:00:00",657],
-["12/17/2007 16:00:00",696.69],
-["12/3/2007 16:00:00",714.87],
-["11/19/2007 16:00:00",676.7],
-["11/5/2007 16:00:00",663.97],
-["10/22/2007 16:00:00",674.6],
-["10/8/2007 16:00:00",637.39],
-["9/24/2007 16:00:00",567.27],
-["9/10/2007 16:00:00",528.75],
-["8/27/2007 16:00:00",515.25]];
-
-		$(document).ready(function(){
-			  var plot1 = $.jqplot('chart1', [goog], {
+			var plot1 = $.jqplot('chart1', <%= @chartLines.to_s.gsub('"', '') %>, {
 			      title: 'Tickets',
-			      series: [{
-			          label: 'Huhu',
-			          neighborThreshold: -1
-			      }],
+			       legend:{
+			           renderer: $.jqplot.EnhancedLegendRenderer,
+			           show:true
+			        },
+			     grid: {
+			        drawGridLines: true,
+			        gridLineColor: '#dcdcdc',
+			        background: '#fafafa',
+			        borderColor: '#fafafa',
+			        borderWidth: 1.0,
+			        shadow: false,
+			        shadowAlpha: 0.07,
+			    },
+
+			      series: [
+			      	<% for tracker in @trackers -%>
+						{label: '<%= tracker.name %>'},
+					<% end -%>
+						],			      
+				    seriesDefaults: {
+				        showMarker: false
+				    },			          
+			          axesDefaults: {
+				        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+				        tickOptions: {
+				          fontSize: '6pt'
+				        },
+
+				    },
 			      axes: {
-			          xaxis: {
-			              renderer: $.jqplot.DateAxisRenderer,
-			              min:'August 1, 2007 16:00:00',
-			              tickInterval: '4 months',
-			              tickOptions:{formatString:'%Y/%#m/%#d'}
-			          },
 			          yaxis: {
-			              tickOptions:{formatString:'%.0f'}
-			          }
+			          	min: 0
+			          },
+			          xaxis: {
+			                renderer:$.jqplot.DateAxisRenderer,
+			                rendererOptions:{
+			                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
+			                },
+			                tickOptions:{
+			                    fontSize:'6pt',
+			                    fontFamily:'Tahoma',
+			                    formatString:'%#d/%#m/%Y'
+			                }
+       			      }
 			      },
+			          highlighter: {
+				        show: true,
+				        fontSize:'6pt',
+				        formatString:'Date: %s | Anzahl %s'
+				      },
 			      cursor:{
 			        show: true,
 			        zoom:true,
-			        showTooltip:false
+			        showTooltip:false,
+			        constrainZoomTo: 'x'
 			      }
 			  });
 			 
 			  $('.button-reset').click(function() { plot1.resetZoom() });
 
 			$(window).bind('resize', function(event, ui) {
-                plot1.replot( { resetAxes: true } );
+                plot1.replot();
             });
 		});
 
-
-	</script>
-
-	<% for tracker in @trackers -%>
-		<% (@toDate.to_datetime.to_i .. @fromDate.to_datetime.to_i).step(1.hour) do |date| -%>
-		  <%= debug(date) %>
-		<% end -%>
-		äääääääää
-	<% end -%>
-
-
+	</script>	
 	<div id="chart1"></div>
 	
 	</div>

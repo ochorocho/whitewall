@@ -335,3 +335,13 @@ body li {
 #timespan input.error {
 	border: 2px solid #ff0000 !important;
 }
+
+.jqplot-table-legend td {
+	width: auto !important;
+	float: right !important;
+	padding: 2px !important;
+}
+
+.jqplot-table-legend {
+	width: auto !important;
+}
