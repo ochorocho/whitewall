@@ -25,9 +25,102 @@
     <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
+    <% if @UserAllowed == 'true' %>
+
+    		<script type="text/javascript">
+		
+			<% for tracker in @trackers -%>
+				var <%= tracker.name %> = [
+				<% for date in @fromDate.upto(@toDate) -%>
+				  ['<%= date.strftime('%Y-%m-%d') %>', <%= tracker["issues#{date}"] %>],
+				<% end -%>
+				];				
+			<% end -%>
+		
+		//<%= @chartLines.to_s.gsub('"', '') %>
+			$(document).ready(function(){
+					
+					$.jqplot.config.enablePlugins = true;
+		            $("#tabs").tabs();
+
+					var plot1 = $.jqplot('chart1', <%= @chartLines.to_s.gsub('"', '') %>, {
+					      title: 'Tickets by Tracker',
+					       legend:{
+					           renderer: $.jqplot.EnhancedLegendRenderer,
+					           show:true
+					        },
+					     grid: {
+					        drawGridLines: true,
+					        gridLineColor: '#dcdcdc',
+					        background: '#fafafa',
+					        borderColor: '#fafafa',
+					        borderWidth: 1.0,
+					        shadow: false,
+					        shadowAlpha: 0.07,
+					    },
+		
+					      series: [
+					      	<% for tracker in @trackers -%>
+								{label: '<%= tracker.name %>'},
+							<% end -%>
+								],			      
+						    seriesDefaults: {
+						        showMarker: false
+						    },			          
+					          axesDefaults: {
+						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+						        tickOptions: {
+						          fontSize: '6pt'
+						        },
+		
+						    },
+					      axes: {
+					          yaxis: {
+					          	min: 0
+					          },
+					          xaxis: {
+					                renderer:$.jqplot.DateAxisRenderer,
+					                rendererOptions:{
+					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
+					                },
+					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
+		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
+					                tickOptions:{
+					                    fontSize:'6pt',
+					                    fontFamily:'Tahoma',
+					                    formatString:'%#d/%#m/%Y'
+					                }
+		       			      }
+					      },
+					          highlighter: {
+						        show: true,
+						        fontSize:'6pt',
+						        formatString:'Date: %s | Anzahl %s'
+						      },
+					      cursor:{
+					        show: true,
+					        zoom:true,
+					        showTooltip:false,
+					        constrainZoomTo: 'x'
+					      }
+					  });
+					 
+					  $('.button-reset').click(function() { plot1.resetZoom() });
+		
+					$(window).bind('resize', function(event, ui) {
+		                plot1.replot();
+		            });
+				});
+		
+			</script>	
+	<% end %>
+    
 <% end %>
 
 <% if @UserAllowed == 'true' %>
+
+
+
 
 <div id="whitewall">
 	<h2><%= l(:overall_hedline1) %></h2>
@@ -35,7 +128,6 @@
 	<!-- WALL FILTER -->
 	<div id="filter">
 		<div id="timespan">
-			<%= form_tag("/whitewall_overall", method: "get") do %>
 				<span id="stats">
 					<%= link_to l(:label_whitewall_menu_graph),
 						:controller => "graph",
@@ -45,7 +137,6 @@
 						:user_select => params[:user_select] %>
 				</span>
 				<span id="statsBack">
-
 					<%= link_to l(:label_whitewall_menu),
 						:controller => "index",
 						:action => "index",
@@ -53,110 +144,43 @@
 						:to => params[:to],
 						:user_select => params[:user_select] %>
 				</span>
-				<select id="section">
-					<option value="daily">Täglich</option>
-					<option value="weekly">Wöchentlich</option>
-					<option value="yearly">Jährlich</option>
-				</select>
-				<input type="text" id="from" name="from" value="<%= @fromInput %>">
-				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
-				<input type="text" id="to" name="to" value="<%= @toInput %>">
-				<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
-			<% end %>
 		</div>
 	</div>
 
 	<div id="wall" class="graphOverall">
 
-	<script type="text/javascript">
 
-	<% for tracker in @trackers -%>
-		var <%= tracker.name %> = [
-		<% for date in @fromDate.upto(@toDate) -%>
-		  ['<%= date.strftime('%Y-%m-%d') %>', <%= tracker["issues#{date}"] %>],
-		<% end -%>
-		];				
-	<% end -%>
+		<div id="tabs">
+			<ul>
+				<li><a href="#tab-evolutions"><span>Entwicklung in Zeitraum</span></a></li>
+				<li><a href="#tab-analyze"><span>Analyse</span></a></li>
+			</ul>
+			<div id="tab-evolutions">
+				<div id="timespan">
+						<%= form_tag("/whitewall_overall", method: "get") do %>
+							<select id="section">
+								<option value="daily">Täglich</option>
+								<option value="weekly">Wöchentlich</option>
+								<option value="yearly">Jährlich</option>
+							</select>
+							<input type="text" id="from" name="from" value="<%= @fromInput %>">
+							<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
+							<input type="text" id="to" name="to" value="<%= @toInput %>">
+							<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
+						<% end %>
 
-//<%= @chartLines.to_s.gsub('"', '') %>
-	$(document).ready(function(){
-			$.jqplot.config.enablePlugins = true;
+					</div>
+					<div id="chart1"></div>
+					<button class="button-reset">Reset Zoom</button>
+			</div>
+			<div id="tab-analyze">
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+				Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+			</div>
 
-			var plot1 = $.jqplot('chart1', <%= @chartLines.to_s.gsub('"', '') %>, {
-			      title: 'Tickets',
-			       legend:{
-			           renderer: $.jqplot.EnhancedLegendRenderer,
-			           show:true
-			        },
-			     grid: {
-			        drawGridLines: true,
-			        gridLineColor: '#dcdcdc',
-			        background: '#fafafa',
-			        borderColor: '#fafafa',
-			        borderWidth: 1.0,
-			        shadow: false,
-			        shadowAlpha: 0.07,
-			    },
-
-			      series: [
-			      	<% for tracker in @trackers -%>
-						{label: '<%= tracker.name %>'},
-					<% end -%>
-						],			      
-				    seriesDefaults: {
-				        showMarker: false
-				    },			          
-			          axesDefaults: {
-				        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-				        tickOptions: {
-				          fontSize: '6pt'
-				        },
-
-				    },
-			      axes: {
-			          yaxis: {
-			          	min: 0
-			          },
-			          xaxis: {
-			                renderer:$.jqplot.DateAxisRenderer,
-			                rendererOptions:{
-			                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
-			                },
-			                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
-            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
-			                tickOptions:{
-			                    fontSize:'6pt',
-			                    fontFamily:'Tahoma',
-			                    formatString:'%#d/%#m/%Y'
-			                }
-       			      }
-			      },
-			          highlighter: {
-				        show: true,
-				        fontSize:'6pt',
-				        formatString:'Date: %s | Anzahl %s'
-				      },
-			      cursor:{
-			        show: true,
-			        zoom:true,
-			        showTooltip:false,
-			        constrainZoomTo: 'x'
-			      }
-			  });
-			 
-			  $('.button-reset').click(function() { plot1.resetZoom() });
-
-			$(window).bind('resize', function(event, ui) {
-                plot1.replot();
-            });
-		});
-
-	</script>	
-	<div id="chart1"></div>
-	
+		</div>
 	</div>
-	<button class="button-reset">Reset Zoom</button>
-	
+
 </div>
 
 <% else %>

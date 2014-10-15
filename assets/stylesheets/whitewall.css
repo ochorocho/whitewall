@@ -345,3 +345,10 @@ body li {
 .jqplot-table-legend {
 	width: auto !important;
 }
+
+
+#tab-evolutions #timespan {
+	border-bottom: 1px solid #dedede;
+	margin-bottom: 10px;
+	padding-bottom: 6px;
+}
