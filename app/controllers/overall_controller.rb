@@ -25,8 +25,6 @@ class OverallController < ApplicationController
 		end
 
 		if @UserAllowed == 'true'
-
-			@issuesUndefined = Issue.where("assigned_to_id IS NULL OR start_date IS NULL").all
 					
 			# CHECK PARAMS
 			if !params[:from].nil?
@@ -47,7 +45,7 @@ class OverallController < ApplicationController
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
 			@hideUser << 2
 			
-			### TICKETS PER TRACKER
+			# TICKETS PER TRACKER
 			@trackers = Tracker.find(:all)
       
 			@chartLines = []
@@ -57,7 +55,17 @@ class OverallController < ApplicationController
           tracker["issues#{date}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["tracker_id = ? AND (created_on BETWEEN ? AND ?)", tracker.id, date, date.end_of_day]).count
         }
 			end			
-						
+
+			  
+      @issues = []
+      @journals = []
+      # TICKETS PER TRACKER      
+      @fromDate.upto(@toDate) { |date|
+        @issues << Issue.find(:all, :conditions => ["created_on < ?", date.end_of_day]).count
+        @journals << Journal.find(:all, :conditions => ["created_on < ? AND (notes IS NOT NULL AND notes != '')", date.end_of_day]).count
+      }
+			
+									
 		else
 			# NOT LOGGED IN
 		end

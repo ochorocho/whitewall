@@ -28,6 +28,19 @@
     <% if @UserAllowed == 'true' %>
 
     		<script type="text/javascript">
+
+
+			var issues = [
+			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
+			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @issues[n] %>],
+			<% end -%>
+			];
+			
+			var journals = [
+			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
+			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @journals[n] %>],
+			<% end -%>
+			];
 		
 			<% for tracker in @trackers -%>
 				var <%= tracker.name %> = [
@@ -41,9 +54,12 @@
 			$(document).ready(function(){
 					
 					$.jqplot.config.enablePlugins = true;
+					//$.jqplot.config.defaultColors= [ "rgba(75, 178, 198, 0.4)", "rgba(234, 162, 40, 0.4)", "#c5b47f", "#579575", "#839557", "#958c12", "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc", "#c747a3", "#cddf54", "#FBD178", "#26B4E3", "#bd70c7"],
 		            $("#tabs").tabs();
 
-					var plot1 = $.jqplot('chart1', <%= @chartLines.to_s.gsub('"', '') %>, {
+
+					// TICKETS PER TRACKER
+					var ticketsPerTracker = $.jqplot('ticketsPerTracker', <%= @chartLines.to_s.gsub('"', '') %>, {
 					      title: 'Tickets by Tracker',
 					       legend:{
 					           renderer: $.jqplot.EnhancedLegendRenderer,
@@ -104,11 +120,84 @@
 					        constrainZoomTo: 'x'
 					      }
 					  });
-					 
-					  $('.button-reset').click(function() { plot1.resetZoom() });
+					  $('.button-reset-ticketsPerTracker').click(function() { ticketsPerTracker.resetZoom() });
+
+
+					// COMMENTS VS TICKETS
+					var commentsTickets = $.jqplot('commentsTickets', [journals,issues], {
+					      title: 'Tickets by Tracker',
+					       legend:{
+					           renderer: $.jqplot.EnhancedLegendRenderer,
+					           show:true
+					        },
+			             /*fillBetween: {
+				            series1: 0,
+				            series2: 1,
+				            color: "rgba(196, 196, 196, 0.4)",
+				            baseSeries: 0,
+				            fill: true
+				        }, */
+					     grid: {
+					        drawGridLines: true,
+					        gridLineColor: '#dcdcdc',
+					        background: '#fafafa',
+					        borderColor: '#fafafa',
+					        borderWidth: 1.0,
+					        shadow: false,
+					        shadowAlpha: 0.07,
+					    },
+		
+					      series: [
+								{label: '<%= l(:journals) %>'},
+								{label: '<%= l(:issues) %>'}
+								],
+							seriesColors:["rgba(75, 178, 198, 0.6)", "rgba(234, 162, 40, 0.6)"],      
+						    seriesDefaults: {
+						        showMarker: false,
+						        fill: true,
+						    },			          
+					          axesDefaults: {
+						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+						        tickOptions: {
+						          fontSize: '6pt'
+						        },
+		
+						    },
+					      axes: {
+					          yaxis: {
+					          	min: 0
+					          },
+					          xaxis: {
+					                renderer:$.jqplot.DateAxisRenderer,
+					                rendererOptions:{
+					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
+					                },
+					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
+		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
+					                tickOptions:{
+					                    fontSize:'6pt',
+					                    fontFamily:'Tahoma',
+					                    formatString:'%#d/%#m/%Y'
+					                }
+		       			      }
+					      },
+					          highlighter: {
+						        show: true,
+						        fontSize:'6pt',
+						        formatString:'Date: %s | Anzahl %s'
+						      },
+					      cursor:{
+					        show: true,
+					        zoom:true,
+					        showTooltip:false,
+					        constrainZoomTo: 'x'
+					      }
+					  });
+					  $('.button-reset-commentsTickets').click(function() { commentsTickets.resetZoom() });
 		
 					$(window).bind('resize', function(event, ui) {
-		                plot1.replot();
+		                ticketsPerTracker.replot();
+		                commentsTickets.replot();
 		            });
 				});
 		
@@ -170,8 +259,13 @@
 						<% end %>
 
 					</div>
-					<div id="chart1"></div>
-					<button class="button-reset">Reset Zoom</button>
+					<div id="ticketsPerTracker"></div>
+					<button class="button-reset-ticketsPerTracker">Reset Zoom</button>
+					<div id="commentsTickets"></div>
+					<button class="button-reset-commentsTickets">Reset Zoom</button>
+					
+					
+					
 			</div>
 			<div id="tab-analyze">
 				Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.

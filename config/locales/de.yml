@@ -32,5 +32,7 @@ de:
   whitewall_headline4_settings: "Benutzer"
   whitewall_hideuser: "Benutzer verbergen"
   #OVERALL
+  issues: "Tickets"
+  journals: "Kommentare"
   label_whitewall_menu_overall: "Wand Übersicht"
   overall_hedline1: "Statistik - Übersicht"
