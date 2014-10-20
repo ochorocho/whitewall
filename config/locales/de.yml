@@ -21,6 +21,7 @@ de:
   label_whitewall_config: "Konfigutation Weiße Wand"
   label_whitewall_noaccess: "Ihr Benutzer hat keinen Zugriff auf diesen Bereich"
   #GRAPH
+  whitewall_headline5_settings: "Tracker als Fehler zählen"
   label_whitewall_menu_graph: "Wand Statistik"
   label_graph_estimated: "Std."
   label_graph_estimated_h: "Stunden"

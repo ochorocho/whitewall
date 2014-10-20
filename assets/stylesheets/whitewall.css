@@ -352,3 +352,8 @@ body li {
 	margin-bottom: 10px;
 	padding-bottom: 6px;
 }
+
+
+.graphOverall #wallFunctions {
+	float: right;
+}

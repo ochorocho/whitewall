@@ -27,8 +27,39 @@
     <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
     <% if @UserAllowed == 'true' %>
 
-    		<script type="text/javascript">
 
+			<% for date in @fromDate.upto(@toDate) -%>
+				<% for issuesCustom in @issuesCustom -%>
+					<% for system in @system -%>
+						var <%= @systemVar %> = [
+							['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsTotal[n] %>],
+						]
+					<% end -%>
+				<% end -%>
+			<% end -%>
+				
+				
+
+
+
+
+    		<script type="text/javascript">
+			var bugsTotal = [
+			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
+			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsTotal[n] %>],
+			<% end -%>
+			];
+
+			var bugsClosed = [
+			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
+			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsClosed[n] %>],
+			<% end -%>
+			];
+			var bugsOpen = [
+			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
+			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsOpen[n] %>],
+			<% end -%>
+			];
 
 			var issues = [
 			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
@@ -50,7 +81,6 @@
 				];				
 			<% end -%>
 		
-		//<%= @chartLines.to_s.gsub('"', '') %>
 			$(document).ready(function(){
 					
 					$.jqplot.config.enablePlugins = true;
@@ -110,7 +140,6 @@
 					      },
 					          highlighter: {
 						        show: true,
-						        fontSize:'6pt',
 						        formatString:'Date: %s | Anzahl %s'
 						      },
 					      cursor:{
@@ -125,18 +154,18 @@
 
 					// COMMENTS VS TICKETS
 					var commentsTickets = $.jqplot('commentsTickets', [journals,issues], {
-					      title: 'Tickets by Tracker',
+					      title: 'Tickets vs. Comments',
 					       legend:{
 					           renderer: $.jqplot.EnhancedLegendRenderer,
 					           show:true
 					        },
-			             /*fillBetween: {
+			             fillBetween: {
 				            series1: 0,
 				            series2: 1,
 				            color: "rgba(196, 196, 196, 0.4)",
 				            baseSeries: 0,
 				            fill: true
-				        }, */
+				        },
 					     grid: {
 					        drawGridLines: true,
 					        gridLineColor: '#dcdcdc',
@@ -154,7 +183,7 @@
 							seriesColors:["rgba(75, 178, 198, 0.6)", "rgba(234, 162, 40, 0.6)"],      
 						    seriesDefaults: {
 						        showMarker: false,
-						        fill: true,
+						        fill: false,
 						    },			          
 					          axesDefaults: {
 						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
@@ -194,10 +223,87 @@
 					      }
 					  });
 					  $('.button-reset-commentsTickets').click(function() { commentsTickets.resetZoom() });
+
+
+					// BUGS OVERVIEW
+					var bugs = $.jqplot('bugs', [bugsOpen,bugsClosed,bugsTotal], {
+					      title: 'Bugs Overview',
+					       legend:{
+					           renderer: $.jqplot.EnhancedLegendRenderer,
+					           show:true
+					        },
+			             fillBetween: {
+				            series1: 0,
+				            series2: 1,
+				            color: "rgba(196, 196, 196, 0.4)",
+				            baseSeries: 0,
+				            fill: true
+				        },
+					     grid: {
+					        drawGridLines: true,
+					        gridLineColor: '#dcdcdc',
+					        background: '#fafafa',
+					        borderColor: '#fafafa',
+					        borderWidth: 1.0,
+					        shadow: false,
+					        shadowAlpha: 0.07,
+					    },
 		
+					      series: [
+								{label: 'Bugs Open'},
+								{label: 'Bugs Closed'},
+								{label: 'Bugs Total'}
+								],
+							seriesColors:["rgba(75, 178, 198, 0.6)", "rgba(234, 162, 40, 0.6)", "rgba(87, 139, 184, 0.9)"],      
+						    seriesDefaults: {
+						        showMarker: false,
+						        fill: false,
+						    },			          
+					          axesDefaults: {
+						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+						        tickOptions: {
+						          fontSize: '6pt'
+						        },
+		
+						    },
+					      axes: {
+					          yaxis: {
+					          	min: 0
+					          },
+					          xaxis: {
+					                renderer:$.jqplot.DateAxisRenderer,
+					                rendererOptions:{
+					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
+					                },
+					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
+		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
+					                tickOptions:{
+					                    fontSize:'6pt',
+					                    fontFamily:'Tahoma',
+					                    formatString:'%#d/%#m/%Y'
+					                }
+		       			      }
+					      },
+					          highlighter: {
+						        show: true,
+						        fontSize:'6pt',
+						        formatString:'Date: %s | Anzahl %s'
+						      },
+					      cursor:{
+					        show: true,
+					        zoom:true,
+					        showTooltip:false,
+					        constrainZoomTo: 'x'
+					      }
+					  });
+					  $('.button-reset-bugs').click(function() { bugs.resetZoom() });
+
+
+
 					$(window).bind('resize', function(event, ui) {
 		                ticketsPerTracker.replot();
 		                commentsTickets.replot();
+		                bugs.replot();
 		            });
 				});
 		
@@ -247,22 +353,43 @@
 			<div id="tab-evolutions">
 				<div id="timespan">
 						<%= form_tag("/whitewall_overall", method: "get") do %>
-							<select id="section">
-								<option value="daily">Täglich</option>
-								<option value="weekly">Wöchentlich</option>
-								<option value="yearly">Jährlich</option>
-							</select>
 							<input type="text" id="from" name="from" value="<%= @fromInput %>">
 							<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
 							<input type="text" id="to" name="to" value="<%= @toInput %>">
 							<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
-						<% end %>
 
+			<div id="wallFunctions">
+					<span id="showUsers">
+						<div><%= l(:label_whitewall_users) %></div>
+						<ul>
+							<li class="invert"><b><%= l(:whitewall_users_select) %></b><input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" /></li>
+							<% for project in @projectsAll -%>
+								<li class="<%= cycle('odd', 'even') %>">
+									<label for="project<%= project.id %>">
+										<% if @projects.include? project %>
+											<input checked="checked" type="checkbox" id="project<%= project.id %>" name="project_select[]" value="<%= project.id %>">
+										<% else %>
+											<input type="checkbox" id="project<%= project.id %>" name="project_select[]" value="<%= project.id %>">
+										<% end %>
+										<%= project.name %>
+									</label>
+								</li>
+							<% end -%>
+						</ul>
+					</span>
+				</div>
+
+
+						<% end %>
 					</div>
+					
 					<div id="ticketsPerTracker"></div>
 					<button class="button-reset-ticketsPerTracker">Reset Zoom</button>
 					<div id="commentsTickets"></div>
 					<button class="button-reset-commentsTickets">Reset Zoom</button>
+
+					<div id="bugs"></div>
+					<button class="button-reset-bugs">Reset Zoom</button>
 					
 					
 					
