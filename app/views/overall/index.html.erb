@@ -27,24 +27,8 @@
     <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
     <% if @UserAllowed == 'true' %>
 
-
-			<% for date in @fromDate.upto(@toDate) -%>
-				<% for issuesCustom in @issuesCustom -%>
-					<% for system in @system -%>
-						var <%= @systemVar %> = [
-							['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsTotal[n] %>],
-						]
-					<% end -%>
-				<% end -%>
-			<% end -%>
-				
-				
-
-
-
-
     		<script type="text/javascript">
-			var bugsTotal = [
+	 		var bugsTotal = [
 			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
 			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsTotal[n] %>],
 			<% end -%>
@@ -80,13 +64,19 @@
 				<% end -%>
 				];				
 			<% end -%>
-		
+
+			<% @system.each_with_index do |system, index| -%>
+				var <%= system.gsub(' ', '') %> = [
+					<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
+						['<%= date.strftime('%Y-%m-%d') %>', <%= @systemAll[index][n] %>],
+					<% end -%>
+				];				
+			<% end -%>
+
 			$(document).ready(function(){
 					
 					$.jqplot.config.enablePlugins = true;
-					//$.jqplot.config.defaultColors= [ "rgba(75, 178, 198, 0.4)", "rgba(234, 162, 40, 0.4)", "#c5b47f", "#579575", "#839557", "#958c12", "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc", "#c747a3", "#cddf54", "#FBD178", "#26B4E3", "#bd70c7"],
 		            $("#tabs").tabs();
-
 
 					// TICKETS PER TRACKER
 					var ticketsPerTracker = $.jqplot('ticketsPerTracker', <%= @chartLines.to_s.gsub('"', '') %>, {
@@ -298,12 +288,76 @@
 					  });
 					  $('.button-reset-bugs').click(function() { bugs.resetZoom() });
 
+					// TICKETS PER SYSTEM
+					var ticketsPerSystem = $.jqplot('ticketsPerSystem', <%= @system.to_s.gsub('"', '').gsub(' ', '') %>, {
+					      title: 'Tickets by System',
+					       legend:{
+					           renderer: $.jqplot.EnhancedLegendRenderer,
+					           show:true
+					        },
+					     grid: {
+					        drawGridLines: true,
+					        gridLineColor: '#dcdcdc',
+					        background: '#fafafa',
+					        borderColor: '#fafafa',
+					        borderWidth: 1.0,
+					        shadow: false,
+					        shadowAlpha: 0.07,
+					    },
+		
+					      series: [
+					      	<% for system in @system -%>
+								{label: '<%= system %>'},
+							<% end -%>
+								],			      
+						    seriesDefaults: {
+						        showMarker: false
+						    },			          
+					          axesDefaults: {
+						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+						        tickOptions: {
+						          fontSize: '6pt'
+						        },
+		
+						    },
+					      axes: {
+					          yaxis: {
+					          	min: 0
+					          },
+					          xaxis: {
+					                renderer:$.jqplot.DateAxisRenderer,
+					                rendererOptions:{
+					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
+					                },
+					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
+		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
+					                tickOptions:{
+					                    fontSize:'6pt',
+					                    fontFamily:'Tahoma',
+					                    formatString:'%#d/%#m/%Y'
+					                }
+		       			      }
+					      },
+					          highlighter: {
+						        show: true,
+						        formatString:'Date: %s | Anzahl %s'
+						      },
+					      cursor:{
+					        show: true,
+					        zoom:true,
+					        showTooltip:false,
+					        constrainZoomTo: 'x'
+					      }
+					  });
+					  $('.button-reset-ticketsPerSystem').click(function() { ticketsPerSystem.resetZoom() });
+
 
 
 					$(window).bind('resize', function(event, ui) {
 		                ticketsPerTracker.replot();
 		                commentsTickets.replot();
 		                bugs.replot();
+		                ticketsPerSystem.replot();
 		            });
 				});
 		
@@ -390,6 +444,9 @@
 
 					<div id="bugs"></div>
 					<button class="button-reset-bugs">Reset Zoom</button>
+
+					<div id="ticketsPerSystem"></div>
+					<button class="button-reset-ticketsPerSystem">Reset Zoom</button>
 					
 					
 					

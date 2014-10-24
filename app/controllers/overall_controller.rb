@@ -62,6 +62,22 @@ class OverallController < ApplicationController
         }
 			end			
 
+      # TICKETS PER SYSTEM
+      @systemId = Setting.plugin_whitewall["whitewall_ticketSystem"]
+      @system = IssueCustomField.find(@systemId).possible_values.to_a
+      @chartLinesSystem = @system.to_s        
+      
+      @systemAll = []
+      @system.each do |system|
+        @custom = []
+        @fromDate.upto(@toDate) { |date|
+          today = Issue.find(:all, :conditions => ["created_on < ? AND project_id IN (?)", date.end_of_day, @projects])
+          @value = CustomValue.where('value = ? and customized_id IN (?)', system, today).all
+          @custom << @value.count
+        } 
+        @systemAll << @custom
+      end
+        
       # TICKETS VS COMMENTS	| BUGS
       @issues = []
       @journals = []
@@ -70,10 +86,8 @@ class OverallController < ApplicationController
       @bugsOpen = []
 
       # BY SYSTEM
-      @system = IssueCustomField.find(Setting.plugin_whitewall["whitewall_ticketSystem"]).possible_values
       @chart = []
 
-                
       @issuesAll = Issue.find(:all, :order => "created_on ASC", :conditions => ["created_on < ? AND project_id IN (?)", @toDate.end_of_day, @projects]) 
       @fromDate.upto(@toDate) { |date|
         @issues << Issue.find(:all, :order => "created_on ASC", :conditions => ["created_on < ? AND project_id IN (?)", date.end_of_day, @projects]).count
@@ -82,21 +96,32 @@ class OverallController < ApplicationController
         @bugsClosed << Issue.find(:all, :order => "created_on ASC", :conditions => ["created_on < ? AND (closed_on IS NULL) AND project_id IN (?) AND tracker_id IN (?)", date.end_of_day, @projects, [1,2]]).count
         @bugsOpen <<  Issue.find(:all, :order => "created_on ASC", :conditions => ["created_on < ? AND (closed_on IS NOT NULL AND closed_on != '') AND project_id IN (?) AND tracker_id IN (?)", date.end_of_day, @projects, [1,2]]).count
 
-          @issuesCustom = Issue.find(:all, :order => "created_on ASC", :conditions => ["created_on < ? AND project_id IN (?)", date.end_of_day, @projects])
-          @count = 0
-          @issuesCustom.each do |custom|
-            #LOOP THROUGH SYSTEMS
-            @system.each do |system|
-              chart = CustomValue.find(:all, :conditions => ["customized_id = (?) AND value = (?)", custom.id, system]).count
-              @systemVar = system.camelize.gsub(' ', '')
-              systemVar = system.camelize.gsub(' ', '')
-              if !chart.nil?
-                custom["system#{systemVar}"] = @count + chart
-              end
-            end
-          end  
+
+          
+          
         }      
-      
+
+#        query = Query.find(1)
+#        assert query.valid?
+#        assert query.statement.include?("#{CustomValue.table_name}.value IN ('MySQL')")
+#        @issuesCustom = Issue.find :all,:include => [ :assigned_to, :status, :tracker, :project, :priority ], :conditions => query.statement
+
+#        @issuesCustom = Issue.find(:all, :include => [ :assigned_to, :status, :tracker, :project, :priority, :custom_values ], :conditions => ["#{CustomValue.table_name}.id = 7"])
+        #@chartLines = []
+ #       @issuesCustom.each do | custom |
+          #@chartLines << tracker.name
+  #        @fromDate.upto(@toDate) { |date|
+            #custom["issues#{date}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["tracker_id = ? AND (created_on < ?) AND project_id IN (?)", tracker.id, date.end_of_day, @projects]).count
+            #@date = date
+            #@system.each do |system|
+            #  systemVar = system.camelize.gsub(' ', '')
+            #  custom["#{systemVar}#{@date}"] = CustomValue.find(:all, :conditions => ["customized_id = (?) AND value = (?)", custom.id, system]).count
+            #end
+    #      }
+   #     end     
+
+        
+              
 		else
 			# NOT LOGGED IN
 		end
