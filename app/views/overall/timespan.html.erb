@@ -43,7 +43,6 @@
 	<button class="ticketsPerSystem">Reset Zoom</button>
 
 	<script type="text/javascript">
-		
 		// GRAPH DATA
  		var bugsTotal = [
 		<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
@@ -89,9 +88,7 @@
 				<% end -%>
 			];				
 		<% end -%>
-
 		$(document).ready(function(){
-
 			$('#timespanAjax form').submit(function(e) {
 				var from = $('#from');
 				var to = $('#to');
@@ -102,22 +99,18 @@
 				} else {
 					$(from).addClass('error');
 				}
-		
 				if(Date.parse(to.val())) {
 					$(to).removeClass('error');
 				} else {
 					$(to).addClass('error');
 				}
-				
 				if(Date.parse(from.val()) && Date.parse(to.val())) {
-					
 					var projects = '';
 					$('#showUsers input[type=checkbox]').each(function(e) {
 					  if($(this).attr('checked')) {
 					  	projects += '&project_select[]=' + $(this).val();					  	
 					  }
 					});
-									
 					$.ajax({
 						dataType: "html",
 						url: "/whitewall_timespan",
@@ -148,20 +141,20 @@
 			        shadowAlpha: 0.07,
 			};
 			var axes = {
-		          yaxis: {
-		          	min: 0
-		          },
-		          xaxis: {
-	                renderer:$.jqplot.DateAxisRenderer,
-	                rendererOptions:{
-	                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
-	                },
-	                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
-    				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
-	                tickOptions:{
-	                    fontSize:'6pt',
-	                }
-                  }
+	          yaxis: {
+	          	min: 0
+	          },
+	          xaxis: {
+                renderer:$.jqplot.DateAxisRenderer,
+                rendererOptions:{
+                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
+                },
+                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
+				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
+                tickOptions:{
+                    fontSize:'6pt',
+                }
+              }
 		    };
 		    var axesDefaults = {
 				tickRenderer: $.jqplot.CanvasAxisTickRenderer,
@@ -169,187 +162,136 @@
 					fontSize: '6pt'
 				}
 		    };
-
-			// TICKETS PER TRACKER
-			var ticketsPerTracker = $.jqplot('ticketsPerTracker', <%= @chartLines.to_s.gsub('"', '') %>, {
-			      title: 'Tickets by Tracker',
-			       legend:{
-			           renderer: $.jqplot.EnhancedLegendRenderer,
-			           show:true
-			        },
-			     grid: grid,
-			      series: [
-			      	<% for tracker in @trackers -%>
-						{label: '<%= tracker.name %>'},
-					<% end -%>
-						],			      
-				    seriesDefaults: {
-				        showMarker: false
-				    },			          
-			          axesDefaults: axesDefaults,
-			      axes: axes,
-			          highlighter: {
-				        show: true,
-				        formatString:'Date: %s | Anzahl %s'
-				      },
-			      cursor:{
-			        show: true,
-			        zoom:true,
-			        showTooltip:false,
-			        constrainZoomTo: 'x'
-			      }
-			  });
-			  $('.ticketsPerTracker').click(function() { ticketsPerTracker.resetZoom() });
-	
-	
-			// COMMENTS VS TICKETS
-			var commentsTickets = $.jqplot('commentsTickets', [journals,issues], {
-			      title: 'Tickets vs. Comments',
-			       legend:{
-			           renderer: $.jqplot.EnhancedLegendRenderer,
-			           show:true
-			        },
-	             fillBetween: {
-		            series1: 0,
-		            series2: 1,
-		            color: "rgba(196, 196, 196, 0.4)",
-		            baseSeries: 0,
-		            fill: true
+		    var highlighter = {
+		        show: true,
+		        formatString:'Date: %s | Anzahl %s'
+		    };
+		    var cursor = {
+		        show: true,
+		        zoom:true,
+		        showTooltip:false,
+		        constrainZoomTo: 'x'
+		    };
+		// TICKETS PER TRACKER
+		var ticketsPerTracker = $.jqplot('ticketsPerTracker', <%= @chartLines.to_s.gsub('"', '') %>, {
+		      title: 'Tickets by Tracker',
+		       legend:{
+		           renderer: $.jqplot.EnhancedLegendRenderer,
+		           show:true
 		        },
-				grid: grid,	
-			    series: [
-						{label: '<%= l(:journals) %>'},
-						{label: '<%= l(:issues) %>'}
-						],
-					//seriesColors:      
-				    seriesDefaults: {
-				        showMarker: false,
-				        fill: false,
-				    },			          
-			          axesDefaults: {
-				        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-				        tickOptions: {
-				          fontSize: '6pt'
-				        },
-	
-				    },
-			      axes: axes,
-			          highlighter: {
-				        show: true,
-				        fontSize:'6pt',
-				        formatString:'Date: %s | Anzahl %s'
-				      },
-			      cursor:{
-			        show: true,
-			        zoom:true,
-			        showTooltip:false,
-			        constrainZoomTo: 'x'
-			      }
-			  });
-			  $('.commentsTickets').click(function() { commentsTickets.resetZoom() });
-	
-	
-			// BUGS OVERVIEW
-			var bugs = $.jqplot('bugs', [bugsOpen,bugsClosed,bugsTotal], {
-			      title: 'Bugs Overview',
-			       legend:{
-			           renderer: $.jqplot.EnhancedLegendRenderer,
-			           show:true
-			        },
-	             fillBetween: {
-		            series1: 0,
-		            series2: 1,
-		            color: "rgba(196, 196, 196, 0.4)",
-		            baseSeries: 0,
-		            fill: true
-		        },
-			     grid: grid,
+		      grid: grid,
 		      series: [
-					{label: 'Bugs Open'},
-					{label: 'Bugs Closed'},
-					{label: 'Bugs Total'}
-					],
+		      	<% for tracker in @trackers -%>
+					{label: '<%= tracker.name %>'},
+				<% end -%>
+					],			      
 			    seriesDefaults: {
-			        showMarker: false,
-			        fill: false,
-			    },			          
-		          axesDefaults: {
-			        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-			        tickOptions: {
-			          fontSize: '6pt'
-			        },
-
-			    },
-			      axes: axes,
-		          highlighter: {
-					show: true,
-					fontSize:'6pt',
-					formatString:'Date: %s | Anzahl %s'
-			      },
-			      cursor:{
-			        show: true,
-			        zoom:true,
-			        showTooltip:false,
-			        constrainZoomTo: 'x'
-			      }
-			  });
-			  $('.bugs').click(function() { bugs.resetZoom() });
-	
-			// TICKETS PER SYSTEM
-			var ticketsPerSystem = $.jqplot('ticketsPerSystem', <%= @system.to_s.gsub('"', '').gsub(' ', '') %>, {
-			      title: 'Tickets by System',
-			       legend:{
-			           renderer: $.jqplot.EnhancedLegendRenderer,
-			           show:true
-			        },
-			     grid: grid,
-			      series: [
-			      	<% for system in @system -%>
-						{label: '<%= system %>'},
-					<% end -%>
-						],			      
-				    seriesDefaults: {
-				        showMarker: false
-				    },			          
-			          axesDefaults: {
-				        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-				        tickOptions: {
-				          fontSize: '6pt'
-				        },
-	
-				    },
-			      axes: axes,
-			          highlighter: {
-				        show: true,
-				        formatString:'Date: %s | Anzahl %s'
-				      },
-			      cursor:{
-			        show: true,
-			        zoom:true,
-			        showTooltip:false,
-			        constrainZoomTo: 'x'
-			      }
-			  });
-			  $('.ticketsPerSystem').click(function() { ticketsPerSystem.resetZoom() });
-		
-			var delay = (function(){
-			  var timer = 0;
-			  return function(callback, ms){
-			    clearTimeout (timer);
-			    timer = setTimeout(callback, ms);
-			  };
-			})();
-	
-			$(window).bind('resize', function(event, ui) {
-                delay(function(){
-		            ticketsPerTracker.replot();
-		            commentsTickets.replot();
-		            bugs.replot();
-		            ticketsPerSystem.replot();
-			    }, 500);
-	        });
+			        showMarker: false
+			  },			          
+		      axesDefaults: axesDefaults,
+		      axes: axes,
+		      highlighter: highlighter,
+		      cursor: cursor
+		  });
+		  $('.ticketsPerTracker').click(function() { ticketsPerTracker.resetZoom() });	
+		// COMMENTS VS TICKETS
+		var commentsTickets = $.jqplot('commentsTickets', [journals,issues], {
+			title: 'Tickets vs. Comments',
+			legend:{
+			    renderer: $.jqplot.EnhancedLegendRenderer,
+			    show:true
+			},
+			fillBetween: {
+			    series1: 0,
+			    series2: 1,
+			    color: "rgba(196, 196, 196, 0.4)",
+				baseSeries: 0,
+				fill: true
+			},
+			grid: grid,	
+		    series: [
+					{label: '<%= l(:journals) %>'},
+					{label: '<%= l(:issues) %>'}
+					],
+		    seriesDefaults: {
+		        showMarker: false,
+		        fill: false,
+		    },			          
+			axesDefaults: axesDefaults,
+			axes: axes,
+			highlighter: highlighter,
+			cursor: cursor
+		  });
+		  $('.commentsTickets').click(function() { commentsTickets.resetZoom() });
+		// BUGS OVERVIEW
+		var bugs = $.jqplot('bugs', [bugsOpen,bugsClosed,bugsTotal], {
+			title: 'Bugs Overview',
+			legend:{
+				renderer: $.jqplot.EnhancedLegendRenderer,
+				show:true
+			},
+			fillBetween: {
+				series1: 0,
+				series2: 1,
+				color: "rgba(196, 196, 196, 0.4)",
+				baseSeries: 0,
+				fill: true
+			},
+			grid: grid,
+			series: [
+				{label: 'Bugs Open'},
+				{label: 'Bugs Closed'},
+				{label: 'Bugs Total'}
+			],
+			seriesDefaults: {
+				showMarker: false,
+				fill: false,
+			},			          
+			axesDefaults: axesDefaults,
+			axes: axes,
+			highlighter: highlighter,
+			cursor: cursor
+		  });
+		  $('.bugs').click(function() { bugs.resetZoom() });
+		// TICKETS PER SYSTEM
+		var ticketsPerSystem = $.jqplot('ticketsPerSystem', <%= @system.to_s.gsub('"', '').gsub(' ', '') %>, {
+			title: 'Tickets by System',
+			legend:{
+				renderer: $.jqplot.EnhancedLegendRenderer,
+				show:true
+			},
+			grid: grid,
+			series: [
+			<% for system in @system -%>
+				{label: '<%= system %>'},
+			<% end -%>
+			],			      
+			seriesDefaults: {
+			    showMarker: false
+			},			          
+			axesDefaults: axesDefaults,
+			axes: axes,
+			highlighter: highlighter,
+			cursor: cursor
 		});
-
+		$('.ticketsPerSystem').click(function() { ticketsPerSystem.resetZoom() });
+		
+		var delay = (function(){
+		  var timer = 0;
+		  return function(callback, ms){
+		    clearTimeout (timer);
+		    timer = setTimeout(callback, ms);
+		  };
+		});
+		$(window).bind('resize', function(event, ui) {
+            delay(function(){
+	            ticketsPerTracker.replot();
+	            commentsTickets.replot();
+	            bugs.replot();
+	            ticketsPerSystem.replot();
+		    }, 500);
+        });
+	});
 	</script>
 	<%= javascript_include_tag 'script', :plugin => 'whitewall' %>
 </p>
