@@ -25,351 +25,19 @@
     <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
     <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
-    <% if @UserAllowed == 'true' %>
 
-    		<script type="text/javascript">
-	 		var bugsTotal = [
-			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
-			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsTotal[n] %>],
-			<% end -%>
-			];
-
-			var bugsClosed = [
-			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
-			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsClosed[n] %>],
-			<% end -%>
-			];
-			var bugsOpen = [
-			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
-			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @bugsOpen[n] %>],
-			<% end -%>
-			];
-
-			var issues = [
-			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
-			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @issues[n] %>],
-			<% end -%>
-			];
-			
-			var journals = [
-			<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
-			  ['<%= date.strftime('%Y-%m-%d') %>', <%= @journals[n] %>],
-			<% end -%>
-			];
-		
-			<% for tracker in @trackers -%>
-				var <%= tracker.name %> = [
-				<% for date in @fromDate.upto(@toDate) -%>
-				  ['<%= date.strftime('%Y-%m-%d') %>', <%= tracker["issues#{date}"] %>],
-				<% end -%>
-				];				
-			<% end -%>
-
-			<% @system.each_with_index do |system, index| -%>
-				var <%= system.gsub(' ', '') %> = [
-					<% @fromDate.upto(@toDate).each_with_index do |date, n| -%>
-						['<%= date.strftime('%Y-%m-%d') %>', <%= @systemAll[index][n] %>],
-					<% end -%>
-				];				
-			<% end -%>
-
-			$(document).ready(function(){
-					
-					$.jqplot.config.enablePlugins = true;
-		            $("#tabs").tabs();
-
-					// TICKETS PER TRACKER
-					var ticketsPerTracker = $.jqplot('ticketsPerTracker', <%= @chartLines.to_s.gsub('"', '') %>, {
-					      title: 'Tickets by Tracker',
-					       legend:{
-					           renderer: $.jqplot.EnhancedLegendRenderer,
-					           show:true
-					        },
-					     grid: {
-					        drawGridLines: true,
-					        gridLineColor: '#dcdcdc',
-					        background: '#fafafa',
-					        borderColor: '#fafafa',
-					        borderWidth: 1.0,
-					        shadow: false,
-					        shadowAlpha: 0.07,
-					    },
-		
-					      series: [
-					      	<% for tracker in @trackers -%>
-								{label: '<%= tracker.name %>'},
-							<% end -%>
-								],			      
-						    seriesDefaults: {
-						        showMarker: false
-						    },			          
-					          axesDefaults: {
-						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-						        tickOptions: {
-						          fontSize: '6pt'
-						        },
-		
-						    },
-					      axes: {
-					          yaxis: {
-					          	min: 0
-					          },
-					          xaxis: {
-					                renderer:$.jqplot.DateAxisRenderer,
-					                rendererOptions:{
-					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
-					                },
-					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
-		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
-					                tickOptions:{
-					                    fontSize:'6pt',
-					                    fontFamily:'Tahoma',
-					                    formatString:'%#d/%#m/%Y'
-					                }
-		       			      }
-					      },
-					          highlighter: {
-						        show: true,
-						        formatString:'Date: %s | Anzahl %s'
-						      },
-					      cursor:{
-					        show: true,
-					        zoom:true,
-					        showTooltip:false,
-					        constrainZoomTo: 'x'
-					      }
-					  });
-					  $('.button-reset-ticketsPerTracker').click(function() { ticketsPerTracker.resetZoom() });
-
-
-					// COMMENTS VS TICKETS
-					var commentsTickets = $.jqplot('commentsTickets', [journals,issues], {
-					      title: 'Tickets vs. Comments',
-					       legend:{
-					           renderer: $.jqplot.EnhancedLegendRenderer,
-					           show:true
-					        },
-			             fillBetween: {
-				            series1: 0,
-				            series2: 1,
-				            color: "rgba(196, 196, 196, 0.4)",
-				            baseSeries: 0,
-				            fill: true
-				        },
-					     grid: {
-					        drawGridLines: true,
-					        gridLineColor: '#dcdcdc',
-					        background: '#fafafa',
-					        borderColor: '#fafafa',
-					        borderWidth: 1.0,
-					        shadow: false,
-					        shadowAlpha: 0.07,
-					    },
-		
-					      series: [
-								{label: '<%= l(:journals) %>'},
-								{label: '<%= l(:issues) %>'}
-								],
-							seriesColors:["rgba(75, 178, 198, 0.6)", "rgba(234, 162, 40, 0.6)"],      
-						    seriesDefaults: {
-						        showMarker: false,
-						        fill: false,
-						    },			          
-					          axesDefaults: {
-						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-						        tickOptions: {
-						          fontSize: '6pt'
-						        },
-		
-						    },
-					      axes: {
-					          yaxis: {
-					          	min: 0
-					          },
-					          xaxis: {
-					                renderer:$.jqplot.DateAxisRenderer,
-					                rendererOptions:{
-					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
-					                },
-					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
-		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
-					                tickOptions:{
-					                    fontSize:'6pt',
-					                    fontFamily:'Tahoma',
-					                    formatString:'%#d/%#m/%Y'
-					                }
-		       			      }
-					      },
-					          highlighter: {
-						        show: true,
-						        fontSize:'6pt',
-						        formatString:'Date: %s | Anzahl %s'
-						      },
-					      cursor:{
-					        show: true,
-					        zoom:true,
-					        showTooltip:false,
-					        constrainZoomTo: 'x'
-					      }
-					  });
-					  $('.button-reset-commentsTickets').click(function() { commentsTickets.resetZoom() });
-
-
-					// BUGS OVERVIEW
-					var bugs = $.jqplot('bugs', [bugsOpen,bugsClosed,bugsTotal], {
-					      title: 'Bugs Overview',
-					       legend:{
-					           renderer: $.jqplot.EnhancedLegendRenderer,
-					           show:true
-					        },
-			             fillBetween: {
-				            series1: 0,
-				            series2: 1,
-				            color: "rgba(196, 196, 196, 0.4)",
-				            baseSeries: 0,
-				            fill: true
-				        },
-					     grid: {
-					        drawGridLines: true,
-					        gridLineColor: '#dcdcdc',
-					        background: '#fafafa',
-					        borderColor: '#fafafa',
-					        borderWidth: 1.0,
-					        shadow: false,
-					        shadowAlpha: 0.07,
-					    },
-		
-					      series: [
-								{label: 'Bugs Open'},
-								{label: 'Bugs Closed'},
-								{label: 'Bugs Total'}
-								],
-							seriesColors:["rgba(75, 178, 198, 0.6)", "rgba(234, 162, 40, 0.6)", "rgba(87, 139, 184, 0.9)"],      
-						    seriesDefaults: {
-						        showMarker: false,
-						        fill: false,
-						    },			          
-					          axesDefaults: {
-						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-						        tickOptions: {
-						          fontSize: '6pt'
-						        },
-		
-						    },
-					      axes: {
-					          yaxis: {
-					          	min: 0
-					          },
-					          xaxis: {
-					                renderer:$.jqplot.DateAxisRenderer,
-					                rendererOptions:{
-					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
-					                },
-					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
-		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
-					                tickOptions:{
-					                    fontSize:'6pt',
-					                    fontFamily:'Tahoma',
-					                    formatString:'%#d/%#m/%Y'
-					                }
-		       			      }
-					      },
-					          highlighter: {
-						        show: true,
-						        fontSize:'6pt',
-						        formatString:'Date: %s | Anzahl %s'
-						      },
-					      cursor:{
-					        show: true,
-					        zoom:true,
-					        showTooltip:false,
-					        constrainZoomTo: 'x'
-					      }
-					  });
-					  $('.button-reset-bugs').click(function() { bugs.resetZoom() });
-
-					// TICKETS PER SYSTEM
-					var ticketsPerSystem = $.jqplot('ticketsPerSystem', <%= @system.to_s.gsub('"', '').gsub(' ', '') %>, {
-					      title: 'Tickets by System',
-					       legend:{
-					           renderer: $.jqplot.EnhancedLegendRenderer,
-					           show:true
-					        },
-					     grid: {
-					        drawGridLines: true,
-					        gridLineColor: '#dcdcdc',
-					        background: '#fafafa',
-					        borderColor: '#fafafa',
-					        borderWidth: 1.0,
-					        shadow: false,
-					        shadowAlpha: 0.07,
-					    },
-		
-					      series: [
-					      	<% for system in @system -%>
-								{label: '<%= system %>'},
-							<% end -%>
-								],			      
-						    seriesDefaults: {
-						        showMarker: false
-						    },			          
-					          axesDefaults: {
-						        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-						        tickOptions: {
-						          fontSize: '6pt'
-						        },
-		
-						    },
-					      axes: {
-					          yaxis: {
-					          	min: 0
-					          },
-					          xaxis: {
-					                renderer:$.jqplot.DateAxisRenderer,
-					                rendererOptions:{
-					                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
-					                },
-					                min: '<%= @fromDate.strftime('%Y-%m-%d') %>',
-		            				max: '<%= @toDate.strftime('%Y-%m-%d') %>',
-					                tickOptions:{
-					                    fontSize:'6pt',
-					                    fontFamily:'Tahoma',
-					                    formatString:'%#d/%#m/%Y'
-					                }
-		       			      }
-					      },
-					          highlighter: {
-						        show: true,
-						        formatString:'Date: %s | Anzahl %s'
-						      },
-					      cursor:{
-					        show: true,
-					        zoom:true,
-					        showTooltip:false,
-					        constrainZoomTo: 'x'
-					      }
-					  });
-					  $('.button-reset-ticketsPerSystem').click(function() { ticketsPerSystem.resetZoom() });
-
-
-
-					$(window).bind('resize', function(event, ui) {
-		                ticketsPerTracker.replot();
-		                commentsTickets.replot();
-		                bugs.replot();
-		                ticketsPerSystem.replot();
-		            });
-				});
-		
-			</script>	
-	<% end %>
-    
+	<script>
+   		$(document).ready(function(){
+            $("#tabs").tabs({
+            	beforeLoad: function(event, ui) {
+			        return ui.panel.html() == "";
+			    }
+            });
+	    });
+ 	</script>
 <% end %>
 
 <% if @UserAllowed == 'true' %>
-
-
-
 
 <div id="whitewall">
 	<h2><%= l(:overall_hedline1) %></h2>
@@ -397,68 +65,25 @@
 	</div>
 
 	<div id="wall" class="graphOverall">
-
-
 		<div id="tabs">
 			<ul>
-				<li><a href="#tab-evolutions"><span>Entwicklung in Zeitraum</span></a></li>
-				<li><a href="#tab-analyze"><span>Analyse</span></a></li>
+				<li><%= link_to "Entwicklung in Zeitraum",
+						:controller => "overall",
+						:action => "timespan",
+						:from => params[:from],
+						:to => params[:to],
+						:user_select => params[:user_select] %>
+				</li>
+				<li><%= link_to "Analyse",
+						:controller => "overall",
+						:action => "allgraph",
+						:from => params[:from],
+						:to => params[:to],
+						:user_select => params[:user_select] %>
+				</li>
 			</ul>
-			<div id="tab-evolutions">
-				<div id="timespan">
-						<%= form_tag("/whitewall_overall", method: "get") do %>
-							<input type="text" id="from" name="from" value="<%= @fromInput %>">
-							<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
-							<input type="text" id="to" name="to" value="<%= @toInput %>">
-							<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
-
-			<div id="wallFunctions">
-					<span id="showUsers">
-						<div><%= l(:label_whitewall_users) %></div>
-						<ul>
-							<li class="invert"><b><%= l(:whitewall_users_select) %></b><input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" /></li>
-							<% for project in @projectsAll -%>
-								<li class="<%= cycle('odd', 'even') %>">
-									<label for="project<%= project.id %>">
-										<% if @projects.include? project %>
-											<input checked="checked" type="checkbox" id="project<%= project.id %>" name="project_select[]" value="<%= project.id %>">
-										<% else %>
-											<input type="checkbox" id="project<%= project.id %>" name="project_select[]" value="<%= project.id %>">
-										<% end %>
-										<%= project.name %>
-									</label>
-								</li>
-							<% end -%>
-						</ul>
-					</span>
-				</div>
-
-
-						<% end %>
-					</div>
-					
-					<div id="ticketsPerTracker"></div>
-					<button class="button-reset-ticketsPerTracker">Reset Zoom</button>
-					<div id="commentsTickets"></div>
-					<button class="button-reset-commentsTickets">Reset Zoom</button>
-
-					<div id="bugs"></div>
-					<button class="button-reset-bugs">Reset Zoom</button>
-
-					<div id="ticketsPerSystem"></div>
-					<button class="button-reset-ticketsPerSystem">Reset Zoom</button>
-					
-					
-					
-			</div>
-			<div id="tab-analyze">
-				Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-				Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-			</div>
-
 		</div>
 	</div>
-
 </div>
 
 <% else %>

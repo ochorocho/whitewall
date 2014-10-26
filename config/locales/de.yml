@@ -33,6 +33,7 @@ de:
   whitewall_headline4_settings: "Benutzer"
   whitewall_hideuser: "Benutzer verbergen"
   #OVERALL
+  label_whitewall_projects: "Projekte"
   issues: "Tickets"
   journals: "Kommentare"
   label_whitewall_menu_overall: "Wand Übersicht"

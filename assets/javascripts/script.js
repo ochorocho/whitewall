@@ -9,16 +9,13 @@ $(function() {
 			$(from).addClass('error');
 			e.preventDefault();
 		}
-
 		if(Date.parse(to.val())) {
 			$(to).removeClass('error');
 		} else {
 			$(to).addClass('error');
 			e.preventDefault();
 		}
-
 	});
-
 
 	// DATEPICKER - TIMESPAN
 	$("#from").datepicker({
@@ -121,14 +118,12 @@ $(function() {
 	$('#showUsers .invert b').click(function() {
 		$('#showUsers li input').each(function() {
 			var val = $(this).attr('checked');
-			console.log(val)
 			if(val == 'checked') {
 				$(this).removeAttr('checked');
 			} else {
 				$(this).attr('checked','checked');
 			}
-			
-		})
+		});
 	});
 
 	$('.tracker').click(function() {
@@ -141,20 +136,5 @@ $(function() {
 			$('.' + trackerId).slideToggle(200);
 		}
 	});
-	
-
-
-	
-/*
-	// SORTABLE
-	$("#relSort").sortable({
-		connectWith: '.sortItCon',
-		helper:'clone',
-		appendTo: 'body',
-		scroll: false,
-		zIndex: 1500,
-	});
-	$("#relSort").disableSelection();
-*/
 
 });
