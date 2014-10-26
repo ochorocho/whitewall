@@ -172,13 +172,14 @@
 		        showTooltip:false,
 		        constrainZoomTo: 'x'
 		    };
+		    var legend = {
+				renderer: $.jqplot.EnhancedLegendRenderer,
+				show:true
+			};
 		// TICKETS PER TRACKER
 		var ticketsPerTracker = $.jqplot('ticketsPerTracker', <%= @chartLines.to_s.gsub('"', '') %>, {
 		      title: 'Tickets by Tracker',
-		       legend:{
-		           renderer: $.jqplot.EnhancedLegendRenderer,
-		           show:true
-		        },
+		       legend:legend,
 		      grid: grid,
 		      series: [
 		      	<% for tracker in @trackers -%>
@@ -197,10 +198,7 @@
 		// COMMENTS VS TICKETS
 		var commentsTickets = $.jqplot('commentsTickets', [journals,issues], {
 			title: 'Tickets vs. Comments',
-			legend:{
-			    renderer: $.jqplot.EnhancedLegendRenderer,
-			    show:true
-			},
+			legend:legend,
 			fillBetween: {
 			    series1: 0,
 			    series2: 1,
@@ -226,10 +224,7 @@
 		// BUGS OVERVIEW
 		var bugs = $.jqplot('bugs', [bugsOpen,bugsClosed,bugsTotal], {
 			title: 'Bugs Overview',
-			legend:{
-				renderer: $.jqplot.EnhancedLegendRenderer,
-				show:true
-			},
+			legend: legend,
 			fillBetween: {
 				series1: 0,
 				series2: 1,
@@ -256,10 +251,7 @@
 		// TICKETS PER SYSTEM
 		var ticketsPerSystem = $.jqplot('ticketsPerSystem', <%= @system.to_s.gsub('"', '').gsub(' ', '') %>, {
 			title: 'Tickets by System',
-			legend:{
-				renderer: $.jqplot.EnhancedLegendRenderer,
-				show:true
-			},
+			legend: legend,
 			grid: grid,
 			series: [
 			<% for system in @system -%>
