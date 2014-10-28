@@ -20,6 +20,8 @@ en:
   label_whitewall_config: "The Great White Wall Config"
   label_whitewall_noaccess: "You do not have the permission to access this area"
   #GRAPH
+  whitewall_headline6_settings: "System Graph"
+  whitewall_headline7_settings: "Classification Graph"
   label_whitewall_menu_graph: "Wall Graph"
   label_graph_estimated: "hours"
   label_graph_estimated_h: "Hours"

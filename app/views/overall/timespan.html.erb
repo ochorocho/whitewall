@@ -179,14 +179,14 @@
 		// TICKETS PER TRACKER
 		var ticketsPerTracker = $.jqplot('ticketsPerTracker', <%= @chartLines.to_s.gsub('"', '') %>, {
 		      title: 'Tickets by Tracker',
-		       legend:legend,
+		      legend:legend,
 		      grid: grid,
 		      series: [
 		      	<% for tracker in @trackers -%>
 					{label: '<%= tracker.name %>'},
 				<% end -%>
 					],			      
-			    seriesDefaults: {
+			  seriesDefaults: {
 			        showMarker: false
 			  },			          
 		      axesDefaults: axesDefaults,

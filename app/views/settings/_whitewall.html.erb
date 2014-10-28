@@ -90,8 +90,14 @@
   </p>
   
   <br><br>
-  <h3><%= l(:whitewall_headline5_settings) %></h3>
+  <h3><%= l(:whitewall_headline6_settings) %></h3>
   <p>
     <label for="settings[whitewall_ticketSystem]">Custom field for System Graph</label>
     <%= select_tag "settings[whitewall_ticketSystem]", options_from_collection_for_select(IssueCustomField.all.sort, :id, :name, @settings['whitewall_ticketSystem'].to_i ) %>
+  </p>
+  
+  <br><br>
+  <h3><%= l(:whitewall_headline7_settings) %></h3>
+  <p>  
+	  <%= select_tag 'settings[whitewall_classification][]', options_from_collection_for_select(IssueCustomField.all.sort, :id, :name, @settings['whitewall_classification'].to_a), multiple: true, size: '10%' %>
   </p>

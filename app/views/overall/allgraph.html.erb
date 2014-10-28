@@ -1,3 +1,38 @@
 <% if @UserAllowed == 'true' %>
-######################################
+<script type="text/javascript">
+	$(document).ready(function() {
+
+	$.jqplot.config.enablePlugins = true;
+
+plot1 = $.jqplot('graph_classification', [[50,100,50],[50,100,50]], 
+{
+        seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+            rendererOptions:{ 
+            	varyBarColor : true,
+            	barMargin: 20
+            }
+        },
+        axes: {
+            xaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                rendererOptions: {
+                    groupLabels: ['Onshore', 'Coastal']
+                },
+                ticks: [['aaa','bbbb'],['ccc','bbbb'],['ccc','bbbb']],
+                tickOptions: {
+                    showGridline: true,
+                    markSize: 0
+                }
+            },
+        },       
+        series: [
+            {seriesColors: [ "#f00", "#4b0", "#b40", '#ff0', '#fb0']}, 
+            {seriesColors: ["#a30", "#4b0", "#b40", '#af0', '#fa0']}
+            ],
+        highlighter: { show: false }
+});
+	});
+</script>
+<div id="graph_classification"></div>
 <% end %>

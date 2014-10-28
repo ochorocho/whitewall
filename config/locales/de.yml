@@ -22,6 +22,8 @@ de:
   label_whitewall_noaccess: "Ihr Benutzer hat keinen Zugriff auf diesen Bereich"
   #GRAPH
   whitewall_headline5_settings: "Tracker als Fehler zählen"
+  whitewall_headline6_settings: "System Graph"
+  whitewall_headline7_settings: "Graph für Fehler-Klassifikation"
   label_whitewall_menu_graph: "Wand Statistik"
   label_graph_estimated: "Std."
   label_graph_estimated_h: "Stunden"
