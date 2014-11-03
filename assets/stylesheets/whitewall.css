@@ -357,3 +357,7 @@ body li {
 .graphOverall #wallFunctions {
 	float: right;
 }
+
+.allgraph {
+	margin-bottom: 40px;
+}

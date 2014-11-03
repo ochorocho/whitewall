@@ -26,6 +26,8 @@ class OverallController < ApplicationController
     
     if @UserAllowed == 'true'
       
+      # TICKETS PER SYSTEM
+      @classifyId = Setting.plugin_whitewall["whitewall_classification"]
     end
 
     render :layout => false    
