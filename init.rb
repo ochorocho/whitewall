@@ -1,3 +1,7 @@
+# Patches to the Redmine core. Will not work in development mode
+require 'redmine'
+require 'issue_patch'
+
 Redmine::Plugin.register :whitewall do
   name 'Whitewall plugin'
   author 'Jochen Roth'
@@ -12,13 +16,21 @@ Redmine::Plugin.register :whitewall do
   
 end
 
-
 # EXTEND CORE MODEL - REQUIRE SOME STUFF FOR NO REASON ?!
 require 'redmine'
 require 'user'
 
+require 'application_helper'
+
 # BRING EM IN! -- THIS PICKY BITCH WANTS TO BE REQUIRED TO WORK! - NO AUTO-MAGIC
 require 'whitewall/hooks/view_layouts_base_html_head_hook'
+
+# VIEW HOOKS
+require 'whitewall/hooks/view_issues_form_details_bottom'
+require 'whitewall/hooks/view_issues_show_details_bottom'
+
+# CONTROLLER HOOKS
+#require 'whitewall/hooks/controller_timelog_available_criterias_hook'
 
 module UserPatch
   def self.included(base)

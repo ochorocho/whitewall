@@ -21,3 +21,15 @@
 .picker {
 	margin-top: 0px;
 }
+
+#editor {
+	padding-top: 4px;
+	display: block;
+	clear: both;
+	float: none;
+}
+
+#editor label {
+	font-weight: bold;
+	padding-left: 2px;
+}

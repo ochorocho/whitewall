@@ -1,5 +1,6 @@
 en:
   # WHITEWALL
+  field_editor: "Bearbeiter"
   label_whitewall_menu: "The Great White Wall"
   label_whitewall_users: "Show users"
   label_whitewall_undefined: "No assignee nor start date set"

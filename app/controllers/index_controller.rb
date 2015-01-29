@@ -27,7 +27,7 @@ class IndexController < ApplicationController
 
 		if @UserAllowed == 'true'
 
-			@issuesUndefined = Issue.where("assigned_to_id IS NULL OR start_date IS NULL").all
+			@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL").all
 					
 			# CHECK PARAMS
 			if !params[:from].nil?
@@ -92,7 +92,7 @@ class IndexController < ApplicationController
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
 	 				
-	 				user["week#{calWeek}year#{calYear}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["assigned_to_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
+	 				user["week#{calWeek}year#{calYear}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 	 				
 	 				user["week#{calWeek}year#{calYear}"].each do |issue|
 
