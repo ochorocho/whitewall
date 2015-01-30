@@ -1,6 +1,6 @@
 class IssueAddEditorId < ActiveRecord::Migration
   def up
-	add_column :issues, :editor_id, :integer, :null => false
+	add_column :issues, :editor_id, :integer
   end
 
   def down

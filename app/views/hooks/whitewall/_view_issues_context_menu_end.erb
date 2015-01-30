@@ -1,0 +1,17 @@
+  <% if @safe_attributes.include?('editor_id') && @assignables.present? -%>
+  <li class="folder">
+    <a href="#" class="submenu"><%= l(:field_editor) %></a>
+    <ul>
+    <% if @assignables.include?(User.current) %>
+        <li><%= context_menu_link "<< #{l(:label_me)} >>", bulk_update_issues_path(:ids => @issue_ids, :issue => {'editor_id' => User.current}, :back_url => @back), :method => :post,
+                                  :disabled => !@can[:update] %></li>
+    <% end %>
+    <% @assignables.each do |u| -%>
+        <li><%= context_menu_link h(u.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'editor_id' => u}, :back_url => @back), :method => :post,
+                                  :selected => (@issue && u == @issue.editor_id), :disabled => !@can[:update] %></li>
+    <% end -%>
+        <li><%= context_menu_link l(:label_nobody), bulk_update_issues_path(:ids => @issue_ids, :issue => {'editor_id' => 'none'}, :back_url => @back), :method => :post,
+                                  :selected => (@issue && @issue.editor_id.nil?), :disabled => !@can[:update] %></li>
+    </ul>
+  </li>
+  <% end %>

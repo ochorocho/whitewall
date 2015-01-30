@@ -30,10 +30,8 @@ require 'whitewall/hooks/view_layouts_base_html_head_hook'
 # VIEW HOOKS
 require 'whitewall/hooks/view_issues_form_details_bottom'
 require 'whitewall/hooks/view_issues_show_details_bottom'
-
-
-# CONTROLLER HOOKS
-#require 'whitewall/hooks/controller_timelog_available_criterias_hook'
+require 'whitewall/hooks/view_issues_context_menu_end'
+require 'whitewall/hooks/view_issues_bulk_edit_details_bottom'
 
 module UserPatch
   def self.included(base)
