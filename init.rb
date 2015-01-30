@@ -2,6 +2,8 @@
 require 'redmine'
 require 'issue_patch'
 
+require_dependency 'issue_helper_patch'
+
 Redmine::Plugin.register :whitewall do
   name 'Whitewall plugin'
   author 'Jochen Roth'
@@ -28,6 +30,7 @@ require 'whitewall/hooks/view_layouts_base_html_head_hook'
 # VIEW HOOKS
 require 'whitewall/hooks/view_issues_form_details_bottom'
 require 'whitewall/hooks/view_issues_show_details_bottom'
+
 
 # CONTROLLER HOOKS
 #require 'whitewall/hooks/controller_timelog_available_criterias_hook'
