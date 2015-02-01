@@ -79,6 +79,16 @@ body li {
 	filter:alpha(opacity=55);	
 }
 
+.delayedIssue {
+	background-color: #ff0000 !important;
+	padding-left: 40px;
+	width: 202px !important;
+	background-image: url("../images/dialog-warning-2.png");
+	background-position: left 3px center;
+	background-repeat: no-repeat;
+	background-size: 32px auto;
+}
+
 
 /* THE WALL ITSELF */
 #whitewall li {
