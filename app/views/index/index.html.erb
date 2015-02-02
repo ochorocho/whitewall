@@ -109,12 +109,18 @@
 							  	<ul class="sortItCon">
 									
 									<% for issue in user["week#{week[0]}year#{week[1]}"] -%>
-										<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %> <% if issue.due_date < Date.today %>delayedIssue<% end %><% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
+										
+										<%= debug issue %>
+										
+										
+										<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
+										<% if !issue.due_date.nil? %>
+											<% if issue.due_date < Date.today %>delayedIssue<% end %>
+										<% end %>
+										<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 											<div class="title">
 												<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
-												<% if !issue.hoursToServe.nil? %>
-													<span class="todaysHours" title="<%= l(:label_whitewall_servehours_hint) %>">~<%= issue.hoursToServe %>h</span>
-												<% end %>
+												
 												<% if !issue.project.nil? %>
 													<div class="projectName">
 														<%= link_to truncate("#{issue.project}", length: 40), "/projects/#{issue.project.identifier}" %>
