@@ -2,6 +2,11 @@ body li {
 	list-style: none
 }
 
+td.weekOld_0 {
+	background: #DEDEDE;
+}
+
+
 .postIt {
 	background:#fefabc; 
 	padding: 6px 6px;
@@ -172,7 +177,7 @@ body li {
 }
 
 .weeklyGraph {
-	width: 280px;
+	width: 380px;
 	height: 70px;
 	margin: 5px 10px;
 }

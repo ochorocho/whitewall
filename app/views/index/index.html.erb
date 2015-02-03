@@ -105,14 +105,11 @@
 						<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>
-							<td>
+							<td class="<% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
 							  	<ul class="sortItCon">
 									
 									<% for issue in user["week#{week[0]}year#{week[1]}"] -%>
-										
-										<%= debug issue %>
-										
-										
+																				
 										<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
 										<% if !issue.due_date.nil? %>
 											<% if issue.due_date < Date.today %>delayedIssue<% end %>
@@ -121,6 +118,9 @@
 											<div class="title">
 												<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
 												
+												<% if issue.showHours == 1 %>
+													<span class="todaysHours">~<%= issue.hourPerWeek %>h</span>
+												<% end %>
 												<% if !issue.project.nil? %>
 													<div class="projectName">
 														<%= link_to truncate("#{issue.project}", length: 40), "/projects/#{issue.project.identifier}" %>
@@ -145,11 +145,17 @@
 													<% end %>
 	
 												</div>
-												<div class="done">
-													<div class="ui-progressbar ui-widget ui-widget-content ui-corner-all">
-														<div class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: <%= issue.done_ratio %>%;"></div>
+
+
+												<% if issue.showHours == 1 %>
+													<div class="done">
+														<div class="ui-progressbar ui-widget ui-widget-content ui-corner-all">
+															<div class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: <%= issue.done_ratio %>%;"></div>
+														</div>
 													</div>
-												</div>
+												<% end %>
+
+
 											</div>
 										</li>
 									<% end -%>								

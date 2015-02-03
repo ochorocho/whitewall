@@ -47,8 +47,7 @@
 						:to => params[:to],
 						:user_select => params[:user_select] %>
 				</span>
-				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
-				<input type="text" id="from" name="from" value="<%= @fromInput %>">
+				<label for="from"><%= l(:label_whitewall_timespan_from) %></label> <%= Date.today %>
 				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
 				<input type="text" id="to" name="to" value="<%= @toInput %>">
 				<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
@@ -84,7 +83,9 @@
 					<tr>
 						<th></th>
 						<% for week in @weeks -%>
-							  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/<%= week[1] %></th>
+							  <% if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
+								  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/<%= week[1] %></th>
+							  <% end %>
 						<% end -%>
 					</tr>
 				</thead>
@@ -95,6 +96,7 @@
 							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>	
 							<!-- LOOPS THROUGH TICKETS -->
 							<% for week in @weeks -%>
+								<% if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
 								<td>
 										<script type="text/javascript">
 											$(document).ready(function() {
@@ -123,11 +125,22 @@
 										                },
 										                xaxis: {
 															tickInterval : 10,
+															tickOptions: {
+													          fontSize: '11pt',
+													          angle: -30
+													        },
 															min: 0,
-															max: <% if !Setting.plugin_whitewall["whitewall_limit"].empty? %><%= Setting.plugin_whitewall["whitewall_limit"].to_i + 10 %><% else %>40<% end %>,
+															max: <% if !Setting.plugin_whitewall["whitewall_limit"].empty? %><%= Setting.plugin_whitewall["whitewall_limit"].to_i + 30 %><% else %>40<% end %>,
+															fontSize: '24px',
 										                }
 										            },
-										            seriesColors: [ "#467AA7"],
+
+													<% if user["estimatedHours_#{week[0]}"] >= 40 %>
+											            seriesColors: [ "#ff0000"],
+													<% else %>
+											            seriesColors: [ "#467AA7"],
+													<% end %>										            
+										            
 													<% if !Setting.plugin_whitewall["whitewall_limit"].empty? %>
 													canvasOverlay: {
 														show: true,
@@ -138,7 +151,7 @@
 															lineWidth: 1,
 															yOffset: 0,
 															lineCap: 'butt',
-															color: '#ff0000',
+															color: '#ED8C00',
 															shadow: false
 														}},
 														]
@@ -147,11 +160,14 @@
 										        });
 											});
 										</script>
-										<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
-										<div class="totals">
-											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
-										</div>
+										
+											<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
+											<div class="totals">
+												<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+											</div>
+
 								</td>
+								<% end %>
 							<% end -%>
 						</tr>
 					<% end -%>

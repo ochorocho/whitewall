@@ -96,83 +96,59 @@ class IndexController < ApplicationController
 	 				
 	 				user["week#{calWeek}year#{calYear}"].each do |issue|
 
+
+						issue['showHours'] = 0
+
 		 				if issue.due_date.blank? || issue.start_date.blank? || issue.estimated_hours.blank?
-			 				issue['hoursToServe'] = '0'							
+			 				issue['hoursToServe'] = '0'
 		 				else
 
-		 					@workDaysTotal = working_days(issue.start_date, issue.due_date)
-		 					issue['multiplierHours'] = (issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)) / @workDaysTotal
 
 
-### IF START DATE BEFORE TODAY
-						if issue.start_date < Date.today && issue.due_date > Date.today
-## TIME WAVE PUSHER
-# CHECKED					# START WEEK						
-							if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i
-								issue['whereAmI'] = "BEGINNING WEEK - WAVE"
-								issue['multiplierDays'] = (Date.today.end_of_week.to_date - (Date.today.to_date + 1 )).to_int
-								issue['hoursToServe'] = issue['multiplierDays'] * issue['multiplierHours']
-								# issue['hoursToServe'] = 666
-							end
+		 					if issue.start_date < Date.today && issue.due_date > Date.today
+		 						@dayRest = Date.today
+		 					else
+		 						@dayRest = issue.start_date
+		 					end 
+		 					
+		 					# TODO: Wenn Startdatum über aktuellem Datum
+		 					# TODO: Feiertage ermitteln und auslassen (was macht working_days)
+		 					@workDaysTotal = (working_days(@dayRest, issue.due_date) + 1) ### + 1 Für richtiges Ergebnis
+		 					issue['daysTotal'] = @workDaysTotal
+		 					issue['hourPerDay'] = ((issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)) / @workDaysTotal).round(2)
 
-# CHECKED					# END WEEK
-							if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
-								issue['whereAmI'] = "ENDING WEEK"
-								issue['multiplierDays'] = (issue.due_date.to_date - (Date.today.beginning_of_week.to_date)).to_int
-#								issue['hoursToServe'] = issue['multiplierDays'] * issue['multiplierHours']
-								issue['hoursToServe'] = 666
-							end
-
-# CHECKED					# START / STOP IN SAME WEEK
-							if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
-								issue['whereAmI'] = "START STOP IN SAME WEEK"
-								issue['multiplierDays'] = "NOT REQUIRED IN THIS CASE"
-								# SPECIAL CASE - CALC done_ratio within here
-#								issue['hoursToServe'] = issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)
-								issue['hoursToServe'] = 666
-							end
-
-# CHECKED					# NEITHER START NOR STOP DATE - FULL WEEK!
-							if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
-								issue['whereAmI'] = "MIDDLE WEEK - WEEK IS A I AM"
-								issue['multiplierDays'] = 5
-#								issue['hoursToServe'] = issue['multiplierDays'] * issue['multiplierHours'] 
-								issue['hoursToServe'] = 666
-							end
-
-						else
-
-## IF START DATE IS IN THE FUTURE
-
-# CHECKED					# START WEEK						
-							if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i
+							# START WEEK						
+							if(@dayRest.strftime("%U").to_i + 1) == week[0].to_i
 								issue['whereAmI'] = "BEGINNING WEEK"
-								issue['multiplierDays'] = (issue.start_date.end_of_week.to_date - (issue.start_date.to_date + 1 )).to_int
-								issue['hoursToServe'] = issue['multiplierDays'] * issue['multiplierHours']
+								issue['hourPerWeek'] = (issue['hourPerDay'] * (@dayRest.end_of_week.to_date - (@dayRest.to_date + 1)).to_f)
 							end
 
-# CHECKED					# END WEEK
+							# END WEEK
 							if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
 								issue['whereAmI'] = "ENDING WEEK"
-								issue['multiplierDays'] = (issue.due_date.to_date - (issue.due_date.beginning_of_week.to_date)).to_int
-								issue['hoursToServe'] = issue['multiplierDays'] * issue['multiplierHours']
+								issue['hourPerWeek'] =  (issue['hourPerDay'] * ((issue.due_date.to_date + 1) - issue.due_date.beginning_of_week.to_date).to_f)
 							end
 
-# CHECKED					# START / STOP IN SAME WEEK
-							if(issue.start_date.strftime("%U").to_i + 1) == week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
+							# START / STOP IN SAME WEEK
+							if(@dayRest.strftime("%U").to_i + 1) == week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
 								issue['whereAmI'] = "START STOP IN SAME WEEK"
-								issue['multiplierDays'] = "NOT REQUIRED IN THIS CASE"
-								# SPECIAL CASE - CALC done_ratio within here
-								issue['hoursToServe'] = issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)
+								issue['hourPerWeek'] = (issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)).to_f
 							end
 
-# CHECKED					# NEITHER START NOR STOP DATE - FULL WEEK!
-							if (issue.start_date.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
+							# NEITHER START NOR STOP DATE - FULL WEEK!
+							if (@dayRest.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
 								issue['whereAmI'] = "MIDDLE WEEK - WEEK IS A I AM"
-								issue['multiplierDays'] = 5
-								issue['hoursToServe'] = issue['multiplierDays'] * issue['multiplierHours'] 
+								issue['hourPerWeek'] = issue['hourPerDay'] * 5
 							end
-		 				end
+							
+							
+							# WEEK IS IN THE PAST
+
+							if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i
+								issue['showHours'] = 1
+							end
+							
+
 		 				end
 	 				end	 				
 	  			end

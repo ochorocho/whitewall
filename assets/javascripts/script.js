@@ -1,14 +1,17 @@
 $(function() {
 	$('#timespan form').submit(function(e) {
-		var from = $('#from');
-		var to = $('#to');
 
-		if(Date.parse(from.val())) {
-			$(from).removeClass('error');
-		} else {
-			$(from).addClass('error');
-			e.preventDefault();
+		if($('#from').length) {
+			var from = $('#from');
+			if(Date.parse(from.val())) {
+				$(from).removeClass('error');
+			} else {
+				$(from).addClass('error');
+				e.preventDefault();
+			}			
 		}
+
+		var to = $('#to');
 		if(Date.parse(to.val())) {
 			$(to).removeClass('error');
 		} else {
