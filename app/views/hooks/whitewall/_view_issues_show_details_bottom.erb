@@ -1,7 +1,7 @@
 <p id="editor">
 	<label for='issue_editor_id'><%= l(:field_editor) %>:</label>
 	
-	<% if @issue.editor_id != 0 %>
+	<% if !@issue.editor_id.nil? || !@issue.editor_id.blank? %>
 		<%= User.find(@issue.editor_id) %>
 	<% else %>
 		<div class="error">No one is taking care of Business! ...</div>
