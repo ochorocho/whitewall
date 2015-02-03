@@ -1,7 +1,7 @@
 <p>
 	<label for='issue_editor_id'><%= l(:field_editor) %></label>
 	<% @Users = User.all %>
-	<% if !@issue.editor_id.nil? || !@issue.editor_id.blank? %>
+	<% if @issue.editor_id != 0 || !@issue.editor_id.nil? || !@issue.editor_id.blank? %>
 		<% if current_page?(url_for(:controller => 'issues', :action => 'new')) %>
 			<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.current)) %>		
 		<% else %>

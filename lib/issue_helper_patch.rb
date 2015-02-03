@@ -28,8 +28,8 @@ module IssueHelperPatch
 		        old_value = find_name_by_reflection(field, detail.old_value)
 		
 		      when 'editor_id'
-		        value = User.find(detail.value)
-		        old_value = User.find(detail.old_value)
+		        value = find_name_by_reflection(field, detail.value)
+		        old_value = find_name_by_reflection(field, detail.old_value)
 		
 		      when 'estimated_hours'
 		        value = "%0.02f" % detail.value.to_f unless detail.value.blank?
