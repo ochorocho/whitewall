@@ -86,7 +86,7 @@ class GraphController < ApplicationController
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
 
-		 			@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND parent_id IS NULL AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
+		 			@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 
 
 					# ESTIMATED HOURS
@@ -142,9 +142,9 @@ class GraphController < ApplicationController
 								issue['showHours'] = 1
 							end
 
-
-							@estimated += issue['hourPerWeek']
-							
+							if issue.children.count == 0
+								@estimated += issue['hourPerWeek']
+							end
 			 				
 			 			end
 	 				end
