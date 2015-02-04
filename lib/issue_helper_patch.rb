@@ -1,4 +1,4 @@
-require_dependency 'issues_helper'
+#require_dependency 'issues_helper'
 
 module IssueHelperPatch
   def self.included(base) # :nodoc:

@@ -10,7 +10,8 @@ module IssuePatch
 			safe_attributes 'editor_id'
 		end 
 	end
-	
+
+#NOT REQUIRED SO FAR	
 	module InstanceMethods
 		# Returns the users that should be notified
 		def notified_users
