@@ -23,7 +23,8 @@
 }
 
 #editor {
-	padding-top: 4px;
+	margin-top: 0px;
+	padding-top: 0px;
 	display: block;
 	clear: both;
 	float: none;

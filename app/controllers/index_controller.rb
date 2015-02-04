@@ -88,7 +88,7 @@ class IndexController < ApplicationController
 	 					calYear = week[1].to_i
 	 					calWeek = week[0].to_i
 	 				end
-
+	 				
 	 				weekBegin = Date.commercial(calYear, calWeek, 1)
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
 	 				

@@ -136,7 +136,7 @@ class GraphController < ApplicationController
 							end
 							
 							
-							# WEEK IS IN THE PAST
+							# WEEK IS IN THE PAST, yey
 							issue['showHours'] = 0
 							if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i
 								issue['showHours'] = 1
