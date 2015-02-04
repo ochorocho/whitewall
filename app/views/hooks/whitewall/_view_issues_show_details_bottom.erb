@@ -1,13 +1,8 @@
 <p id="editor">
 	<label for='issue_editor_id'><%= l(:field_editor) %>:</label>
-<<<<<<< HEAD
-	<% if @issue.editor_id == 0 %>
-=======
 	<% if @issue.editor_id.nil? %>
->>>>>>> 659bfeeda94fb6f91f040c508e1933e00b8abf94
 		<%= User.find(0) %>
 	<% else %>
 		<%= User.find(@issue.editor_id) %>
 	<% end %>
-
 </p>
