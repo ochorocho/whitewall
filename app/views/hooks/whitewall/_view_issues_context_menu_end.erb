@@ -1,3 +1,4 @@
+<% if User.current.allowed_to?(:editor, @project) %>
   <% if @safe_attributes.include?('editor_id') && @assignables.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_editor) %></a>
@@ -15,3 +16,4 @@
     </ul>
   </li>
   <% end %>
+<% end %>

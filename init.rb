@@ -15,7 +15,11 @@ Redmine::Plugin.register :whitewall do
   #  INCLUDE TO TOP MENU
   menu :top_menu, :whitewall, { :controller => 'index', :action => 'index'}, :caption => :label_whitewall_menu, :if => Proc.new { User.current.logged? }
   settings :default => {'empty' => true}, :partial => 'settings/whitewall'
-  
+
+	project_module :issue_tracking do
+		permission(:editor, {})
+	end
+
 end
 
 # EXTEND CORE MODEL - REQUIRE SOME STUFF FOR NO REASON ?!

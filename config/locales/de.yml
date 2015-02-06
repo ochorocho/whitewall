@@ -1,6 +1,7 @@
 de:
   # WHITEWALL
   field_editor: "Bearbeiter"
+  field_editor_id: "Bearbeiter"
   label_whitewall_menu: "Die Weiße Wand"
   label_whitewall_users: "Benutzer Anzeigen"
   label_whitewall_undefined: "Nicht zugewiesen oder kein Startdatum gesetzt"

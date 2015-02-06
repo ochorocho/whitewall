@@ -1,9 +1,11 @@
-<% if @safe_attributes.include?('editor_id') -%>
-<p>
-  <label for='issue_assigned_to_id'><%= l(:field_editor) %></label>
-  <%= select_tag('issue[editor_id]',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                   content_tag('option', l(:label_nobody), :value => 'none', :selected => (@issue_params[:editor_id] == 'none')) +
-                   principals_options_for_select(@assignables, @issue_params[:editor_id])) %>
-</p>
+<% if User.current.allowed_to?(:editor, @project) %>
+	<% if @safe_attributes.include?('editor_id') -%>
+	<p>
+	  <label for='issue_assigned_to_id'><%= l(:field_editor) %></label>
+	  <%= select_tag('issue[editor_id]',
+	                 content_tag('option', l(:label_no_change_option), :value => '') +
+	                   content_tag('option', l(:label_nobody), :value => 'none', :selected => (@issue_params[:editor_id] == 'none')) +
+	                   principals_options_for_select(@assignables, @issue_params[:editor_id])) %>
+	</p>
+	<% end %>
 <% end %>
