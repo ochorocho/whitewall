@@ -84,7 +84,13 @@
 						<th></th>
 						<% for week in @weeks -%>
 							  <% if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
-								  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/<%= week[1] %></th>
+									<th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/
+										<% if week[0] == 53 %>
+											<%= week[1] - 1 %>
+										<% else %>
+											<%= week[1] %>
+										<% end %>						  	
+									</th>
 							  <% end %>
 						<% end -%>
 					</tr>
