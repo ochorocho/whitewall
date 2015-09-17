@@ -46,18 +46,19 @@ class GraphController < ApplicationController
 			
 			weeks = []
 			while @fromDate < @toDate
-				weeks << [@fromDate.cweek, @fromDate.year]
+				weeks << [@fromDate.cweek, @fromDate.year, Date.parse("#{@fromDate}").to_s(:short_date)]
 				@fromDate += 1.week
 			end
 			
 			@weeks = []
-			weeks.each do |w,y|
+			weeks.each do |w,y,today|
 				date = []
+				year = Date.parse("#{today}").year
 				7.times do |day|
 					day = day + 1
-					date << Date.parse("#{Date.commercial(y, w, day)}").to_s(:short_date)					
+					date << Date.parse("#{today}")
 				end
-				@weeks << [w,y,date]
+				@weeks << [w,year,date]
 			end
 
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
@@ -75,19 +76,18 @@ class GraphController < ApplicationController
 
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
-	 				if week[0].to_f == '53'
-	 					calYear = week[1].to_i
-	 					calWeek = week[0].to_i
-	 				else
-	 					calYear = week[1].to_i
-	 					calWeek = week[0].to_i
-	 				end
 
-	 				weekBegin = Date.commercial(calYear, calWeek, 1)
-	 				weekEnd = Date.commercial(calYear, calWeek, 7)
+ 					calYear = week[1].to_i
+ 					calWeek = week[0].to_i
+ 					calToday = week[2][0]
+	 				
+	 				weekBegin = calToday.beginning_of_week
+	 				weekEnd = calToday.end_of_week
 
-		 			@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
+		 			@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND status_id != 5 AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 
+
+# issue.closed?
 
 					# ESTIMATED HOURS
 	 				@estimated = 0
