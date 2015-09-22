@@ -94,6 +94,16 @@ td.weekOld_0 {
 	background-size: 32px auto;
 }
 
+.serviceIssue {
+	padding-left: 40px;
+	width: 202px !important;
+	background-image: url("../images/service_icon.png");
+	background-position: left 5px center;
+	background-repeat: no-repeat;
+	background-size: 28px auto;
+}
+
+
 h4.delay {
 	padding-left: 20px;
 	background-image: url("../images/dialog-warning-2.png");
