@@ -27,7 +27,10 @@ class IndexController < ApplicationController
 
 		if @UserAllowed == 'true'
 
-			@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL").all
+			# @issuesUndefined = Issue.where("(editor_id IS NULL OR start_date IS NULL OR due_date IS NULL) AND status_id != 5").all
+			@issuesUndefined = Issue.find(:all, :conditions => ["status_id NOT IN (?) AND (editor_id IS NULL OR start_date IS NULL OR due_date IS NULL)", [5,6]])
+			# Issue.where("status_id != 5 OR status_id != 6").all
+			
 					
 			# CHECK PARAMS
 			if !params[:from].nil?

@@ -94,6 +94,15 @@ td.weekOld_0 {
 	background-size: 32px auto;
 }
 
+h4.delay {
+	padding-left: 20px;
+	background-image: url("../images/dialog-warning-2.png");
+	background-position: left 3px center;
+	background-repeat: no-repeat;
+	background-size: 16px auto;
+	margin-bottom: 3px;
+	margin-top: 4px;
+}
 
 /* THE WALL ITSELF */
 #whitewall li {
@@ -326,6 +335,10 @@ td.weekOld_0 {
 }
 
 /* JQUERY UI MODs */
+.ui-dialog {
+	z-index: 9999;
+}
+
 #from, #to {
 	position: relative;
 	z-index: 500;
