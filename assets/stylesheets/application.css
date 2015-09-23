@@ -30,9 +30,18 @@
 	float: none;
 }
 
-
+#editor img.gravatar {
+	float:inherit !important;
+	width: 14px;
+	height: 14px;
+	padding: 2px;
+	margin-left: 2px;
+}
 
 #editor label {
 	font-weight: bold;
 	padding-left: 2px;
+	float: left;
+	display: block;
+	width: 22%;
 }

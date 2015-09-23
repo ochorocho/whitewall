@@ -28,6 +28,10 @@ require 'user'
 
 require 'application_helper'
 
+# HOOK EM UP ... MAKE EDITOR SHOW UP BY NAME IN JOURNAL
+# require_dependency 'whitewall_issue_hook'
+
+
 # BRING EM IN! -- THIS PICKY BITCH WANTS TO BE REQUIRED TO WORK! - NO AUTO-MAGIC
 require 'whitewall/hooks/view_layouts_base_html_head_hook'
 
@@ -35,8 +39,9 @@ require 'whitewall/hooks/view_layouts_base_html_head_hook'
 require 'whitewall/hooks/view_issues_show_details_bottom'
 require 'whitewall/hooks/view_issues_context_menu_end'
 require 'whitewall/hooks/view_issues_bulk_edit_details_bottom'
-
 require 'whitewall/hooks/view_issues_form_details_bottom'
+
+require 'whitewall/hooks/helper_issues_show_detail_after_setting_hook'
 
 module UserPatch
   def self.included(base)
