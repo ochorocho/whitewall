@@ -110,11 +110,16 @@
 					<tr class="<%= cycle('odd', 'even') %>">
 						<th>
 							<%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %>
-							<h4 class="delay"><%= l(:label_whitewall_delay) %></h4>					
 							<% @userDelayed = Issue.find(:all, :conditions => ["editor_id = ? AND due_date < ? AND status_id NOT IN (?)", user.id, Date.today, [5,6]]) %>
-							<% for delayed in @userDelayed -%>	
-								<%= link_to_issue(delayed, :subject => false, :truncate => 22, :tracker => true) %><br>
-							<% end -%>
+							<% if @userDelayed.blank? %>
+								<div class="praiseEmployee"></div>
+							<% else %>
+								<h4 class="delay"><%= l(:label_whitewall_delay) %></h4>												
+								<% for delayed in @userDelayed -%>	
+									<%= link_to_issue(delayed, :subject => false, :truncate => 22, :tracker => true) %><br>
+								<% end -%>
+							<% end %>						  	
+
 						</th>
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>

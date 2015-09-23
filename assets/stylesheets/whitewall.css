@@ -101,6 +101,13 @@ td.weekOld_0 {
 	background-size: 28px auto;
 }
 
+.delayedIssue.serviceIssue {
+	background-image: url("../images/service_icon.png"), url("../images/dialog-warning-2.png");	
+	background-position: left 3px top 3px, left 3px bottom 3px;
+	background-repeat: no-repeat;
+	background-size: 19px auto, 19px auto;
+}
+
 
 h4.delay {
 	padding-left: 20px;
@@ -402,4 +409,13 @@ h4.delay {
 
 .allgraph {
 	margin-bottom: 40px;
+}
+
+.praiseEmployee {
+	display: block;
+	width: 60px;
+	height: 60px;
+	background-image: url("../images/like.png");
+	background-size: 60px auto;
+	margin-top: 4px;	
 }
