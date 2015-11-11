@@ -83,14 +83,8 @@ class GraphController < ApplicationController
 	 				
 	 				weekBegin = calToday.beginning_of_week
 	 				weekEnd = calToday.end_of_week
-<<<<<<< HEAD
 
-		 			@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND status_id != 5 AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
-=======
-
-		 			@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND status_id != 5 AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
-
->>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
+	 				@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND status_id != 5 AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 
 # issue.closed?
 

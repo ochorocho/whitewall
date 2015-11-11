@@ -27,14 +27,7 @@ class IndexController < ApplicationController
 
 		if @UserAllowed == 'true'
 
-<<<<<<< HEAD
 			@issuesUndefined = Issue.find(:all, :conditions => ["status_id NOT IN (?) AND (editor_id IS NULL OR start_date IS NULL OR due_date IS NULL)", [5,6]])
-=======
-			# @issuesUndefined = Issue.where("(editor_id IS NULL OR start_date IS NULL OR due_date IS NULL) AND status_id != 5").all
-			@issuesUndefined = Issue.find(:all, :conditions => ["status_id NOT IN (?) AND (editor_id IS NULL OR start_date IS NULL OR due_date IS NULL)", [5,6]])
-			# Issue.where("status_id != 5 OR status_id != 6").all
-			
->>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 					
 			# CHECK PARAMS
 			if !params[:from].nil?
@@ -92,16 +85,7 @@ class IndexController < ApplicationController
  					calYear = week[1].to_i
  					calWeek = week[0].to_i
  					calToday = week[2][0]
-	 				
-<<<<<<< HEAD
- 					calYear = week[1].to_i
- 					calWeek = week[0].to_i
- 					calToday = week[2][0]
-=======
-	 				weekBegin = calToday.beginning_of_week
-	 				weekEnd = calToday.end_of_week
->>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
-	 				
+	 					 				
 	 				weekBegin = calToday.beginning_of_week
 	 				weekEnd = calToday.end_of_week
 	 					 				
@@ -119,7 +103,6 @@ class IndexController < ApplicationController
 		 				if issue.due_date.blank? || issue.start_date.blank? || issue.estimated_hours.blank?
 			 				issue['hoursToServe'] = '0'
 		 				else
-<<<<<<< HEAD
 							
 							if issue.due_date.sunday?
 								issue.due_date = issue.due_date - 2.days
@@ -127,8 +110,6 @@ class IndexController < ApplicationController
 							if issue.due_date.saturday?
 								issue.due_date = issue.due_date - 1.days
 							end
-=======
->>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 
 		 					if issue.start_date < Date.today && issue.due_date > Date.today
 		 						@dayRest = Date.today

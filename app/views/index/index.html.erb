@@ -128,22 +128,15 @@
 									
 									<% for issue in user["week#{week[0]}year#{week[1]}"] -%>
 										<% if issue.children.count == 0 %>
-<<<<<<< HEAD
 										<% if issue.closed? == false %>
-=======
 																						
-											<% if issue.closed? == false %>
->>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 											<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
 											
 											<% if !issue.due_date.nil? %>
 												<% if issue.due_date < Date.today %>delayedIssue<% end %>
 											<% end %>
 											<% if issue.custom_field_value(17) == '1' %>serviceIssue<% end %>
-<<<<<<< HEAD
-											
-=======
->>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
+
 											<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 												<div class="title">
 													<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
@@ -184,11 +177,7 @@
 													<% end %>
 												</div>
 											</li>
-<<<<<<< HEAD
-										<% end %>
-=======
 											<% end %>
->>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 										<% end %>
 									<% end -%>								
 							  	</ul>
