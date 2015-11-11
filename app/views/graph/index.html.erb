@@ -83,7 +83,7 @@
 					<tr>
 						<th></th>
 						<% for week in @weeks -%>
-							  <% if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
+							  <% # if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
 									<th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/
 										<% if week[0] == 53 %>
 											<%= week[1] - 1 %>
@@ -91,7 +91,7 @@
 											<%= week[1] %>
 										<% end %>						  	
 									</th>
-							  <% end %>
+							  <% # end %>
 						<% end -%>
 					</tr>
 				</thead>
@@ -102,7 +102,7 @@
 							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>	
 							<!-- LOOPS THROUGH TICKETS -->
 							<% for week in @weeks -%>
-								<% if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
+								<% # if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
 								<td>
 										<script type="text/javascript">
 											$(document).ready(function() {
@@ -167,13 +167,12 @@
 											});
 										</script>
 										
-											<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
-											<div class="totals">
-												<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
-											</div>
-
+										<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
+										<div class="totals">
+											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+										</div>
 								</td>
-								<% end %>
+								<% #end %>
 							<% end -%>
 						</tr>
 					<% end -%>

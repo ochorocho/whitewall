@@ -40,6 +40,8 @@ class GraphController < ApplicationController
 				@toInput = (Date.today.end_of_week + 4.days).end_of_week + 2.weeks
 			end
 			
+			logger.info "----> Date set #{params[:to]}"
+			
 			# CONVERT GIVEN DATE TO WEEK
 			@fromWeek = @fromDate.strftime("%W").to_i
 			@toWeek = @toDate.strftime("%W").to_i
@@ -83,6 +85,8 @@ class GraphController < ApplicationController
 	 				
 	 				weekBegin = calToday.beginning_of_week
 	 				weekEnd = calToday.end_of_week
+
+	 				logger.info ":: weekEnd ---> Date set #{params[:to]} --- #{weekEnd}"
 
 	 				@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND status_id != 5 AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 
