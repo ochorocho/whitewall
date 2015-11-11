@@ -94,35 +94,56 @@
 				<tr>
 					<th></th>
 					<% for week in @weeks -%>
-						  <th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/<%= week[1] %></th>
+						<th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/
+							<% if week[0] == 53 %>
+								<%= week[1] - 1 %>
+							<% else %>
+								<%= week[1] %>
+							<% end %>						  	
+						</th>
 					<% end -%>
 				</tr>
 			</thead>
 			<tbody>
-					
+
 				<% for user in @users -%>
 					<tr class="<%= cycle('odd', 'even') %>">
-						<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>
+						<th>
+							<%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %>
+							<% @userDelayed = Issue.find(:all, :conditions => ["editor_id = ? AND due_date < ? AND status_id NOT IN (?)", user.id, Date.today, [5,6]]) %>
+							<% if @userDelayed.blank? %>
+								<div class="praiseEmployee"></div>
+							<% else %>
+								<h4 class="delay"><%= l(:label_whitewall_delay) %></h4>												
+								<% for delayed in @userDelayed -%>	
+									<%= link_to_issue(delayed, :subject => false, :truncate => 22, :tracker => true) %><br>
+								<% end -%>
+							<% end %>						  	
+
+						</th>
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>
-							<td class="<% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
+							<td class="">
 							  	<ul class="sortItCon">
 									
 
 									
 									<% for issue in user["week#{week[0]}year#{week[1]}"] -%>
 										<% if issue.children.count == 0 %>
+										<% if issue.closed? == false %>
 											<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
 											
 											<% if !issue.due_date.nil? %>
 												<% if issue.due_date < Date.today %>delayedIssue<% end %>
 											<% end %>
+											<% if issue.custom_field_value(17) == '1' %>serviceIssue<% end %>
+											
 											<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 												<div class="title">
 													<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
 													
 													<% if issue.showHours == 1 %>
-														<span class="todaysHours">~<%= issue.hourPerWeek %>h</span>
+														<span class="todaysHours">~<%= (issue.hourPerWeek).round(2) %>h</span>
 													<% end %>
 													<% if !issue.project.nil? %>
 														<div class="projectName">
@@ -157,7 +178,7 @@
 													<% end %>
 												</div>
 											</li>
-
+										<% end %>
 										<% end %>
 									<% end -%>								
 							  	</ul>

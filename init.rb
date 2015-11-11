@@ -35,8 +35,9 @@ require 'whitewall/hooks/view_layouts_base_html_head_hook'
 require 'whitewall/hooks/view_issues_show_details_bottom'
 require 'whitewall/hooks/view_issues_context_menu_end'
 require 'whitewall/hooks/view_issues_bulk_edit_details_bottom'
-
 require 'whitewall/hooks/view_issues_form_details_bottom'
+
+require 'whitewall/hooks/helper_issues_show_detail_after_setting_hook'
 
 module UserPatch
   def self.included(base)

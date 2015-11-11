@@ -1,8 +1,10 @@
 <p id="editor">
-	<label for='issue_editor_id'><%= l(:field_editor) %>:</label>
+	<label for='issue_editor_id'><%= l(:field_editor) %>: </label>
 	<% if @issue.editor_id.nil? %>
-		<%= User.find(0) %>
+		<% @user = User.find(0) %>
+		<%= avatar(@user, :size => "32") %>&nbsp;<%= link_to_user(@user) %>
 	<% else %>
-		<%= User.find(@issue.editor_id) %>
+		<% @user = User.find(@issue.editor_id) %>
+		<%= avatar(@user, :size => "32") %>&nbsp;<%= link_to_user(@user) %>
 	<% end %>
 </p>

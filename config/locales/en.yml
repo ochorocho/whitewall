@@ -4,7 +4,7 @@ en:
   field_editor_id: "Editor"
   label_whitewall_menu: "The Great White Wall"
   label_whitewall_users: "Show users"
-  label_whitewall_undefined: "No assignee nor start date set"
+  label_whitewall_undefined: "No editor nor start date set"
   label_whitewall_start: "Start"
   label_whitewall_finish: "Due to"
   label_whitewall_finish_error: "No \"Due date\" set!"
@@ -22,6 +22,7 @@ en:
   label_whitewall_config: "The Great White Wall Config"
   label_whitewall_noaccess: "You do not have the permission to access this area"
   whitewall_headline5_settings: "Tracker"
+  label_whitewall_delay: "Delayed Tickets"
   #GRAPH
   whitewall_headline6_settings: "System Graph"
   whitewall_headline7_settings: "Classification Graph"

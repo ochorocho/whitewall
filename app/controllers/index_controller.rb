@@ -27,7 +27,7 @@ class IndexController < ApplicationController
 
 		if @UserAllowed == 'true'
 
-			@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL").all
+			@issuesUndefined = Issue.find(:all, :conditions => ["status_id NOT IN (?) AND (editor_id IS NULL OR start_date IS NULL OR due_date IS NULL)", [5,6]])
 					
 			# CHECK PARAMS
 			if !params[:from].nil?
@@ -51,18 +51,19 @@ class IndexController < ApplicationController
 			
 			weeks = []
 			while @fromDate < @toDate
-				weeks << [@fromDate.cweek, @fromDate.year]
+				weeks << [@fromDate.cweek, @fromDate.year, Date.parse("#{@fromDate}").to_s(:short_date)]
 				@fromDate += 1.week
 			end
 			
 			@weeks = []
-			weeks.each do |w,y|
+			weeks.each do |w,y,today|
 				date = []
+				year = Date.parse("#{today}").year
 				7.times do |day|
 					day = day + 1
-					date << Date.parse("#{Date.commercial(y, w, day)}").to_s(:short_date)					
+					date << Date.parse("#{today}")
 				end
-				@weeks << [w,y,date]
+				@weeks << [w,year,date]
 			end
 			
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
@@ -81,17 +82,13 @@ class IndexController < ApplicationController
 	 		@users.each do |user|  
 	 			@weeks.each do |week|
 	 				
-	 				if week[0].to_f == '53'
-	 					calYear = week[1].to_i
-	 					calWeek = week[0].to_i
-	 				else
-	 					calYear = week[1].to_i
-	 					calWeek = week[0].to_i
-	 				end
+ 					calYear = week[1].to_i
+ 					calWeek = week[0].to_i
+ 					calToday = week[2][0]
 	 				
-	 				weekBegin = Date.commercial(calYear, calWeek, 1)
-	 				weekEnd = Date.commercial(calYear, calWeek, 7)
-	 				
+	 				weekBegin = calToday.beginning_of_week
+	 				weekEnd = calToday.end_of_week
+	 					 				
 	 				user["week#{calWeek}year#{calYear}"] = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
 	 				
 	 				user["week#{calWeek}year#{calYear}"].each do |issue|
@@ -101,11 +98,18 @@ class IndexController < ApplicationController
 						
 						issue['no_children'] = issue.children.count
 
+
+
 		 				if issue.due_date.blank? || issue.start_date.blank? || issue.estimated_hours.blank?
 			 				issue['hoursToServe'] = '0'
 		 				else
-
-
+							
+							if issue.due_date.sunday?
+								issue.due_date = issue.due_date - 2.days
+							end
+							if issue.due_date.saturday?
+								issue.due_date = issue.due_date - 1.days
+							end
 
 		 					if issue.start_date < Date.today && issue.due_date > Date.today
 		 						@dayRest = Date.today
@@ -143,14 +147,10 @@ class IndexController < ApplicationController
 								issue['hourPerWeek'] = issue['hourPerDay'] * 5
 							end
 							
-							
 							# WEEK IS IN THE PAST
-
 							if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i
 								issue['showHours'] = 1
 							end
-							
-
 		 				end
 	 				end	 				
 	  			end

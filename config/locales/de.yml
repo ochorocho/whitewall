@@ -4,7 +4,7 @@ de:
   field_editor_id: "Bearbeiter"
   label_whitewall_menu: "Die Weiße Wand"
   label_whitewall_users: "Benutzer Anzeigen"
-  label_whitewall_undefined: "Nicht zugewiesen oder kein Startdatum gesetzt"
+  label_whitewall_undefined: "Entweder kein Bearbeiter oder kein Startdatum gesetzt"
   label_whitewall_start: "Start"
   label_whitewall_finish: "Erledigt am"
   label_whitewall_finish_error: "Kein \"Fertigstellungsdatum\" gesetzt!"
@@ -22,6 +22,7 @@ de:
   whitewall_users_select: "Auswahl umkehren"
   label_whitewall_config: "Konfigutation Weiße Wand"
   label_whitewall_noaccess: "Ihr Benutzer hat keinen Zugriff auf diesen Bereich"
+  label_whitewall_delay: "Verspätete Tickets"
   #GRAPH
   whitewall_headline5_settings: "Tracker als Fehler zählen"
   whitewall_headline6_settings: "System Graph"

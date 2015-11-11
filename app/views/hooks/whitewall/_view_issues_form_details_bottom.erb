@@ -4,13 +4,13 @@
 
 		<% @Users = @issue.assignable_users %>
 		<% if current_page?(url_for(:controller => 'issues', :action => 'new')) %>
-			<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.current)) %>		
+			<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.current), {:include_blank  => 'Select', :onblur => "myblur(this);", :onChange=> "submit_selected(this);", :style=> "visibility:visible;" }) %>		
 		<% else %>
 				<% if @issue.editor_id.nil? %>
-					<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.find(0))) %>		
+					<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.find(0)), {:include_blank  => 'Select', :onblur => "myblur(this);", :onChange=> "submit_selected(this);", :style=> "visibility:visible;" }) %>		
 				<% else %>
-					<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.find(@issue.editor_id))) %>
+					<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.find(@issue.editor_id)), {:include_blank  => 'Select', :onblur => "myblur(this);", :onChange=> "submit_selected(this);", :style=> "visibility:visible;" }) %>
 				<% end %>
 		<% end %>
-	<% end %>
+	<% end %>	
 </p>
