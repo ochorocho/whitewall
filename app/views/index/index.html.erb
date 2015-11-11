@@ -126,18 +126,24 @@
 							<td class="">
 							  	<ul class="sortItCon">
 									
-
-									
 									<% for issue in user["week#{week[0]}year#{week[1]}"] -%>
 										<% if issue.children.count == 0 %>
+<<<<<<< HEAD
 										<% if issue.closed? == false %>
+=======
+																						
+											<% if issue.closed? == false %>
+>>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 											<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
 											
 											<% if !issue.due_date.nil? %>
 												<% if issue.due_date < Date.today %>delayedIssue<% end %>
 											<% end %>
 											<% if issue.custom_field_value(17) == '1' %>serviceIssue<% end %>
+<<<<<<< HEAD
 											
+=======
+>>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 											<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
 												<div class="title">
 													<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
@@ -178,7 +184,11 @@
 													<% end %>
 												</div>
 											</li>
+<<<<<<< HEAD
 										<% end %>
+=======
+											<% end %>
+>>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 										<% end %>
 									<% end -%>								
 							  	</ul>
@@ -195,26 +205,26 @@
 	<div id="relDialog" title="<%= l(:label_whitewall_undefined) %>">
 		<ul id="relSort">
 			<% @issuesUndefined.each do |issue| %>
-				<li class="postIt">
-					<div class="title"><%= link_to_issue(issue, :subject => true, :truncate => 18, :tracker => false) %></div>
-					<div class="dueDate">
-						<b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
-						<% if issue.due_date.blank? %>
-						    <span class="error"><%= l(:label_whitewall_finish_error) %></span>
-						<% else %>
-							|&nbsp;<b><%= l(:label_whitewall_finish) %></b> <span><%= issue.due_date %></span>
-						<% end %>
-
-					</div>
-						<% if !issue.due_date.blank? %>
-							<div>~<%= issue.estimated_hours %>h</div>
-						<% end %>
-					<div class="done">
-						<div class="ui-progressbar ui-widget ui-widget-content ui-corner-all">
-							<div class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: <%= issue.done_ratio %>%;"></div>
+					<li class="postIt">
+						<div class="title"><%= link_to_issue(issue, :subject => true, :truncate => 18, :tracker => false) %></div>
+						<div class="dueDate">
+							<b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
+							<% if issue.due_date.blank? %>
+							    <span class="error"><%= l(:label_whitewall_finish_error) %></span>
+							<% else %>
+								|&nbsp;<b><%= l(:label_whitewall_finish) %></b> <span><%= issue.due_date %></span>
+							<% end %>
+	
 						</div>
-					</div>
-				</li>
+							<% if !issue.due_date.blank? %>
+								<div>~<%= issue.estimated_hours %>h</div>
+							<% end %>
+						<div class="done">
+							<div class="ui-progressbar ui-widget ui-widget-content ui-corner-all">
+								<div class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: <%= issue.done_ratio %>%;"></div>
+							</div>
+						</div>
+					</li>
 			<% end %>
 		</ul>
 	</div>

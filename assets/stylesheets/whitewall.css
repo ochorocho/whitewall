@@ -5,8 +5,6 @@ body li {
 td.weekOld_0 {
 	background: #DEDEDE;
 }
-
-
 .postIt {
 	background:#fefabc; 
 	padding: 6px 6px;
@@ -110,6 +108,10 @@ td.weekOld_0 {
 	background-size: 19px auto, 19px auto;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2e913fb9fe4764a8de0b2950aad6da5f572c1d86
 h4.delay {
 	padding-left: 20px;
 	background-image: url("../images/dialog-warning-2.png");

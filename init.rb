@@ -28,6 +28,10 @@ require 'user'
 
 require 'application_helper'
 
+# HOOK EM UP ... MAKE EDITOR SHOW UP BY NAME IN JOURNAL
+# require_dependency 'whitewall_issue_hook'
+
+
 # BRING EM IN! -- THIS PICKY BITCH WANTS TO BE REQUIRED TO WORK! - NO AUTO-MAGIC
 require 'whitewall/hooks/view_layouts_base_html_head_hook'
 
