@@ -41,7 +41,7 @@
 
 <h3><%= l(:whitewall_headline1_settings) %></h3>
 
-	<% all_user_group = Group.find(:all) %>
+	<% all_user_group = Group.all %>
 	<% all_user_group.each do |group| %>
 		<p>
 			<label for="settings_whitewall_group_<%= group.id %>"><%= group.name %></label>
