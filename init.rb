@@ -3,6 +3,9 @@ require 'redmine'
 
 require 'issue_patch'
 #require_dependency 'issue_helper_patch'
+# require 'issueweek_helper'
+#require_dependency 'user_week_issue'
+
 
 Redmine::Plugin.register :whitewall do
   name 'Whitewall plugin'

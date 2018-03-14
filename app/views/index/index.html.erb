@@ -17,6 +17,8 @@
     <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
 <% end %>
 
+<% if @UserAllowed == 'true' %>
+
 <div id="whitewall">
 	<h2><%= l(:label_whitewall_menu) %></h2>
 
@@ -105,9 +107,49 @@
 						<% for week in @weeks -%>
 							<td class="<% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
 							  	<ul class="sortItCon">
-									
-									<%= debug(user.firstname) %>
 
+
+										<% for issue in user_week_issue(user,week[0],week[1]) -%>
+												<% if issue.children.count == 0 %>
+													<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
+
+											<% if !issue.due_date.nil? %>
+												<% if issue.due_date < Date.today %>delayedIssue<% end %>
+											<% end %>
+											<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
+														<div class="title">
+															<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
+
+
+															<% if !issue.project.nil? %>
+																<div class="projectName">
+																	<%= link_to truncate("#{issue.project}", length: 40), "/projects/#{issue.project.identifier}" %>
+																</div>
+															<% end %>
+														</div>
+														<div class="hidden">
+															<% if !issue.estimated_hours.nil? %>
+																<div>
+																	<%= l(:field_estimated_hours) %>
+																	<span class="estimated"><%= issue.estimated_hours %>h</span>
+																</div>
+															<% end %>
+
+															<div class="dueDate">
+
+																<b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
+																<% if issue.due_date.blank? %>
+																	<span class="error"><%= l(:label_whitewall_finish_error) %></span>
+																<% else %>
+																	|&nbsp;<b><%= l(:label_whitewall_finish) %></b> <span><%= issue.due_date %></span>
+																<% end %>
+
+															</div>
+														</div>
+													</li>
+
+												<% end %>
+										<% end -%>
 
 							  	</ul>
 							  </td>
@@ -148,3 +190,7 @@
 	</div>
 
 </div>
+
+<% else %>
+	<div id="flash_notice" class="flash error"><%= l(:label_whitewall_noaccess) %></div>
+<% end %>

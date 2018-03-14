@@ -5,9 +5,11 @@
 		<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.current)) %>		
 	<% else %>
 			<% if @issue.editor_id.nil? %>
-				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.find(0))) %>		
+				<%= debug(User.where(id: 0)) %>
+				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.where(id: 0))) %>
 			<% else %>
-				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.find(@issue.editor_id))) %>
+				<%= debug(User.where(id: @issue.editor_id)) %>
+				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.where(id: @issue.editor_id))) %>
 			<% end %>
 	<% end %>
 </p>

@@ -2,7 +2,10 @@ class IndexController < ApplicationController
 
 	
 	include Redmine::Utils::DateCalculation
-	
+
+	helper :issueweek
+	include IssueweekHelper
+
 	def index
 		require "date"
 
@@ -27,7 +30,7 @@ class IndexController < ApplicationController
 
 		if @UserAllowed == 'true'
 
-			@issuesUndefined = Issue.all
+			@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL")
 					#Issue.where("editor_id IS NULL OR start_date IS NULL").all
 
 			# CHECK PARAMS
