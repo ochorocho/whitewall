@@ -147,7 +147,7 @@ $(function() {
             handle: ".sort-handle",
             update: function(e,ui) {
                 if (this === ui.item.parent()[0]) {
-                    console.log(e);
+                    $(window).trigger('resize');
                 }
             }
         }).disableSelection();

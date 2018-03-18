@@ -16,7 +16,19 @@ Redmine::Plugin.register :whitewall do
   author_url 'http://dokuwiki.knallimall.org/'
 
   #  INCLUDE TO TOP MENU
-  menu :top_menu, :whitewall, { :controller => 'index', :action => 'index'}, :caption => :label_whitewall_menu, :if => Proc.new { User.current.logged? }
+  menu :top_menu, :whitewall, { :controller => 'index', :action => 'index'}, :caption => :label_whitewall_menu, :if => Proc.new {
+    # Allow access to top_menu item based on allowed user groups
+    @subjects = Setting.plugin_whitewall["whitewall_group"]
+    @groupS = []
+
+    # Make sure 'whitewall_group' is present before loop
+    if Setting.plugin_whitewall["whitewall_group"].present?
+      @subjects.each.with_index(1) do |subject, index|
+        @groupS << subject[0]
+      end
+    end
+    User.current.groups.where(id: @groupS).present?
+  }, :last => false
   settings :default => {'empty' => true}, :partial => 'settings/whitewall'
   
 end
