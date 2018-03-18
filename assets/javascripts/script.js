@@ -126,8 +126,8 @@ $(function() {
             });
 	    }
 	});
-	$('#userDialog .invert b').click(function() {
-		$('#userDialog li input[type=checkbox]').each(function() {
+	$('#displayDialog .invert b').click(function() {
+		$('#displayDialog li input[type=checkbox]').each(function() {
             $(this).click();
 		});
 	});

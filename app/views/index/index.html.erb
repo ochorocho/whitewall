@@ -142,9 +142,9 @@
 					<li class="<%= cycle('odd', 'even') %>">
 						<label for="user<%= user.id %>">
 							<% if @users.include? user %>
-								<input checked="checked" type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
+								<input checked="checked" tabindex="-1" type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
 							<% else %>
-								<input type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
+								<input type="checkbox" tabindex="-1" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
 							<% end %>
 							<%= user.name %>
 						</label>
