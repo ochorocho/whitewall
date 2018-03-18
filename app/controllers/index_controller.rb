@@ -70,21 +70,24 @@ class IndexController < ApplicationController
 			end
 
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
-			@hideUser << 2
+			@hideUser << '2'
+			@hideUser << '3'
 
-			@usersAll = User.joins(:groups).where.not(id: @hide)
+			@usersAll = User.joins(:groups).where.not(id: @hide,status: [3])
 			# User.joins(:groups).where("users.id NOT IN ? AND users.status NOT IN (?)", @hide, [3])
 					# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 					# User.where("users.id NOT IN (?) AND users.status NOT IN (?)", @hide, [3]).all
 
 			if !params[:user_select].nil?
 				@userSelect = params[:user_select]
-				@userSelect << 2
-				@users = User.joins(:groups).where.not(id: @hide)
-						# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
+				@userSelect << '2'
+				@users = User.joins(:groups).where("users.id IN (?)", @userSelect).order(login: :asc)
 
+						#where("users.id IN ?", @userSelect)
+										 # .not(id: [2], status: [3])
+				# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
 			else
-				@users = User.joins(:groups).where.not(id: @hide)
+				@users = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc)
 				# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 			end
 

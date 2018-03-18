@@ -40,7 +40,7 @@ $(function(){
 				.find('tbody td').remove();
 
 			$stickyInsct.html('<thead><tr><th>'+$t.find('thead th:first-child').html()+'</th></tr></thead>');
-			
+
 			// Set widths
 			var setWidths = function () {
 					$t
@@ -61,7 +61,7 @@ $(function(){
 				repositionStickyHead = function () {
 					// Return value of calculated allowance
 					var allowance = calcAllowance();
-				
+
 					// Check if wrapper parent is overflowing along the y-axis
 					if($t.height() > $stickyWrap.height()) {
 						// If it is overflowing (advanced layout)
@@ -117,13 +117,13 @@ $(function(){
 					$t.find('tbody tr:lt(3)').each(function () {
 						a += $(this).height();
 					});
-					
+
 					// Set fail safe limit (last three row might be too tall)
 					// Set arbitrary limit at 0.25 of viewport height, or you can use an arbitrary pixel value
 					if(a > $w.height()*0.25) {
 						a = $w.height()*0.25;
 					}
-					
+
 					// Add the height of sticky header
 					a += $stickyHead.height();
 					return a;
@@ -131,7 +131,7 @@ $(function(){
 
 			setWidths();
 
-			$t.parent('.sticky-wrap').scroll($.throttle(100, function() {
+			$t.parent('.sticky-wrap').scroll($.throttle(5, function() {
 				repositionStickyHead();
 				repositionStickyCol();
 			}));
@@ -143,7 +143,7 @@ $(function(){
 				repositionStickyHead();
 				repositionStickyCol();
 			}))
-			.scroll($.throttle(100, repositionStickyHead));
+			.scroll($.throttle(5, repositionStickyHead));
 		}
 	});
 });
