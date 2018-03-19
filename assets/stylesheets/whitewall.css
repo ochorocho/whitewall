@@ -151,6 +151,8 @@ td.weekOld_0 {
 
 #wall legend {
 	font-weight: bold;
+	float: left;
+	padding-right: 1rem;
 }
 
 #wall .tracker.open {
@@ -198,7 +200,7 @@ td.weekOld_0 {
 	width: 100px;
 }
 
-#noRel, #stats a, #statsBack a, #statsOverall a, #showDetails, #showUsers div {
+#noRel, #stats a, #statsBack a, #statsOverall a, #showDetails, #showDisplay {
     background-position: 0 40%;
     background-repeat: no-repeat;
     padding-bottom: 3px;
@@ -214,45 +216,27 @@ td.weekOld_0 {
 
 #stats a {
     background-image: url("../images/chart.png");	
-    border-right: 1px solid #606060;
 }
 
 #statsBack a {
-    background-image: url("../images/note.png");	
-    border-right: 1px solid #606060;	
+    background-image: url("../images/note.png");
 }
 
 #statsOverall a {
-    background-image: url("../images/chartOverall.png");	
-    border-right: 1px solid #606060;
+    background-image: url("../images/chartOverall.png");
 }
 
 #showDetails {
     background-image: url("../images/info.png");
 }
 
-#showUsers {
+#showDisplay {
 	background: none;
     position: relative;
     padding-right: 0px !important;
     margin-right: 2px !important;
-}
-
-#showUsers div {
-    background-image: url("../images/group.png");
-    padding-right: 2px;
-}
-
-#showUsers ul {
-	display: none;
-	position: absolute;
-	width: 300px;
-	background: #fff;
-	box-shadow: 0px 4px 6px #333;
-	-moz-box-shadow: 0px 4px 6px #333;
-	-webkit-box-shadow: 0px 4px 6px #333;
-	z-index: 500;
-	right: 0px;
+	background: url("images/magnifier.png") no-repeat left center;
+	padding-right: 2px;
 }
 
 #showUsers li label {
@@ -260,16 +244,12 @@ td.weekOld_0 {
 	padding: 10px;
 }
 
-#showUsers li b {
+#showDisplay li b {
 	padding: 5px;
 	cursor: pointer;
 }
 
-#showUsers div {
-	display: inline;
-}
-
-#relDialog {
+#relDialog, #displayDialog {
 	display: none;
 }
 
@@ -282,41 +262,12 @@ td.weekOld_0 {
 }
 
 #wallFunctions span {
-    border-right: 1px solid #606060;
     padding-bottom: 3px;
     padding-left: 20px;
     padding-top: 2px;
     padding-right: 6px;
     margin-left: 4px;
 }
-
-#wallFunctions span:last-child {
-	border-right: 0px !important;
-	margin-left: 2px;
-}
-
-#wallFunctions ul {
-	padding-left: 0px;
-	margin-left: 0px;
-	max-height: 400px;
-	overflow-y: auto;
-}
-
-
-#wallFunctions li {
-	padding-left: 0px;
-	margin-left: 0px;
-	text-align: left;
-}
-
-#wallFunctions li.invert {
-	clear: both !important;
-	float: none !important;
-	display: block;
-	text-align: right;
-	padding: 10px 0px;
-}
-
 
 .whitewallTip {
 	font-size: 12px !important;
@@ -328,7 +279,7 @@ td.weekOld_0 {
 /* JQUERY UI MODs */
 #from, #to {
 	position: relative;
-	z-index: 100;
+	z-index: 590;
 }
 
 
@@ -381,4 +332,33 @@ td.weekOld_0 {
 
 .allgraph {
 	margin-bottom: 40px;
+}
+
+#scroll {
+	overflow: scroll;
+}
+
+#scroll .sort-handle {
+	float: right;
+	background-color: rgba(100,100,100,.5);
+}
+
+#displayDialog ul {
+	padding-left: 0;
+}
+
+#displayDialog li {
+	padding: .5rem .1rem;
+}
+
+.invert {
+	cursor: pointer;
+}
+
+#wall legend {
+	font-weight: bold;
+}
+
+.ui-widget-overlay.ui-front {
+	z-index: 500;
 }

@@ -20,59 +20,39 @@
 <% if @UserAllowed == 'true' %>
 
 <div id="whitewall">
-	<h2><%= l(:label_whitewall_menu) %></h2>
+	<h2 id="sticker"><%= l(:label_whitewall_menu) %></h2>
+
+
+
+
+
+	<%
+		@subjects = Setting.plugin_whitewall["whitewall_group"]
+		@groupS = []
+		@subjects.each.with_index(1) do |subject, index|
+			@groupS << subject[0]
+		end
+	-%>
+
+<%= User.current.groups.where(id: @groupS).present? %>
 
 	<!-- WALL FILTER -->
 	<div id="filter">
 		<div id="timespan">
-			<%= form_tag("/whitewall", method: "get") do %>
+			<div id="wallFunctions">
 				<span id="stats">
 					<%= link_to l(:label_whitewall_menu_graph),
-						:controller => "graph",
-						:action => "index",
-						:from => params[:from],
-						:to => params[:to],
-						:user_select => params[:user_select] %>
+											:controller => "graph",
+											:action => "index",
+											:from => params[:from],
+											:to => params[:to],
+											:user_select => params[:user_select] %>
 				</span>
-				<span id="statsOverall">
-					<%= link_to l(:label_whitewall_menu_overall),
-						:controller => "overall",
-						:action => "index",
-						:from => params[:from],
-						:to => params[:to],
-						:user_select => params[:user_select] %>
-				</span>
-				<label for="from"><%= l(:label_whitewall_timespan_from) %></label>
-				<input type="text" id="from" name="from" value="<%= @fromInput %>">
-				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
-				<input type="text" id="to" name="to" value="<%= @toInput %>">
-				<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
-				<div id="wallFunctions">
-					<span id="showUsers">
-						<div><%= l(:label_whitewall_users) %></div>
-						<ul>
-							<li class="invert">
-								<b><%= l(:whitewall_users_select) %></b>
-								<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
-							</li>
-							<% for user in @usersAll -%>
-								<li class="<%= cycle('odd', 'even') %>">
-									<label for="user<%= user.id %>">
-										<% if @users.include? user %>
-											<input checked="checked" type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
-										<% else %>
-											<input type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
-										<% end %>
-										<%= user.name %>
-									</label>
-								</li>
-							<% end -%>
-						</ul>
-					</span>					
-					<span id="showDetails"><%= l(:label_whitewall_details) %></span>
-					<span id="noRel"><%= l(:label_whitewall_undefined_short) %></span>
-				</div>
-			<% end %>
+				<span id="showDetails"><%= l(:label_whitewall_details) %></span>
+				<span id="showDisplay"><%= l(:label_whitewall_display) %></span>
+				<span id="noRel"><%= l(:label_whitewall_undefined_short) %></span>
+			</div>
+
 		</div>
 	</div>
 
@@ -89,8 +69,8 @@
 		<% end -%>
 	</fieldset>
 	<div id="scroll">
-		<table>
-			<thead>		
+		<table data-sticky-container>
+			<thead class="sticky">
 				<tr>
 					<th></th>
 					<% for week in @weeks -%>
@@ -102,57 +82,15 @@
 					
 				<% for user in @users -%>
 					<tr class="<%= cycle('odd', 'even') %>">
-						<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>
+						<th><div class="stickyUser"><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></div></th>
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>
-							<td class="<% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
-							  	<ul class="sortItCon">
+							<td class="sortItCon <% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
 
 
-										<% for issue in user_week_issue(user,week[0],week[1]) -%>
-												<% if issue.children.count == 0 %>
-													<li class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
+								<%= render :partial => "shared/issue", locals: {users: @users, user: user, week: week} %>
 
-											<% if !issue.due_date.nil? %>
-												<% if issue.due_date < Date.today %>delayedIssue<% end %>
-											<% end %>
-											<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
-														<div class="title">
-															<%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
-
-
-															<% if !issue.project.nil? %>
-																<div class="projectName">
-																	<%= link_to truncate("#{issue.project}", length: 40), "/projects/#{issue.project.identifier}" %>
-																</div>
-															<% end %>
-														</div>
-														<div class="hidden">
-															<% if !issue.estimated_hours.nil? %>
-																<div>
-																	<%= l(:field_estimated_hours) %>
-																	<span class="estimated"><%= issue.estimated_hours %>h</span>
-																</div>
-															<% end %>
-
-															<div class="dueDate">
-
-																<b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
-																<% if issue.due_date.blank? %>
-																	<span class="error"><%= l(:label_whitewall_finish_error) %></span>
-																<% else %>
-																	|&nbsp;<b><%= l(:label_whitewall_finish) %></b> <span><%= issue.due_date %></span>
-																<% end %>
-
-															</div>
-														</div>
-													</li>
-
-												<% end %>
-										<% end -%>
-
-							  	</ul>
-							  </td>
+							</td>
 						<% end -%>
 					</tr>
 				<% end -%>
@@ -161,33 +99,8 @@
 	</div>
 	</div>
 
-	<!-- DIALOG -->
-	<div id="relDialog" title="<%= l(:label_whitewall_undefined) %>">
-		<ul id="relSort">
-			<% @issuesUndefined.each do |issue| %>
-				<li class="postIt">
-					<div class="title"><%= link_to_issue(issue, :subject => true, :truncate => 18, :tracker => false) %></div>
-					<div class="dueDate">
-						<b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
-						<% if issue.due_date.blank? %>
-						    <span class="error"><%= l(:label_whitewall_finish_error) %></span>
-						<% else %>
-							|&nbsp;<b><%= l(:label_whitewall_finish) %></b> <span><%= issue.due_date %></span>
-						<% end %>
-
-					</div>
-						<% if !issue.due_date.blank? %>
-							<div>~<%= issue.estimated_hours %>h</div>
-						<% end %>
-					<div class="done">
-						<div class="ui-progressbar ui-widget ui-widget-content ui-corner-all">
-							<div class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: <%= issue.done_ratio %>%;"></div>
-						</div>
-					</div>
-				</li>
-			<% end %>
-		</ul>
-	</div>
+	<%= render :partial => "shared/dialog_display" %>
+	<%= render :partial => "shared/dialog_no_relation" %>
 
 </div>
 

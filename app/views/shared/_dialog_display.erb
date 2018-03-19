@@ -1,0 +1,31 @@
+<div id="displayDialog" title="<%= l(:label_whitewall_display_selection) %>">
+  <%= form_tag("/whitewall", method: "get", id: "displayForm") do %>
+    <ul>
+      <li>
+        <div><b><%= l(:label_whitewall_timespan) %></b></div>
+        <label for="from"><%= l(:label_whitewall_timespan_from) %></label>
+        <input type="text" tabindex="-1" id="from" name="from" value="<%= @fromInput %>">
+        <label for="from"><%= l(:label_whitewall_timespan_to) %></label>
+        <input type="text" tabindex="-1" id="to" name="to" value="<%= @toInput %>">
+      </li>
+      <li>
+        <b><%= l(:label_whitewall_display_users) %></b>
+      </li>
+      <% for user in @usersAll -%>
+        <li class="<%= cycle('odd', 'even') %>">
+          <label for="user<%= user.id %>">
+            <% if @users.include? user %>
+              <input checked="checked" tabindex="-1" type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
+            <% else %>
+              <input type="checkbox" tabindex="-1" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
+            <% end %>
+            <%= user.name %>
+          </label>
+        </li>
+      <% end -%>
+    </ul>
+    <div class="invert">
+      <b><%= l(:whitewall_users_select) %></b>
+    </div>
+  <% end %>
+</div>
