@@ -5,15 +5,17 @@
 #
 
 require 'redmine/utils'
+include Redmine::Utils::DateCalculation
 
 module IssueweekHelper
+
   def user_week_issue(user,week,year)
     if week[0].to_f == '53'
-      calWeek = week.to_i
-      calYear = year.to_i
+      calWeek = week
+      calYear = year
     else
-      calWeek = week.to_i
-      calYear = year.to_i
+      calWeek = week
+      calYear = year
     end
 
     weekBegin = Date.commercial(calYear, calWeek, 1)
@@ -24,9 +26,23 @@ module IssueweekHelper
 
   end
 
-  def user_week_estimated_hours(user,week,year,issues)
+  def user_week_issues_delayed(user,week,year)
+    @issues = user_week_issue(user,week,year)
 
+    @delayed = []
+    @issues.each do |issue|
+
+      if issue.due_date < Date.today
+        @delayed << issue
+      end
+    end
+
+    return @delayed
+  end
+
+    def user_week_estimated_hours(user,week,year)
     # ESTIMATED HOURS
+    @issues = user_week_issue(user,week,year)
     @estimated = 0
     @issues.each do |issue|
 
@@ -42,52 +58,45 @@ module IssueweekHelper
 
         # TODO: Wenn Startdatum über aktuellem Datum
         # TODO: Feiertage ermitteln und auslassen (was macht working_days)
-        #@workDaysTotal = (working_days(10, issue.due_date) + 1) ### + 1 Für richtiges Ergebnis
-        #issue.daysTotal = @workDaysTotal
-        #issue.hourPerDay = ((issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)) / @workDaysTotal).round(2)
+        @workDaysTotal = (working_days(issue.start_date, issue.due_date) + 1) ### + 1 Für richtiges Ergebnis
 
-        # issue.hourPerWeek = 0
+        @hoursPerDay = ((issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)) / @workDaysTotal).round(2)
 
-        # # START WEEK
-        # if(@dayRest.strftime("%U").to_i + 1) == week[0].to_i
-        #   issue['whereAmI'] = "BEGINNING WEEK"
-        #   issue['hourPerWeek'] = (issue['hourPerDay'] * (@dayRest.end_of_week.to_date - (@dayRest.to_date + 1)).to_f)
-        # end
-        #
-        # # END WEEK
-        # if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
-        #   issue['whereAmI'] = "ENDING WEEK"
-        #   issue['hourPerWeek'] =  (issue['hourPerDay'] * ((issue.due_date.to_date + 1) - issue.due_date.beginning_of_week.to_date).to_f)
-        # end
-        #
-        # # START / STOP IN SAME WEEK
-        # if(@dayRest.strftime("%U").to_i + 1) == week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
-        #   issue['whereAmI'] = "START STOP IN SAME WEEK"
-        #   issue['hourPerWeek'] = (issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)).to_f
-        # end
-        #
-        # # NEITHER START NOR STOP DATE - FULL WEEK!
-        # if (@dayRest.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
-        #   issue['whereAmI'] = "MIDDLE WEEK - WEEK IS A I AM"
-        #   issue['hourPerWeek'] = issue['hourPerDay'] * 5
-        # end
-        #
-        #
-        # # WEEK IS IN THE PAST, yey
-        # issue['showHours'] = 0
-        # if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i
-        #   issue['showHours'] = 1
-        # end
-        #
-        # if issue.children.count == 0
-        #   @estimated += issue['hourPerWeek']
-        # end
+        @hoursPerWeek = 0
+
+        # START WEEK
+        if(@dayRest.strftime("%U").to_i + 1) == week[0].to_i
+          puts "BEGINNING WEEK"
+          @hoursPerWeek = (issue['hourPerDay'] * (@dayRest.end_of_week.to_date - (@dayRest.to_date + 1)).to_f)
+        end
+
+        # END WEEK
+        if(issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
+          puts "BEGINNING WEEK"
+          @hoursPerWeek =  (issue['hourPerDay'] * ((issue.due_date.to_date + 1) - issue.due_date.beginning_of_week.to_date).to_f)
+        end
+
+        # START / STOP IN SAME WEEK
+        if(@dayRest.strftime("%U").to_i + 1) == week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) == week[0].to_i
+          puts = "START STOP IN SAME WEEK"
+          @hoursPerWeek = (issue.estimated_hours - (issue.estimated_hours * issue.done_ratio / 100)).to_f
+        end
+
+        # NEITHER START NOR STOP DATE - FULL WEEK!
+        if (@dayRest.strftime("%U").to_i + 1) != week[0].to_i && (issue.due_date.strftime("%U").to_i + 1) != week[0].to_i
+          puts = "MIDDLE WEEK - WEEK IS A I AM"
+          @hoursPerWeek = @hoursPerDay * 5
+        end
+
+        if issue.children.count == 0
+          @estimated += @hoursPerWeek
+        end
 
       end
     end
 
     # return @estimated.round(2)
-    return 2
+    return @estimated
 
   end
 

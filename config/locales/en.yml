@@ -36,7 +36,5 @@ en:
   whitewall_hideuser: "Hide user"
   label_whitewall_display_selection: "Display settings"
   label_whitewall_display_users: "Select users to display"
-  #OVERALL
-  label_whitewall_projects: "Projects"
-  label_whitewall_menu_overall: "Wall overview"
-  overall_hedline1: "Statistics - Overview"
+  label_issue_count: "Issues"
+  label_issue_delayed: "Delayed"

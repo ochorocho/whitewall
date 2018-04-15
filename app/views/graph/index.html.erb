@@ -70,22 +70,16 @@
 								<td>
 									<div class="totals">
 										<div class="hours">
-											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user_week_estimated_hours(user,week[0],week[1]) %>
 										</div>
 										<div class="tickets">
-											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+											<span><%= l(:label_issue_count) %>:</span> <%= user_week_issue(user,week[0],week[1]).count %>
 										</div>
 										<div class="delayed">
-											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+											<span><%= l(:label_issue_delayed) %>:</span> <%= user_week_issues_delayed(user,week[0],week[1]).count %>
 										</div>
 									</div>
-
-									<hr>
-									<hr>
-									<hr>
-									<%= user_week_estimated_hours(user,week[0],week[1],user_week_issue(user,week[0],week[1])) %>
-
-									<div class="weeklyGraph" data-progress-value="100" data-progress-max="150"></div>
+									<div class="weeklyGraph" data-progress-value="<%= user_week_estimated_hours(user,week[0],week[1]) %>" data-progress-max="<%= @settings = Setting.plugin_whitewall["whitewall_limit"] %>"></div>
 								</td>
 								<% end %>
 							<% end -%>
