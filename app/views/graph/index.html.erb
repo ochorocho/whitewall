@@ -30,51 +30,21 @@
 	<!-- WALL FILTER -->
 	<div id="filter">
 		<div id="timespan">
-			<%= form_tag("/whitewall_graph", method: "get") do %>
-				<span id="statsBack">
-					<%= link_to l(:label_whitewall_menu),
-						:controller => "index",
-						:action => "index",
-						:from => params[:from],
-						:to => params[:to],
-						:user_select => params[:user_select] %>
-				</span>
-				<span id="statsOverall">
-					<%= link_to l(:label_whitewall_menu_overall),
-						:controller => "overall",
-						:action => "index",
-						:from => params[:from],
-						:to => params[:to],
-						:user_select => params[:user_select] %>
-				</span>
-				<label for="from"><%= l(:label_whitewall_timespan_from) %></label> <%= Date.today %>
-				<label for="from"><%= l(:label_whitewall_timespan_to) %></label>
-				<input type="text" id="to" name="to" value="<%= @toInput %>">
-				<input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" />
-				<div id="wallFunctions">
-					<span id="showUsers">
-						<div><%= l(:label_whitewall_users) %></div>
-						<ul>
-							<li class="invert"><b><%= l(:whitewall_users_select) %></b><input type="submit" value="<%= l(:label_whitewall_timespan_apply) %>" /></li>
-							<% for user in @usersAll -%>
-								<li class="<%= cycle('odd', 'even') %>">
-									<label for="user<%= user.id %>">
-										<% if @users.include? user %>
-											<input checked="checked" type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
-										<% else %>
-											<input type="checkbox" id="user<%= user.id %>" name="user_select[]" value="<%= user.id %>">
-										<% end %>
-										<%= user.name %>
-									</label>
-								</li>
-							<% end -%>
-						</ul>
+			<div id="wallFunctions">
+					<span id="statsBack">
+						<%= link_to l(:label_whitewall_menu_overall),
+												:controller => "index",
+												:action => "index",
+												:from => params[:from],
+												:to => params[:to],
+												:user_select => params[:user_select] %>
 					</span>
-				</div>
-			<% end %>
+				<span id="showDisplay"><%= l(:label_whitewall_display) %></span>
+				<span id="noRel"><%= l(:label_whitewall_undefined_short) %></span>
+			</div>
+
 		</div>
 	</div>
-
 	<div id="wall" class="graph">		
 	<!-- WALL TABLE -->
 		<div id="scroll">
@@ -98,74 +68,24 @@
 							<% for week in @weeks -%>
 								<% if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
 								<td>
-										<script type="text/javascript">
-											$(document).ready(function() {
+									<div class="totals">
+										<div class="hours">
+											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+										</div>
+										<div class="tickets">
+											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+										</div>
+										<div class="delayed">
+											<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
+										</div>
+									</div>
 
-												$.jqplot.config.enablePlugins = true;
-												var plot2 = $.jqplot('graph<%= user.id %><%= week[0] %>_<%= week[1] %>', [[[<%= user["estimatedHours_#{week[0]}"] %>,'<%= l(:label_graph_estimated) %>']]], {
-										            seriesDefaults:{
-										                renderer:$.jqplot.BarRenderer,
-										                rendererOptions: {
-										                    barDirection: 'horizontal',
-										                    color: '#467AA7',
-										                    varyBarColor: true,
-														    barWidth: 20
-										                },
-										                shadow: false
-										            },
-										            axes: {
-										                yaxis: {
-										                    renderer: $.jqplot.CategoryAxisRenderer,
-										                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-								                            tickOptions: {
-													          angle: -90,
-													          fontSize: '12px',
-													          labelPosition: 'middle'
-													        }
-										                },
-										                xaxis: {
-															tickInterval : 10,
-															tickOptions: {
-													          fontSize: '11pt',
-													          angle: -30
-													        },
-															min: 0,
-															max: <% if !Setting.plugin_whitewall["whitewall_limit"].empty? %><%= Setting.plugin_whitewall["whitewall_limit"].to_i + 30 %><% else %>40<% end %>,
-															fontSize: '24px',
-										                }
-										            },
+									<hr>
+									<hr>
+									<hr>
+									<%= user_week_estimated_hours(user,week[0],week[1],user_week_issue(user,week[0],week[1])) %>
 
-													<% if user["estimatedHours_#{week[0]}"] >= 40 %>
-											            seriesColors: [ "#ff0000"],
-													<% else %>
-											            seriesColors: [ "#467AA7"],
-													<% end %>										            
-										            
-													<% if !Setting.plugin_whitewall["whitewall_limit"].empty? %>
-													canvasOverlay: {
-														show: true,
-														objects: [
-														{verticalLine: {
-															name: 'pebbles',
-															x: <%= Setting.plugin_whitewall["whitewall_limit"] %>,
-															lineWidth: 1,
-															yOffset: 0,
-															lineCap: 'butt',
-															color: '#ED8C00',
-															shadow: false
-														}},
-														]
-													}
-													<% end %>
-										        });
-											});
-										</script>
-										
-											<div class="weeklyGraph" id="graph<%= user.id %><%= week[0] %>_<%= week[1] %>"></div>
-											<div class="totals">
-												<span><%= l(:label_graph_estimated_h) %>:</span> <%= user["estimatedHours_#{week[0]}"] %>
-											</div>
-
+									<div class="weeklyGraph" data-progress-value="100" data-progress-max="150"></div>
 								</td>
 								<% end %>
 							<% end -%>
@@ -175,6 +95,10 @@
 			</table>
 		</div>
 	</div>
+
+	<%= render :partial => "shared/dialog_display" %>
+	<%= render :partial => "shared/dialog_no_relation" %>
+
 </div>
 
 <% else %>

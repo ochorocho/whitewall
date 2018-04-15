@@ -1,53 +1,5 @@
 $(function() {
-
-	$('#timespan form').submit(function(e) {
-
-		if($('#from').length) {
-			var from = $('#from');
-			if(Date.parse(from.val())) {
-				$(from).removeClass('error');
-			} else {
-				$(from).addClass('error');
-				e.preventDefault();
-			}			
-		}
-
-		var to = $('#to');
-		if(Date.parse(to.val())) {
-			$(to).removeClass('error');
-		} else {
-			$(to).addClass('error');
-			e.preventDefault();
-		}
-	});
-
-	// DATEPICKER - TIMESPAN
-	$("#from").datepicker({
-		defaultDate: "+1w",
-		changeMonth: true,
-		numberOfMonths: 1,
-		showWeek: true,
-		firstDay: 1,
-		dateFormat: 'yy-mm-dd',
-		onClose: function(selectedDate) {
-			$("#to").datepicker("option", "minDate", selectedDate);
-		}
-	});
-	$("#to").datepicker({
-		defaultDate: "+1w",
-		changeMonth: true,
-		numberOfMonths: 1,
-		showWeek: true,
-		firstDay: 1,
-		dateFormat: 'yy-mm-dd',
-		onClose: function(selectedDate) {
-			$("#from").datepicker("option", "maxDate", selectedDate);
-		}
-	});
-
-	// ### DIALOG ###
-	
-	// NO RELATION ISSUES
+    // NO RELATION ISSUES
 	$('#noRel').click(function() {
 		$("#relDialog").dialog({
 			height: 400,
@@ -95,7 +47,6 @@ $(function() {
             }
 		}
     });
-
 
 	$('#showDisplay').on({
 	    'click': function() {
@@ -152,5 +103,19 @@ $(function() {
             }
         }).disableSelection();
     } );
+
+    $(function() {
+        $( ".weeklyGraph" ).each(function () {
+
+            var pv = $(this).data("progress-value"),
+                pm = $(this).data("progress-max");
+
+            var bar = $(this).attr('data-value');
+            $(this).progressbar({
+                value: pv,
+                max: pm,
+            });
+        });
+    });
 
 });

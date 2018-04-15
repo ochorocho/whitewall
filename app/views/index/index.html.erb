@@ -86,10 +86,7 @@
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>
 							<td class="sortItCon <% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
-
-
 								<%= render :partial => "shared/issue", locals: {users: @users, user: user, week: week} %>
-
 							</td>
 						<% end -%>
 					</tr>

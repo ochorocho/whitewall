@@ -4,9 +4,9 @@
       <li>
         <div><b><%= l(:label_whitewall_timespan) %></b></div>
         <label for="from"><%= l(:label_whitewall_timespan_from) %></label>
-        <input type="text" tabindex="-1" id="from" name="from" value="<%= @fromInput %>">
+        <input class="date" type="date" tabindex="-1" id="from" name="from" value="<%= @fromInput %>">
         <label for="from"><%= l(:label_whitewall_timespan_to) %></label>
-        <input type="text" tabindex="-1" id="to" name="to" value="<%= @toInput %>">
+        <input class="date" type="date" tabindex="-1" id="to" name="to" value="<%= @toInput %>">
       </li>
       <li>
         <b><%= l(:label_whitewall_display_users) %></b>

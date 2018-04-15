@@ -73,7 +73,7 @@ class IndexController < ApplicationController
 			@hideUser << '2'
 			@hideUser << '3'
 
-			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3])
+			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc)
 			# User.joins(:groups).where("users.id NOT IN ? AND users.status NOT IN (?)", @hide, [3])
 					# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 					# User.where("users.id NOT IN (?) AND users.status NOT IN (?)", @hide, [3]).all
