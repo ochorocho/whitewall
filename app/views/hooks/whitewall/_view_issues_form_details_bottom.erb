@@ -5,10 +5,8 @@
 		<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.current)) %>		
 	<% else %>
 			<% if @issue.editor_id.nil? %>
-				<%= debug(User.where(id: 0)) %>
 				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.where(id: 0))) %>
 			<% else %>
-				<%= debug(User.where(id: @issue.editor_id)) %>
 				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.where(id: @issue.editor_id))) %>
 			<% end %>
 	<% end %>

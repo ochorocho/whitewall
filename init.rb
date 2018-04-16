@@ -2,10 +2,6 @@
 require 'redmine'
 
 require 'issue_patch'
-#require_dependency 'issue_helper_patch'
-# require 'issueweek_helper'
-#require_dependency 'user_week_issue'
-
 
 Redmine::Plugin.register :whitewall do
   name 'Whitewall plugin'
@@ -48,14 +44,3 @@ require 'whitewall/hooks/view_issues_context_menu_end'
 require 'whitewall/hooks/view_issues_bulk_edit_details_bottom'
 
 require 'whitewall/hooks/view_issues_form_details_bottom'
-
-module UserPatch
-  def self.included(base)
-    base.class_eval do
-      unloadable
-      has_many :issues, :dependent => :nullify, :foreign_key => 'assigned_to_id'
-    end
-  end
-end
-	
-User.send(:include, UserPatch)
