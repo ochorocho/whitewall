@@ -1,10 +1,12 @@
-<p id="editor">
-	<label for='issue_editor_id'><%= l(:field_editor) %>:</label>
-	<% if @issue.editor_id.nil? %>
-		<%= User.where(id: 0) %>
-		<%= debug(User.where(id: 0)) %>
-	<% else %>
-		<%= User.where(id: @issue.editor_id) %>
-		<%= debug(User.where(id: @issue.editor_id)) %>
-	<% end %>
-</p>
+<div class="splitcontent">
+	<div class="editor attribute">
+		<div class="label"><%= l(:field_editor) %>:</div>
+		<div class="value">
+			<% if @issue.editor_id.nil? %>
+				<span><%= User.find(0).name %></span>
+			<% else %>
+				<span><%= User.find(@issue.editor_id).name %></span>
+			<% end %>
+		</div>
+	</div>
+</div>
