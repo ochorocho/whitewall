@@ -34,3 +34,11 @@
 	font-weight: bold;
 	padding-left: 2px;
 }
+
+.editor.attribute .value span {
+	text-transform: uppercase;
+	padding: 4px 3px 2px;
+	background: #CE8E00;
+	font-weight: bold;
+	color: #fff;
+}
