@@ -73,7 +73,7 @@ class IndexController < ApplicationController
 			@hideUser << '2'
 			@hideUser << '3'
 
-			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc)
+			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc).distinct
 			# User.joins(:groups).where("users.id NOT IN ? AND users.status NOT IN (?)", @hide, [3])
 					# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 					# User.where("users.id NOT IN (?) AND users.status NOT IN (?)", @hide, [3]).all
@@ -81,13 +81,13 @@ class IndexController < ApplicationController
 			if !params[:user_select].nil?
 				@userSelect = params[:user_select]
 				@userSelect << '2'
-				@users = User.joins(:groups).where("users.id IN (?)", @userSelect).order(login: :asc)
+				@users = User.joins(:groups).where("users.id IN (?)", @userSelect).order(login: :asc).distinct
 
 						#where("users.id IN ?", @userSelect)
 										 # .not(id: [2], status: [3])
 				# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
 			else
-				@users = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc)
+				@users = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc).distinct
 				# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 			end
 

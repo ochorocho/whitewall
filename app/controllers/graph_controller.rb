@@ -67,16 +67,14 @@ class GraphController < ApplicationController
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
 			@hideUser << 2
 
-			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc)
+			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc).distinct
 			
 			if !params[:user_select].nil?
 				@userSelect = params[:user_select]
 				@userSelect << '2'
-				@users = User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]).order(login: :asc)
-				# @users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
+				@users = User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]).order(login: :asc).distinct
 			else
-				@users = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc)
-				#@users = User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
+				@users = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc).distinct
 			end
 
 	 		@users.each do |user|  
