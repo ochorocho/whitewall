@@ -24,7 +24,7 @@ en:
   #GRAPH
   whitewall_headline6_settings: "System Graph"
   whitewall_headline7_settings: "Classification Graph"
-  label_whitewall_menu_graph: "Wall Graph"
+  label_whitewall_menu_graph: "Wall Stats"
   label_graph_estimated: "hours"
   label_graph_estimated_h: "Hours"
   label_graph_estimated_total: "Hours total"
@@ -38,3 +38,4 @@ en:
   label_whitewall_display_users: "Select users to display"
   label_issue_count: "Issues"
   label_issue_delayed: "Delayed"
+  label_whitewall_menu_overall: "Overview"
