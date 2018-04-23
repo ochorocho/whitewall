@@ -1,26 +1,25 @@
-<div id="relDialog" title="<%= l(:label_whitewall_undefined) %>">
-  <ul id="relSort">
-    <% @issuesUndefined.each do |issue| %>
-      <li class="postIt">
-        <div class="title"><%= link_to_issue(issue, :subject => true, :truncate => 18, :tracker => false) %></div>
-        <div class="dueDate">
-          <b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
-          <% if issue.due_date.blank? %>
-            <span class="error"><%= l(:label_whitewall_finish_error) %></span>
-          <% else %>
-            |&nbsp;<b><%= l(:label_whitewall_finish) %></b> <span><%= issue.due_date %></span>
-          <% end %>
-
-        </div>
-        <% if !issue.due_date.blank? %>
-          <div>~<%= issue.estimated_hours %>h</div>
+<ul id="relSort">
+  <% @issuesUndefined.each do |issue| %>
+    <li class="postIt">
+      <div class="title"><%= link_to_issue(issue, :subject => true, :truncate => 18, :tracker => false) %></div>
+      <div class="dueDate">
+        <b><%= l(:label_whitewall_start) %></b> <span><%= issue.start_date %></span>
+        <% if issue.due_date.blank? %>
+          <span class="error"><%= l(:label_whitewall_finish_error) %></span>
+        <% else %>
+          |&nbsp;<b><%= l(:label_whitewall_finish) %></b> <span><%= issue.due_date %></span>
         <% end %>
-        <div class="done">
-          <div class="ui-progressbar ui-widget ui-widget-content ui-corner-all">
-            <div class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: <%= issue.done_ratio %>%;"></div>
-          </div>
+
+      </div>
+      <% if !issue.due_date.blank? %>
+        <div>~<%= issue.estimated_hours %>h</div>
+      <% end %>
+      <div class="done">
+        <div class="ui-progressbar ui-widget ui-widget-content ui-corner-all">
+          <div class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: <%= issue.done_ratio %>%;"></div>
         </div>
-      </li>
-    <% end %>
-  </ul>
-</div>
+      </div>
+    </li>
+  <% end %>
+</ul>
+

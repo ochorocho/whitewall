@@ -1,23 +1,26 @@
 $(function() {
     // NO RELATION ISSUES
 	$('#noRel').click(function() {
-		$("#relDialog").dialog({
-			height: 400,
-			width: 540,
-			minWidth: 540,
-			minHeight: 200,
-			modal: true,
-			maxWidth: 1280,
-			maxHeight: 1000,
-			show: {
-				effect: "fade",
-				duration: 200
-			},
-			hide: {
-				effect: "explode",
-				duration: 800
-			}
-		});
+
+        $.ajax({
+            dataType: "html",
+            url: "/whitewall/ajax/norelation",
+            data: "",
+            success: function(data) {
+                $("#relDialog").html(data).dialog({
+                    height: 400,
+                    width: "80%",
+                    minWidth: 540,
+                    minHeight: 200,
+                    modal: true,
+                    maxWidth: 1280,
+                    maxHeight: 1000
+                });
+            },
+            error: function() {
+                alert('Error: Please reload!');
+            }
+        });
 	});
 
 	// SHOW/HIDE DETAILS

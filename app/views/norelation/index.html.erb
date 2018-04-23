@@ -1,0 +1,9 @@
+<% locale = User.current.language.blank? ? ::I18n.locale : User.current.language %>
+
+<% if @UserAllowed == 'true' %>
+
+	<%= render :partial => "shared/dialog_no_relation" %>
+
+<% else %>
+	<div id="flash_notice" class="flash error"><%= l(:label_whitewall_noaccess) %></div>
+<% end %>

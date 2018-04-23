@@ -1,7 +1,6 @@
 # Patches to the Redmine core. Will not work in development mode
 require 'redmine'
 
-require 'issue_patch'
 
 Redmine::Plugin.register :whitewall do
   name 'Whitewall plugin'
