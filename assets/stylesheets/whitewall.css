@@ -362,3 +362,10 @@ td.weekOld_0 {
 .ui-widget-overlay.ui-front {
 	z-index: 500;
 }
+
+#whitewall-widget .postIt {
+	display: inline-block;
+}
+#whitewall-widget {
+	width: 100%;
+}
