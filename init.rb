@@ -25,8 +25,12 @@ Redmine::Plugin.register :whitewall do
     User.current.groups.where(id: @groupS).present?
   }, :last => false
   settings :default => {'empty' => true}, :partial => 'settings/whitewall'
-  
+
+
+
 end
+
+IssuesHelper.send :include, IssueweekHelper
 
 # EXTEND CORE MODEL - REQUIRE SOME STUFF FOR NO REASON ?!
 require 'redmine'
