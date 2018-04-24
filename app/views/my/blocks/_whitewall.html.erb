@@ -1,11 +1,15 @@
 <% content_for :header_tags do %>
+
+  <%= stylesheet_link_tag 'context_menu' %>
+  <%= javascript_include_tag 'context_menu' %>
+
   <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
   <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
 <% end %>
 
 <h3><%= l(:label_whitewall_menu)%></h3>
 
-<% @weeks = [[17,2018]] %>
+<% @weeks = [[Date.today.cweek,Date.today.year]] %>
 
 <table id="whitewall-widget">
   <thead class="sticky">
@@ -30,7 +34,6 @@
   </tr>
   </thead>
   <tbody>
-
     <tr class="<%= cycle('odd', 'even') %>">
       <!-- LOOPS THROUGH TICKETS -->
       <% for week in @weeks -%>

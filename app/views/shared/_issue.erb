@@ -8,7 +8,11 @@
 															<% end %>
 											<% end %>" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
       <div class="title">
-        <%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
+
+        <span id="issue-<%= issue.id%>" class="issue hascontextmenu">
+          <%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
+        </span>
+
         <span class="sort-handle"></span>
         <% if !issue.project.nil? %>
           <div class="projectName">
@@ -39,3 +43,9 @@
 
   <% end %>
 <% end -%>
+
+<script>
+    //<![CDATA[
+    contextMenuInit('/issues/context_menu')
+    //]]>
+</script>
