@@ -1,5 +1,6 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
+  <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
 <% end %>
 
 <h3><%= l(:label_whitewall_menu)%></h3>
@@ -9,16 +10,22 @@
 <table id="whitewall-widget">
   <thead class="sticky">
   <tr>
-    <th></th>
     <% for week in @weeks -%>
       <th><%= l(:label_whitewall_week) %>&nbsp;<%= week[0] %>/<%= week[1] %></th>
+    <% end -%>
+  </tr>
+  <tr>
+    <% for week in @weeks -%>
+      <th>
+        <%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %>
+        <%= render :partial => "shared/graph", locals: {users: User.current, user: User.current, week: week} %>
+      </th>
     <% end -%>
   </tr>
   </thead>
   <tbody>
 
     <tr class="<%= cycle('odd', 'even') %>">
-      <th style="width: 20%; min-width: 100px"><div class="stickyUser"><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></div></th>
       <!-- LOOPS THROUGH TICKETS -->
       <% for week in @weeks -%>
         <td class="sortItCon <% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">

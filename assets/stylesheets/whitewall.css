@@ -369,3 +369,12 @@ td.weekOld_0 {
 #whitewall-widget {
 	width: 100%;
 }
+#whitewall-widget .stickyUser {
+	transform: rotate(270deg);
+	transform-origin: 20px;
+	width: 200px;
+}
+
+#whitewall-widget body th {
+	width: 50px;
+}
