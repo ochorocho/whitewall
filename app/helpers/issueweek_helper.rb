@@ -40,7 +40,19 @@ module IssueweekHelper
     return @delayed
   end
 
-    def user_week_estimated_hours(user,week,year)
+  def user_hours_overdue(hours)
+    percentage = hours / Setting.plugin_whitewall["whitewall_limit"].to_f * 100
+    case percentage
+    when 0..89
+      return "ok"
+    when 90..100
+      return "flash warning"
+    else
+      return "flash error"
+    end
+  end
+
+  def user_week_estimated_hours(user,week,year)
     # ESTIMATED HOURS
     @issues = user_week_issue(user,week,year)
     @estimated = 0

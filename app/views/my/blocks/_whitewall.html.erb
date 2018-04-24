@@ -17,8 +17,14 @@
   <tr>
     <% for week in @weeks -%>
       <th>
-        <%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %>
-        <%= render :partial => "shared/graph", locals: {users: User.current, user: User.current, week: week} %>
+        <div class="stats">
+          <div class="avatar">
+            <%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %>
+          </div>
+          <div class="total-stats">
+            <%= render :partial => "shared/graph", locals: {users: User.current, user: User.current, week: week} %>
+          </div>
+        </div>
       </th>
     <% end -%>
   </tr>
