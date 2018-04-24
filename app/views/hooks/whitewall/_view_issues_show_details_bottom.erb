@@ -3,7 +3,7 @@
 		<div class="label"><%= l(:field_editor) %>:</div>
 		<div class="value">
 			<% if @issue.editor_id.nil? %>
-				<span><%= User.find(0).name %></span>
+				<span>Specify User!</span>
 			<% else %>
 				<span><%= User.find(@issue.editor_id).name %></span>
 			<% end %>
