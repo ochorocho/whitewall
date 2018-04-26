@@ -26,4 +26,5 @@ config/secrets.yml
 .DS_Store
 /assets/stylesheets/app.css
 /assets/javascripts/app.js
-./node_modules/
+node_modules/
+/node_modules/
