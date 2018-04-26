@@ -21,11 +21,8 @@ const contextSwitch = (process.env.NODE_ENV == 'production' ? true : false);
  * Paths for your TYPO3/Neos Project
  * @type string
  */
-
-const corePluginBase = './assets/lib/';
-
+const corePluginBase = './lib/assets/';
 const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
-
 
 /**
  * Define Array and pass it on to webpacks "module.exports.plugins: []" property
