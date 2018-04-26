@@ -1,20 +1,8 @@
-<% locale = User.current.language.blank? ? ::I18n.locale : User.current.language %>
-
 <% html_title l(:label_whitewall_menu) %>
 
 <% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
-    <%= stylesheet_link_tag 'jquery.stickyheader.css', :plugin => 'whitewall' %>
-
-
-	<!-- DATEPICKER SET LANG -->
-	<% if locale == 'fr' || locale == 'de' || locale == 'nl' || locale == 'pt-br' || locale == 'ru' %>
-	    <%= javascript_include_tag "datepicker/datepicker-#{locale}.js", :plugin => 'whitewall' %>    
-	<% end %>
-
-    <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
+	<%= stylesheet_link_tag 'app', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'app', :plugin => 'whitewall' %>
 <% end %>
 
 <% if @UserAllowed == 'true' %>
@@ -59,7 +47,7 @@
 		<% all_tracker = Tracker.all.sort %>
 		<% all_tracker.each do |tracker| %>
 			<span id="tracker<%= tracker.name %>" class="tracker">
-				<span class="colorPrev" style="background-color: #<%= Setting.plugin_whitewall["whitewall_color#{tracker.id}_settings"] %>"></span>
+				<span class="colorPrev" style="background-color: <%= Setting.plugin_whitewall["whitewall_color#{tracker.id}_settings"] %>"></span>
 				<label><%= tracker.name %></label>
 			</span>
 		<% end -%>

@@ -290,7 +290,6 @@ td.weekOld_0 {
 
 .ui-progressbar {
 	height: 6px !important;
-	
 }
 
 .ui-progressbar .ui-widget-header {
@@ -299,12 +298,6 @@ td.weekOld_0 {
 	text-align: center;
 }
 
-.jqplot-highlighter-tooltip, .jqplot-canvasOverlay-tooltip {
-    font-size: 1.5em !important;
-    padding: 0px 4px !important;
-}
-
-
 #timespan input[type=text] {
 	border: 2px solid #c1c1c1;
 }
@@ -312,17 +305,6 @@ td.weekOld_0 {
 #timespan input.error {
 	border: 2px solid #ff0000 !important;
 }
-
-.jqplot-table-legend td {
-	width: auto !important;
-	float: right !important;
-	padding: 2px !important;
-}
-
-.jqplot-table-legend {
-	width: auto !important;
-}
-
 
 #tab-evolutions #timespan {
 	border-bottom: 1px solid #dedede;
@@ -427,11 +409,22 @@ td.weekOld_0 {
 
 .weeklyGraph.flash.error, .weeklyGraph.flash.warning {
 	background-image: none;
+	background: #eeeeee;
 	padding: 0;
 	border: 0;
 }
 .weeklyGraph.flash.error .ui-widget-header {
 	background: #dd0000;
+}
+
+.weeklyGraph.flash.warning .ui-widget-header {
+	background: #FDBF3B;
+}
+
+.weeklyGraph {
+	&.ui-progressbar .ui-progressbar-value {
+		border: 0 !important;
+	}
 }
 
 .totals .hours div, .totals .tickets div, .totals .delayed div {

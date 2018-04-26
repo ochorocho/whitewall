@@ -3,23 +3,8 @@
 <% html_title l(:label_whitewall_menu) %>
 
 <% content_for :header_tags do %>
-
-	<%= stylesheet_link_tag 'jquery.jqplot.css', :plugin => 'whitewall' %>
-    <%= stylesheet_link_tag 'whitewall', :plugin => 'whitewall' %>
-    <%= stylesheet_link_tag 'jquery.stickyheader.css', :plugin => 'whitewall' %>
-
-    <%= javascript_include_tag 'jqplot/excanvas.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'jqplot/jquery.jqplot.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'jqplot/plugins/jqplot.dateAxisRenderer.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'jqplot/plugins/jqplot.barRenderer.js', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasAxisTickRenderer.js', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasTextRenderer.js', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'jqplot/plugins/jqplot.canvasOverlay.js', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'jqplot/plugins/jqplot.categoryAxisRenderer.js', :plugin => 'whitewall' %>
-
-    <%= javascript_include_tag 'jquery.ba-throttle-debounce.min.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'jquery.stickyheader.js', :plugin => 'whitewall' %>
-    <%= javascript_include_tag 'script', :plugin => 'whitewall' %>
+	<%= stylesheet_link_tag 'app', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'app', :plugin => 'whitewall' %>
 <% end %>
 
 <% if @UserAllowed == 'true' %>

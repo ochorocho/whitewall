@@ -6,7 +6,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const WatchLiveReloadPlugin = require('webpack-watch-livereload-plugin');
 
-
 if (process.env.NODE_ENV === undefined) {
     process.env.NODE_ENV = 'develpoment'
 }
@@ -22,7 +21,8 @@ const contextSwitch = (process.env.NODE_ENV == 'production' ? true : false);
  * @type string
  */
 const corePluginBase = './lib/assets/';
-const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
+// const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
+const corePluginTarget = './assets/';
 
 /**
  * Define Array and pass it on to webpacks "module.exports.plugins: []" property
@@ -38,7 +38,6 @@ pluginConfig[0] = new ExtractTextPlugin({
     filename: corePluginTarget + 'stylesheets/app.css'
 });
 const extractPlugin = pluginConfig[0];
-
 
 /**
  * Lint/Validate sass code
