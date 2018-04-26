@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === undefined) {
 const contextSwitch = (process.env.NODE_ENV == 'production' ? true : false);
 
 /**
- * Paths for your TYPO3/Neos Project
+ * Paths for plugin assets
  * @type string
  */
 const corePluginBase = './lib/assets/';
@@ -82,7 +82,6 @@ pluginConfig[7] = new WatchLiveReloadPlugin({
 pluginConfig = pluginConfig.filter(function (x) {
     return (x !== (undefined || null || ''));
 });
-
 
 const extractConfig = {
     disable: false,
