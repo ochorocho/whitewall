@@ -1,0 +1,106 @@
+.component {
+	line-height:1.5em;
+	margin:0 auto;
+	padding:2em 0 3em;
+	width:90%;
+	max-width:1000px;
+	overflow:hidden;
+}
+
+.component .filler {
+}
+
+table {
+	border-collapse:collapse;
+	margin-bottom:3em;
+	width:100%;
+}
+
+td,th {
+	padding:.75em 1.5em;
+}
+
+tbody th {
+	text-align:left;
+}
+
+td.err {
+	font-size:.75em;
+	text-align:center;
+	line-height:1;
+}
+
+th {
+	font-weight:700;
+	white-space:nowrap;
+}
+
+tbody th {
+	z-index:999;
+}
+
+tbody tr:nth-child(2n-1) {
+	transition:all 100ms ease-in;
+}
+
+tbody tr:hover {
+}
+
+tbody th {
+	z-index:5000;
+}
+
+/* For appearance */
+.sticky-wrap {
+	overflow-x:auto;
+	overflow-y:hidden;
+	position:relative;
+	width:100%;
+}
+
+.sticky-wrap .sticky-thead,.sticky-wrap .sticky-col,.sticky-wrap .sticky-intersect {
+	opacity:0;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:50;
+	width:auto;
+/* Prevent table from stretching to full size */
+	background-color:#fff !important;
+}
+
+.sticky-col {
+	z-index: 499 !important;
+}
+
+.sticky-wrap .sticky-thead {
+	z-index:100;
+	width:100%;
+/* Force stretch */
+}
+
+.sticky-wrap .sticky-intersect {
+	opacity:1;
+	z-index:150;
+	background:#fff !important;
+}
+
+.sticky-wrap .sticky-intersect th {
+	background:#fff !important;
+	height: 12px;
+}
+
+.sticky-wrap td,.sticky-wrap th {
+	box-sizing:border-box;
+	border-right:1px solid #fff;
+}
+
+/* Not needed for sticky header/column functionality */
+td.user-name {
+	text-transform:capitalize;
+}
+
+.sticky-wrap.overflow-y {
+	overflow-y:auto;
+	max-height:50vh;
+}
