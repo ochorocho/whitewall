@@ -8,6 +8,7 @@ td.weekOld_0 {
 
 
 .postIt {
+	border: 5px solid;
 	background:#fefabc; 
 	padding: 6px 6px;
 	margin: 10px;
@@ -19,64 +20,63 @@ td.weekOld_0 {
 	-moz-box-shadow: 0px 4px 6px #333;
 	-webkit-box-shadow: 0px 4px 6px #333;
 	cursor: pointer;
+	a {
+		color: #000 !important;
+	}
+
+	.title {
+		font-size: 12px;
+	}
+
+	.dueDate {
+		padding: 4px 0px;
+	}
+
+	.done {
+		clear: both;
+		float: none;
+		margin-top: 4px;
+	}
+
+	.estimated, .todaysHours {
+		float: right;
+		font-weight: bold;
+		font-size: 80%;
+	}
+
+	&.error, &.error .todaysHours {
+		color: #ff0000;
+		white-space: nowrap;
+	}
+
+	.projectName {
+		border-top: 1px solid #8f8f8f;
+		padding-top: 2px;
+		margin-top: 2px;
+		font-size: 10px !important;
+	}
+
+	.hidden {
+		margin-top: 4px;
+	}
+	 hr {
+		border: 0px !important;
+		background: #8f8f8f;
+	}
 }
 
 #relDialog .postIt {
-	cursor: default
+	cursor: default;
+	a {
+		font-weight: bold !important;
+	}
 }
 
-#relDialog .postIt a {
-	font-weight: bold !important;
-}
 
 .colorPrev {
 	background:#fefabc;
 }
 
-.postIt a {
-	color: #000 !important;
-}
-
-.postIt .title {
-	font-size: 12px;
-}
-
-.postIt .dueDate {
-	padding: 4px 0px;
-}
-
-.postIt .done {
-	clear: both;
-	float: none;
-	margin-top: 4px;
-}
-
-.postIt .estimated, .postIt .todaysHours {
-	float: right;
-	font-weight: bold;
-	font-size: 80%;
-}
-
-.postIt .error, .postIt.error .todaysHours {
-	color: #ff0000;
-	white-space: nowrap;
-}
-
-.postIt .projectName {
-	border-top: 1px solid #8f8f8f;
-	padding-top: 2px;
-	margin-top: 2px;
-	font-size: 10px !important;
-}
-
-.postIt .hidden {
-	margin-top: 4px;
-}
-
-.postIt hr {
-	border: 0px !important;
-	background: #8f8f8f;
-}
 
 .closedIssue {
 	opacity: 0.55;
@@ -264,15 +264,15 @@ td.weekOld_0 {
 #wallFunctions {
 	text-align: right;
 	margin-top: 10px;
+	span {
+		padding-bottom: 3px;
+		padding-left: 20px;
+		padding-top: 2px;
+		padding-right: 6px;
+		margin-left: 4px;
+	}
 }
 
-#wallFunctions span {
-    padding-bottom: 3px;
-    padding-left: 20px;
-    padding-top: 2px;
-    padding-right: 6px;
-    margin-left: 4px;
-}
 
 .whitewallTip {
 	font-size: 12px !important;
@@ -287,23 +287,22 @@ td.weekOld_0 {
 	z-index: 590;
 }
 
-
 .ui-progressbar {
 	height: 6px !important;
+	.ui-widget-header {
+		font-size: 10px !important;
+		color: #999999;
+		text-align: center;
+	}
 }
 
-.ui-progressbar .ui-widget-header {
-	font-size: 10px !important;
-	color: #999999;
-	text-align: center;
-}
-
-#timespan input[type=text] {
-	border: 2px solid #c1c1c1;
-}
-
-#timespan input.error {
-	border: 2px solid #ff0000 !important;
+#timespan {
+	input[type=text] {
+		border: 2px solid #c1c1c1;
+	}
+	input.error {
+		border: 2px solid #ff0000 !important;
+	}
 }
 
 #tab-evolutions #timespan {
@@ -350,83 +349,74 @@ td.weekOld_0 {
 	z-index: 500;
 }
 
-#whitewall-widget .postIt {
-	display: inline-block;
-}
+/**
+	My Page Widget
+ */
 #whitewall-widget {
 	width: 100%;
-}
-#whitewall-widget .stickyUser {
-	transform: rotate(270deg);
-	transform-origin: 20px;
-	width: 200px;
-}
+	.postIt {
+		display: inline-block;
+	}
+	.stickyUser {
+		transform: rotate(270deg);
+		transform-origin: 20px;
+		width: 200px;
+	}
+	.totals {
+		margin: 5px 0px 5px 10px;
+		padding: 0;
+	}
+	.avatar {
+		padding-left: 10px;
+		padding-right: 10px;
+		min-width: 20%;
+	}
 
-#whitewall-widget body th {
-	width: 50px;
-}
+	.total-stats {
+		width: calc(100% - 38px);
+	}
 
-#whitewall-widget .avatar, #whitewall-widget .totals {
-}
+	.stats {
+		display: flex;
+		align-items: center;
+		flex-grow: initial;
+		border-bottom: 1px solid #e4e4e4;
+	}
 
-#whitewall-widget .totals {
-	margin: 5px 0px 5px 10px;
-	padding: 0;
-}
-
-#whitewall-widget .avatar {
-	padding-left: 10px;
-	padding-right: 10px;
-	min-width: 20%;
-}
-#whitewall-widget .total-stats {
-	width: calc(100% - 38px);
-}
-
-#whitewall-widget .stats {
-	display: flex;
-	align-items: center;
-	flex-grow: initial;
-}
-
-#whitewall-widget .weeklyGraph {
-	width: calc(100% - 10px);
-}
-
-#whitewall-widget .stats {
-	border-bottom: 1px solid #e4e4e4;
+	.weeklyGraph {
+		width: calc(100% - 10px);
+	}
 }
 
 .totals {
 	display: flex;
 	align-items: center;
 	flex-direction: row;
-}
-
-.totals > div {
-	flex-grow: 1;
-}
-
-.weeklyGraph.flash.error, .weeklyGraph.flash.warning {
-	background-image: none;
-	background: #eeeeee;
-	padding: 0;
-	border: 0;
-}
-.weeklyGraph.flash.error .ui-widget-header {
-	background: #dd0000;
-}
-
-.weeklyGraph.flash.warning .ui-widget-header {
-	background: #FDBF3B;
+	& > div {
+		flex-grow: 1;
+	}
+	.hours, .tickets, .delayed {
+		div {
+			display: inline;
+		}
+	}
 }
 
 .weeklyGraph {
+	&.flash.error, &.flash.warning {
+		background-image: none;
+		background: #eeeeee;
+		padding: 0;
+		border: 0;
+	}
+	&.flash.error .ui-widget-header {
+		background: #dd0000;
+	}
+	&.flash.warning .ui-widget-header {
+		background: #FDBF3B;
+	}
 	&.ui-progressbar .ui-progressbar-value {
 		border: 0 !important;
 	}
 }
 
-.totals .hours div, .totals .tickets div, .totals .delayed div {
-	display: inline;
-}

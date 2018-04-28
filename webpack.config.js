@@ -21,8 +21,8 @@ const contextSwitch = (process.env.NODE_ENV == 'production' ? true : false);
  * @type string
  */
 const corePluginBase = './lib/assets/';
-// const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
-const corePluginTarget = './assets/';
+const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
+// const corePluginTarget = './assets/';
 
 /**
  * Define Array and pass it on to webpacks "module.exports.plugins: []" property
@@ -69,8 +69,8 @@ pluginConfig[5] = (contextSwitch == true ? new CompressionPlugin({asset: '[path]
 pluginConfig[7] = new WatchLiveReloadPlugin({
     files: [
         // Replace these globs with yours
-        corePluginTarget + 'scss/**/*.css',
-        corePluginTarget + 'javascripts/**/*.js'
+        corePluginBase + 'scss/**/*.scss',
+        corePluginBase + 'javascripts/**/*.js'
     ]
 });
 
