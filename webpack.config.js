@@ -21,8 +21,8 @@ const contextSwitch = (process.env.NODE_ENV == 'production' ? true : false);
  * @type string
  */
 const corePluginBase = './lib/assets/';
-const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
-// const corePluginTarget = './assets/';
+// const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
+const corePluginTarget = './assets/';
 
 /**
  * Define Array and pass it on to webpacks "module.exports.plugins: []" property
@@ -134,7 +134,7 @@ module.exports = {
         ],
     },
     watchOptions: {
-        ignored: [ /node_modules/, /Data/, "/Web/"]
+        ignored: [ /node_modules/]
     },
     module: {
         rules: [{

@@ -12,11 +12,9 @@ td.weekOld_0 {
   margin: 10px;
   font-size: 15px;
   color: #000;
-  width: 236px;
+  min-width: 236px;
   font-size: 10px;
   box-shadow: 0px 4px 6px #333;
-  -moz-box-shadow: 0px 4px 6px #333;
-  -webkit-box-shadow: 0px 4px 6px #333;
   cursor: pointer;
   a {
     color: #000 !important;
@@ -95,70 +93,64 @@ td.weekOld_0 {
   list-style: none;
 }
 
-#scroll {
-}
-
-#wall table {
-}
-
-#wall .ui-sortable {
-  padding-top: 20px;
-  padding-bottom: 4px;
-}
-
-#wall table tr td:first-child {
-  width: 240px;
-  white-space: nowrap;
-}
-
-#wall table tr td {
-  width: 260px;
-}
-
-#wall thead td {
-  text-align: center;
-  font-weight: bold;
-  color: #606060;
-}
-
-#wall tbody ul {
-  min-height: 100%;
-  margin: 0px;
-  padding: 0px 0px;
-  min-height: 32px;
-}
-
-#wall tbody td, #wall tbody th {
-  vertical-align: top !important;
-}
-
-#wall fieldset {
-  border: 0px;
-}
-
-#wall fieldset .colorPrev {
-  width: 10px;
-  height: 10px;
-  float: none;
-  margin-bottom: -1px;
-}
-
-#wall fieldset label {
-  float: none;
-  margin-top: -2px;
-  margin-right: 6px;
-}
-
-#wall legend {
-  font-weight: bold;
-  float: left;
-  padding-right: 1rem;
-}
-
-#wall .tracker.open {
-  opacity: 0.55;
-  -webkit-opacity: 0.55;
-  filter: alpha(opacity=55);
+#wall {
+  .ui-sortable {
+    padding-top: 20px;
+    padding-bottom: 4px;
+  }
+  table {
+    tr {
+      td {
+        width: 260px;
+        &:first-child {
+          width: 240px;
+          white-space: nowrap;
+        }
+      }
+    }
+    thead {
+      td {
+        text-align: center;
+        font-weight: bold;
+        color: #606060;
+      }
+    }
+    tbody {
+      ul {
+        min-height: 100%;
+        margin: 0px;
+        padding: 0px 0px;
+        min-height: 32px;
+      }
+      td, th {
+        vertical-align: top !important;
+      }
+    }
+  }
+  fieldset {
+    border: 0px;
+    .colorPrev {
+      width: 10px;
+      height: 10px;
+      float: none;
+      margin-bottom: -1px;
+    }
+    label {
+      float: none;
+      margin-top: -2px;
+      margin-right: 6px;
+    }
+  }
+  legend {
+    font-weight: bold;
+    float: left;
+    padding-right: 1rem;
+  }
+  .tracker.open {
+    opacity: 0.55;
+    -webkit-opacity: 0.55;
+    filter: alpha(opacity=55);
+  }
 }
 
 .tracker, .tracker label {
@@ -174,14 +166,6 @@ td.weekOld_0 {
 
 #scroll .sticky-wrap {
   padding-bottom: 40px !important;
-}
-
-.totals {
-  padding: 0px 10px 4px 28px;
-}
-
-.totals span {
-  font-weight: bold;
 }
 
 /* FILTER */
@@ -259,22 +243,14 @@ td.weekOld_0 {
   text-align: right;
   margin-top: 10px;
   span {
-    padding-bottom: 3px;
-    padding-left: 20px;
-    padding-top: 2px;
-    padding-right: 6px;
+    padding: 2px 6px 3px 20px;
     margin-left: 4px;
   }
 }
 
-.whitewallTip {
-  font-size: 12px !important;
-  border: 1px solid #ddd !important;
-  box-shadow: none !important;
-  padding: 3px 5px;
-}
-
-/* JQUERY UI MODs */
+/**
+  JQUERY UI MODs
+ */
 .ui-progressbar {
   height: 6px !important;
   .ui-widget-header {
@@ -293,19 +269,12 @@ td.weekOld_0 {
   }
 }
 
-#tab-evolutions #timespan {
-  border-bottom: 1px solid #dedede;
-  margin-bottom: 10px;
-  padding-bottom: 6px;
-}
-
 #scroll {
   overflow: scroll;
-}
-
-#scroll .sort-handle {
-  float: right;
-  background-color: rgba(100, 100, 100, .5);
+  .sort-handle {
+    float: right;
+    background-color: rgba(100, 100, 100, .5);
+  }
 }
 
 #displayDialog ul {
@@ -318,10 +287,6 @@ td.weekOld_0 {
 
 .invert {
   cursor: pointer;
-}
-
-#wall legend {
-  font-weight: bold;
 }
 
 .ui-widget-overlay.ui-front {
@@ -371,6 +336,10 @@ td.weekOld_0 {
   display: flex;
   align-items: center;
   flex-direction: row;
+  padding: 0px 10px 4px 28px;
+  span {
+    font-weight: bold;
+  }
   & > div {
     flex-grow: 1;
   }
@@ -382,7 +351,7 @@ td.weekOld_0 {
 }
 
 .weeklyGraph {
-  width: 380px;
+  width: 300px;
   height: 70px;
   margin: 5px 10px;
   &.flash.error, &.flash.warning {

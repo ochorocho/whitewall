@@ -2,6 +2,8 @@
 
 <% content_for :header_tags do %>
 	<%= stylesheet_link_tag 'app', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jquery.ba-throttle-debounce', :plugin => 'whitewall' %>
+	<%= javascript_include_tag 'jquery.stickyheader', :plugin => 'whitewall' %>
 	<%= javascript_include_tag 'app', :plugin => 'whitewall' %>
 <% end %>
 
