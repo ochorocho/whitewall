@@ -124,8 +124,6 @@ module IssueHelperPatch
       else
         l(:text_journal_deleted, :label => label, :old => old_value).html_safe
       end
-
-      super
     end
   end
 end
