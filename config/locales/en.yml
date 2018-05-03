@@ -2,6 +2,8 @@ en:
   # WHITEWALL
   field_editor: "Editor"
   label_whitewall_menu: "The Great White Wall"
+  label_whitewall_working_hours: "Working Hours"
+  label_whitewall: "Whitewall"
   label_whitewall_display: "Display"
   label_whitewall_undefined: "No assignee nor start date set"
   label_whitewall_start: "Start"

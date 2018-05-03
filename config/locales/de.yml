@@ -2,6 +2,8 @@ de:
   # WHITEWALL
   field_editor: "Bearbeiter"
   label_whitewall_menu: "Die Weiße Wand"
+  label_whitewall_working_hours: "Arbeitsstunden"
+  label_whitewall: "Weiße Wand"
   label_whitewall_users: "Benutzer Anzeigen"
   label_whitewall_undefined: "Nicht zugewiesen oder kein Startdatum gesetzt"
   label_whitewall_start: "Start"
