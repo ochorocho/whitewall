@@ -4,18 +4,16 @@ const sassLintPlugin = require('sasslint-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const WatchLiveReloadPlugin = require('webpack-watch-livereload-plugin');
-
 const { isProduction } = require('webpack-mode');
-
-console.log(isProduction);
 
 /**
  * Paths for plugin assets
  * @type string
  */
 const corePluginBase = './lib/assets/';
-const corePluginTarget = (isProduction ? './assets/' : '../../public/plugin_assets/whitewall/');
+// const corePluginTarget = (isProduction ? './assets/' : '../../public/plugin_assets/whitewall/');
 // const corePluginTarget = './assets/';
+const corePluginTarget = './../../public/plugin_assets/whitewall/';
 
 /**
  * Define Array and pass it on to webpacks "module.exports.plugins: []" property
@@ -37,7 +35,7 @@ const extractPlugin = pluginConfig[0];
  * @see https://github.com/alleyinteractive/sasslint-webpack-plugin#options
  */
 pluginConfig[2] = new sassLintPlugin({
-    glob: './scss/**/*.s?(a|c)ss',
+    glob: './lib/assets/scss/app.scss',
     ignoreFiles: [path.resolve(corePluginBase)],
     ignorePlugins: ['extract-text-webpack-plugin']
 });

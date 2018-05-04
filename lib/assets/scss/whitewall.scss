@@ -1,4 +1,4 @@
-body li {
+li {
   list-style: none
 }
 
@@ -332,11 +332,13 @@ td.weekOld_0 {
   }
 }
 
+
+
 .totals {
   display: flex;
   align-items: center;
   flex-direction: row;
-  padding: 0px 10px 4px 28px;
+  padding: 0px 10px 4px 10px;
   span {
     font-weight: bold;
   }
@@ -344,10 +346,16 @@ td.weekOld_0 {
     flex-grow: 1;
   }
   .hours, .tickets, .delayed {
-    div {
-      display: inline;
+    & > div {
+      padding: 5px 6px 5px 30px;
+      display: block;
+      margin: auto 2px;
     }
   }
+  .flash.error, .flash.warning {
+    padding: 5px 6px 5px 30px;
+  }
+
 }
 
 .weeklyGraph {
@@ -368,6 +376,7 @@ td.weekOld_0 {
   }
   &.ui-progressbar .ui-progressbar-value {
     border: 0 !important;
+    margin: 0px;
   }
 }
 

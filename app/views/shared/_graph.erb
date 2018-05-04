@@ -11,11 +11,5 @@
       <%= user_week_issue(user, week[0], week[1]).count %>
     </div>
   </div>
-  <div class="delayed">
-    <div class="">
-      <%= l(:label_issue_delayed) %>:
-      <%= user_week_issues_delayed(user, week[0], week[1]).count %>
-    </div>
-  </div>
 </div>
 <div class="weeklyGraph <%= user_hours_overdue(user_week_estimated_hours(user, week[0], week[1])) %>" data-progress-value="<%= user_week_estimated_hours(user, week[0], week[1]).round %>" data-progress-max="<%= @settings = Setting.plugin_whitewall["whitewall_limit"] %>"></div>
