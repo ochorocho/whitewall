@@ -1,28 +1,21 @@
 const path = require("path");
 const webpack = require("webpack");
 const sassLintPlugin = require('sasslint-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const WatchLiveReloadPlugin = require('webpack-watch-livereload-plugin');
 
-if (process.env.NODE_ENV === undefined) {
-    process.env.NODE_ENV = 'develpoment'
-}
+const { isProduction } = require('webpack-mode');
 
-/**
- * Plugins enabled/disabled depending on contextSwitch (Production = true / Development = false)
- * Make sure context ist always set. Default 'development'
- */
-const contextSwitch = (process.env.NODE_ENV == 'production' ? true : false);
+console.log(isProduction);
 
 /**
  * Paths for plugin assets
  * @type string
  */
 const corePluginBase = './lib/assets/';
-// const corePluginTarget = (contextSwitch == true ? './assets/' : '../../public/plugin_assets/whitewall/');
-const corePluginTarget = './assets/';
+const corePluginTarget = (isProduction ? './assets/' : '../../public/plugin_assets/whitewall/');
+// const corePluginTarget = './assets/';
 
 /**
  * Define Array and pass it on to webpacks "module.exports.plugins: []" property
@@ -53,13 +46,7 @@ pluginConfig[2] = new sassLintPlugin({
  * Uglify/Minify Javascript based on UglifyJS2
  * @see https://github.com/webpack-contrib/uglifyjs-webpack-plugin#options
  */
-pluginConfig[4] = (contextSwitch == true ? new UglifyJsPlugin() : '');
-
-/**
- * Compress js/css files using gzip (*.gz)
- * @see https://github.com/webpack-contrib/compression-webpack-plugin#options
- */
-pluginConfig[5] = (contextSwitch == true ? new CompressionPlugin({asset: '[path].gz[query]'}) : '');
+pluginConfig[4] = (isProduction ? new UglifyJsPlugin() : '');
 
 /**
  * Reload assets in Browser when changed - Make sure http://localhost:35729/livereload.js included
@@ -91,8 +78,8 @@ const extractConfig = {
             options: {
                 url: false,
                 importLoaders: 1,
-                minimize: contextSwitch,
-                sourceMap: contextSwitch
+                minimize: isProduction,
+                sourceMap: !isProduction
             }
         },
         {
