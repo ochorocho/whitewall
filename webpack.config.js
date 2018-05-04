@@ -11,9 +11,9 @@ const { isProduction } = require('webpack-mode');
  * @type string
  */
 const corePluginBase = './lib/assets/';
-// const corePluginTarget = (isProduction ? './assets/' : '../../public/plugin_assets/whitewall/');
+const corePluginTarget = (isProduction ? './assets/' : './../../public/plugin_assets/whitewall/');
 // const corePluginTarget = './assets/';
-const corePluginTarget = './../../public/plugin_assets/whitewall/';
+// const corePluginTarget = './../../public/plugin_assets/whitewall/';
 
 /**
  * Define Array and pass it on to webpacks "module.exports.plugins: []" property
