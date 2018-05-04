@@ -69,9 +69,11 @@
 						<th><div class="stickyUser"><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></div></th>
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>
-							<td class="sortItCon <% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
+							<td>
 								<%= render :partial => "shared/graph", locals: {users: @users, user: user, week: week} %>
-								<%= render :partial => "shared/issue", locals: {users: @users, user: user, week: week} %>
+								<div class="sortItCon <% if(Date.today.strftime("%U").to_i + 1) > week[0].to_i %>weekOld_0<% end %>">
+									<%= render :partial => "shared/issue", locals: {users: @users, user: user, week: week} %>
+								</div>
 							</td>
 						<% end -%>
 					</tr>
