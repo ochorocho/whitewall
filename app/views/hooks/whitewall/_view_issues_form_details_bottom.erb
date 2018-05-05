@@ -1,15 +1,13 @@
 <p>
 	<label for='issue_editor_id'><%= l(:field_editor) %></label>
 
-	<% @Users = User.all %>
-
 	<% if current_page?(url_for(:controller => 'issues', :action => 'new')) %>
-		<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.current)) %>
+		<%= select_tag('issue[editor_id]', options_from_collection_for_select(project.members, 'user_id', 'name', User.current.id), :include_blank => true) %>
 	<% else %>
 			<% if @issue.editor_id.nil? %>
-				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.where(id: 0))) %>
+				<%= select_tag('issue[editor_id]', options_from_collection_for_select(project.members, 'user_id', 'name', ''), :include_blank => true) %>
 			<% else %>
-				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.where(id: @issue.editor_id))) %>
+				<%= select_tag('issue[editor_id]', options_from_collection_for_select(project.members, 'user_id', 'name', issue.editor_id), :include_blank => true) %>
 			<% end %>
 	<% end %>
   <a id="whitewall-equal-assignee-editor"><%= l(:label_editor_set) %></a>
