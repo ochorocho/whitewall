@@ -1,6 +1,7 @@
 de:
   # WHITEWALL
   field_editor: "Bearbeiter"
+  label_editor_set: "'Zugewiesen an' setzen"
   label_whitewall_menu: "Die Weiße Wand"
   label_whitewall_working_hours: "Arbeitsstunden"
   label_whitewall: "Weiße Wand"

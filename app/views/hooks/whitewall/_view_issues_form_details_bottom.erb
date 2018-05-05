@@ -12,5 +12,5 @@
 				<%= select_tag('issue[editor_id]', principals_options_for_select(@Users, selected=User.where(id: @issue.editor_id))) %>
 			<% end %>
 	<% end %>
-  <a id="whitewall-equal-assignee-editor">set asignee as editor</a>
+  <a id="whitewall-equal-assignee-editor"><%= l(:label_editor_set) %></a>
 </p>

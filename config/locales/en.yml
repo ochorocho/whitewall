@@ -1,6 +1,7 @@
 en:
   # WHITEWALL
   field_editor: "Editor"
+  label_editor_set: "Set 'Assignee'"
   label_whitewall_menu: "The Great White Wall"
   label_whitewall_working_hours: "Working Hours"
   label_whitewall: "Whitewall"
