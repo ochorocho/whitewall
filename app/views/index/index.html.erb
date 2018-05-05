@@ -65,7 +65,7 @@
 			<tbody>
 					
 				<% for user in @users -%>
-					<tr class="<%= cycle('odd', 'even') %>">
+					<tr class="<%= cycle('odd', 'even') %> <%= User.current.id == user.id ? "current-user" : "" %>">
 						<th><div class="stickyUser"><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></div></th>
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>

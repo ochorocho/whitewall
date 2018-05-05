@@ -89,8 +89,14 @@ td.weekOld_0 {
 }
 
 /* THE WALL ITSELF */
-#whitewall li {
-  list-style: none;
+#whitewall {
+  .current-user {
+    background: #FFEBC1;
+    border-bottom: 5px solid transparent;
+  }
+  li {
+    list-style: none;
+  }
 }
 
 #wall {
@@ -116,16 +122,9 @@ td.weekOld_0 {
       }
     }
     tbody {
-      ul {
-        min-height: 100%;
-        margin: 0px;
-        padding: 0px 0px;
-        min-height: 32px;
-      }
-      td {
-        padding-top: 6px;
-      }
       td, th {
+        padding-top: 22px;
+        padding-bottom: 8px;
         vertical-align: top !important;
       }
     }
