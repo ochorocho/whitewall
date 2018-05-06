@@ -13,7 +13,7 @@
           <%= link_to_issue(issue, :subject => true, :truncate => 22, :tracker => false) %>
         </span>
 
-        <span class="sort-handle"></span>
+<!--        <span class="sort-handle"></span>-->
         <% if !issue.project.nil? %>
           <div class="projectName">
             <%= link_to truncate("#{issue.project}", length: 40), "/projects/#{issue.project.identifier}" %>

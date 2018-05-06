@@ -60,7 +60,7 @@
 // the `Cowboy` namespace. Usage will be exactly the same, but instead of
 // $.method() or jQuery.method(), you'll need to use Cowboy.method().
 
-console.log('throttle javscript');
+
 
 (function(window,undefined){
   '$:nomunge'; // Used by YUI compressor.
