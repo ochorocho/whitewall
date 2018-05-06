@@ -2,13 +2,6 @@
 
 <% html_title l(:label_whitewall_menu) %>
 
-<% content_for :header_tags do %>
-	<%= stylesheet_link_tag 'app', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'jquery.ba-throttle-debounce', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'jquery.stickyheader', :plugin => 'whitewall' %>
-	<%= javascript_include_tag 'app', :plugin => 'whitewall' %>
-<% end %>
-
 <% if @UserAllowed == 'true' %>
 
 <div id="whitewall">
@@ -67,7 +60,7 @@
 	</div>
 
 	<%= render :partial => "shared/dialog_display" %>
-	<%= render :partial => "shared/dialog_no_relation" %>
+	<div id="relDialog" title="<%= l(:label_whitewall_undefined) %>"> </div>
 
 </div>
 

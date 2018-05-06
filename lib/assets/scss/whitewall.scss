@@ -54,6 +54,7 @@ td.weekOld_0 {
 
   .hidden {
     margin-top: 4px;
+    display: none;
   }
   hr {
     border: 0px !important;
@@ -159,15 +160,11 @@ td.weekOld_0 {
   cursor: pointer !important;
 }
 
-.graph #scroll {
-  clear: both;
-  margin-top: 40px;
-  padding-bottom: 100px !important;
-  margin-bottom: 100px !important;
-}
-
-#scroll .sticky-wrap {
-  padding-bottom: 40px !important;
+.graph {
+  #scroll {
+    clear: both;
+    margin-top: 40px;
+  }
 }
 
 /* FILTER */
@@ -273,6 +270,9 @@ td.weekOld_0 {
 
 #scroll {
   overflow: scroll;
+  .sticky-wrap {
+    padding-bottom: 40px !important;
+  }
   .sort-handle {
     float: right;
     background-color: rgba(100, 100, 100, .5);
@@ -302,6 +302,7 @@ td.weekOld_0 {
   width: 100%;
   .postIt {
     display: inline-block;
+    float: left;
   }
   .stickyUser {
     transform: rotate(270deg);
@@ -334,9 +335,7 @@ td.weekOld_0 {
   }
 }
 
-
-
-.totals {
+.whitewall-totals {
   display: flex;
   align-items: center;
   flex-direction: row;
