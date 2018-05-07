@@ -8,6 +8,13 @@
 
 #top-menu a.whitewall {
     background-image: url("../images/note.png");
+	padding-left: 5px;
+}
+
+.theme-Gitmike, .theme-Zeroseven {
+	#top-menu a.whitewall {
+		background-image: none;
+	}
 }
 
 
