@@ -1,5 +1,5 @@
 <div id="displayDialog" title="<%= l(:label_whitewall_display_selection) %>">
-  <%= form_tag("/whitewall", method: "get", id: "displayForm") do %>
+  <%= form_tag("#{form_url}", method: "get", id: "displayForm") do %>
     <ul>
       <li>
         <div><b><%= l(:label_whitewall_timespan) %></b></div>
