@@ -30,10 +30,6 @@ class IndexController < ApplicationController
 
 		if @UserAllowed == 'true'
 
-					# TODO: To be removed
-					# @issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL")
-					#Issue.where("editor_id IS NULL OR start_date IS NULL").all
-
 			# CHECK PARAMS
 			if !params[:from].nil?
 				@fromDate = Date.parse(params[:from]).beginning_of_week + 4.days
@@ -72,30 +68,21 @@ class IndexController < ApplicationController
 
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
 			@hideUser << '2'
-			@hideUser << User.find(User.current)
-
-
-			#@usersAll = User.joins(:groups).where.not(id: @hideUser << User.current.id, status: [3]).order(login: :asc).distinct
-			# User.joins(:groups).where("users.id NOT IN ? AND users.status NOT IN (?)", @hide, [3])
-					# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
-					# User.where("users.id NOT IN (?) AND users.status NOT IN (?)", @hide, [3]).all
 			@usersAll = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]).distinct
 
 			@users = []
-			@users << User.find(User.current)
 
 			if !params[:user_select].nil?
-				@userSelect = params[:user_select]
-				@userSelect << '2'
-				@users += User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?)", @userSelect, @hideUser).distinct
 
-				# User.current
-						#where("users.id IN ?", @userSelect)
-										 # .not(id: [2], status: [3])
-				# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]])
+				@userSelect = params[:user_select]
+				if User.current.id.in?(params[:user_select])
+					@userSelect = User.current.id + @userSelect
+				end
+				@userSelect << '2'
+				@users += User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, @hideUser, [3]).distinct
+
 			else
 				@users += User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc).distinct
-				# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 			end
 
 		else

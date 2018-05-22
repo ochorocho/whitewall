@@ -107,8 +107,7 @@ module IssueweekHelper
       end
     end
 
-    # return @estimated.round(2)
-    return @estimated
+    return @estimated.round(4)
 
   end
 
