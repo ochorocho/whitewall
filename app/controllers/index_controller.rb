@@ -30,7 +30,8 @@ class IndexController < ApplicationController
 
 		if @UserAllowed == 'true'
 
-			@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL")
+					# TODO: To be removed
+					# @issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL")
 					#Issue.where("editor_id IS NULL OR start_date IS NULL").all
 
 			# CHECK PARAMS
@@ -71,13 +72,15 @@ class IndexController < ApplicationController
 
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
 			@hideUser << '2'
-			@hideUser << '3'
-			@hideUser << User.current.id
+			@hideUser << User.find(User.current)
 
-			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc).distinct
+
+			#@usersAll = User.joins(:groups).where.not(id: @hideUser << User.current.id, status: [3]).order(login: :asc).distinct
 			# User.joins(:groups).where("users.id NOT IN ? AND users.status NOT IN (?)", @hide, [3])
 					# User.find(:all, :joins => :groups, :order => "login asc", :conditions => ["users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]])
 					# User.where("users.id NOT IN (?) AND users.status NOT IN (?)", @hide, [3]).all
+			@usersAll = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]).distinct
+
 			@users = []
 			@users << User.find(User.current)
 

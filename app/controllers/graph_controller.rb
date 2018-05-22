@@ -29,8 +29,8 @@ class GraphController < ApplicationController
 		end
 
 		if @UserAllowed == 'true'
-
-			@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL").all
+			# TODO: To be remove
+			#@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL").all
 					
 			# CHECK PARAMS
 			@fromDate = Date.today.beginning_of_week + 4.days
@@ -65,7 +65,6 @@ class GraphController < ApplicationController
 			end
 
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
-			@hideUser << 2
 
 			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc).distinct
 			

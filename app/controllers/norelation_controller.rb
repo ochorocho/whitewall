@@ -28,7 +28,8 @@ class NorelationController < ApplicationController
 		end
 
 		if @UserAllowed == 'true'
-			@issuesUndefined = Issue.where("editor_id IS NULL OR start_date IS NULL").all
+			closed_status_ids = IssueStatus.where(:is_closed => true).pluck(:id)
+			@issuesUndefined = Issue.where(editor_id: nil, start_date: nil).where.not(:status_id => closed_status_ids).all
 		else
 			# NOT LOGGED IN
 		end
