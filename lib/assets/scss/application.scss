@@ -59,6 +59,13 @@
 		vertical-align: middle;
 		cursor: pointer;
 	}
+    .ui-progressbar-value {
+      &.ui-widget-header {
+        background-image: none;
+	  	background: #999;
+	  	border-radius: 0;
+      }
+    }
 }
 
 .colorPrev {
