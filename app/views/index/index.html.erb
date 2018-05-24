@@ -59,7 +59,24 @@
 					
 				<% for user in @users -%>
 					<tr class="<%= cycle('odd', 'even') %> <%= User.current.id == user.id ? "current-user" : "" %>">
-						<th><div class="stickyUser"><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></div></th>
+						<th>
+							<div class="stickyUser">
+								<%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %>
+							</div>
+							<div class="delayed_all flash error">
+
+								<% for delayed in user_issues_delayed(user) -%>
+									<div>
+										<%= link_to_issue(delayed, :subject => true, :truncate => 22, :tracker => false) %>
+									</div>
+								<% end -%>
+								<% if user_issues_delayed(user).count >= 10 %>
+									<div>
+										...
+									</div>
+								<% end %>
+							</div>
+						</th>
 						<!-- LOOPS THROUGH TICKETS -->
 						<% for week in @weeks -%>
 							<td>

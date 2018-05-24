@@ -26,16 +26,10 @@ module IssueweekHelper
 
   end
 
-  def user_week_issues_delayed(user,week,year)
-    @issues = user_week_issue(user,week,year)
+  def user_issues_delayed(user)
 
-    @delayed = []
-    @issues.each do |issue|
-
-      if issue.due_date < Date.today
-        @delayed << issue
-      end
-    end
+    closed_status_ids = IssueStatus.where(:is_closed => true).pluck(:id)
+    @delayed = Issue.order(due_date: :desc).where(editor_id: user.id).where('due_date <= ?', Date.today).where.not(:status_id => closed_status_ids).last(10)
 
     return @delayed
   end
