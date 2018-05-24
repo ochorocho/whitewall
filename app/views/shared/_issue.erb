@@ -1,18 +1,18 @@
 <% for issue in user_week_issue(user,week[0],week[1]) -%>
   <% if issue.children.count == 0 %>
     <div class="postIt <% if issue.start_date.blank? || issue.due_date.blank? %>error<% end %> tracker<%= issue.tracker %> <% if issue.closed? %>closedIssue<% else %>
-															<% if !issue.due_date.nil? %>
-																<% if issue.due_date < Date.today %>
-																delayedIssue
-																<% end %>
-															<% end %>
 											<% end %>" style="background-color: <%= Setting.plugin_whitewall["whitewall_color#{issue.tracker_id}_settings"] %>">
+        <% if issue.closed? %>
+          <div class="patch notice">
+            <%= l(:issue_closed_patch) %>
+          </div>
+        <% end %>
+        <% if issue.due_date < Date.today && !issue.closed? %>
+          <div class="patch error">
+            <%= l(:issue_delayed_patch) %>
+          </div>
+        <% end %>
 
-      <% if issue.closed? %>
-        <div class="closed-patch">
-          <%= l(:issue_closed_patch) %>
-        </div>
-      <% end %>
       <div class="title">
 
         <span id="issue-<%= issue.id%>" class="issue hascontextmenu">

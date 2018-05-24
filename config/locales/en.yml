@@ -44,3 +44,4 @@ en:
   label_whitewall_menu_overall: "Overview"
   label_of: "of"
   issue_closed_patch: "done"
+  issue_delayed_patch: "delayed"

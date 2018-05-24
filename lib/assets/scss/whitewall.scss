@@ -12,6 +12,8 @@ td.weekOld_0 {
   font-size: 10px;
   box-shadow: 0px 4px 6px #333;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   a {
     color: #000 !important;
   }
@@ -52,9 +54,37 @@ td.weekOld_0 {
     margin-top: 4px;
     display: none;
   }
+
   hr {
     border: 0px !important;
     background: #8f8f8f;
+  }
+  .patch {
+    width: 190px;
+    color: #fff;
+    font-weight: bold;
+    transform: rotate(-45deg);
+    padding: 2px 2px;
+    background: red;
+    text-align: center;
+    display: block;
+    position: absolute;
+    top: calc(50% - 8px);
+    right: -60px;
+    transition: opacity 400ms;
+    &.notice {
+      background-color: #dfffdf;
+      border-color: #9fcf9f;
+      color: #005f00;
+    }
+    &.error {
+      background-color: #ffe3e3;
+      border-color: #dd0000;
+      color: #880000;
+    }
+  }
+  &:hover .patch {
+    opacity: 0;
   }
 }
 
@@ -75,33 +105,6 @@ td.weekOld_0 {
   filter: alpha(opacity=55);
   position: relative;
   overflow: hidden;
-  .closed-patch {
-    width: 190px;
-    color: #fff;
-    font-weight: bold;
-    transform: rotate(-45deg);
-    padding: 2px 2px;
-    background: red;
-    text-align: center;
-    display: block;
-    position: absolute;
-    top: 38%;
-    right: -60px;
-    transition: opacity 400ms;
-  }
-  &:hover .closed-patch {
-    opacity: 0;
-  }
-}
-
-.delayedIssue {
-  background-color: #ff0000 !important;
-  padding-left: 40px;
-  width: 202px !important;
-  background-image: url("../../images/dialog-warning-2.png");
-  background-position: left 3px center;
-  background-repeat: no-repeat;
-  background-size: 32px auto;
 }
 
 /* THE WALL ITSELF */
