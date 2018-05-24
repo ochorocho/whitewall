@@ -73,6 +73,25 @@ td.weekOld_0 {
   opacity: 0.55;
   -webkit-opacity: 0.55;
   filter: alpha(opacity=55);
+  position: relative;
+  overflow: hidden;
+  .closed-patch {
+    width: 190px;
+    color: #fff;
+    font-weight: bold;
+    transform: rotate(-45deg);
+    padding: 2px 2px;
+    background: red;
+    text-align: center;
+    display: block;
+    position: absolute;
+    top: 38%;
+    right: -60px;
+    transition: opacity 400ms;
+  }
+  &:hover .closed-patch {
+    opacity: 0;
+  }
 }
 
 .delayedIssue {
