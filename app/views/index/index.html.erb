@@ -79,10 +79,9 @@
 												# TODO: editor_id
 												:f => ["status_id", "author_id", "due_date"],
 												:op => { :status_id => "c", :author_id => "=", :due_date => "<=" },
-												:v => { :status_id => [ ], :author_id => [ user.id ], :due_date => ["2018-05-25"] }
+												:v => { :status_id => [ ], :author_id => [ user.id ], :due_date => [ Date.today ] }
 											%>
 										</div>
-										http://localhost:3000/issues?utf8=%E2%9C%93&set_filter=1&f%5B%5D=status_id&op%5Bstatus_id%5D=c&f%5B%5D=author_id&op%5Bauthor_id%5D=%21&v%5Bauthor_id%5D%5B%5D=5&f%5B%5D=due_date&op%5Bdue_date%5D=%3C%3D&v%5Bdue_date%5D%5B%5D=2018-05-25&f%5B%5D=&c%5B%5D=project&c%5B%5D=tracker&c%5B%5D=status&c%5B%5D=priority&c%5B%5D=subject&c%5B%5D=assigned_to&c%5B%5D=updated_on&group_by=&t%5B%5D=
 									<% end %>
 								</div>
 							<% end %>
