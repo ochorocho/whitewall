@@ -82,9 +82,10 @@ class IndexController < ApplicationController
 				@users += User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, @hideUser, [3]).distinct
 
 			else
-				@users += User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc).distinct
+				@users += User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).distinct
 			end
-
+				# Move User.current to top ...
+				@users.unshift(@users.delete(User.current))
 		else
 			# NOT LOGGED IN
 		end
