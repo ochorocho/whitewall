@@ -41,14 +41,14 @@
 				</thead>
 				<tbody>					
 				
-					<% for user in @users -%>
+					<% for user in user_display -%>
 						<tr class="<%= cycle('odd', 'even') %>">
 							<th><%= avatar(user, :size => "32") %>&nbsp;<%= link_to_user(user) %></th>	
 							<!-- LOOPS THROUGH TICKETS -->
 							<% for week in @weeks -%>
 								<% if(Date.today.strftime("%U").to_i + 1) <= week[0].to_i %>
 								<td>
-									<%= render :partial => "shared/graph", locals: {users: @users, user: user, week: week} %>
+									<%= render :partial => "shared/graph", locals: {users: user_display, user: user, week: week} %>
 								</td>
 								<% end %>
 							<% end -%>

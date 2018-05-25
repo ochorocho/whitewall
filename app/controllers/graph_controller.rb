@@ -1,11 +1,9 @@
 class GraphController < ApplicationController
-  unloadable
 
 	include Redmine::Utils::DateCalculation
 
 	helper :issueweek
 	include IssueweekHelper
-
 
 	def index
 		require "date"
@@ -67,16 +65,8 @@ class GraphController < ApplicationController
 			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
 
 			@usersAll = User.joins(:groups).where.not(id: @hideUser, status: [3]).order(login: :asc).distinct
-			
-			if !params[:user_select].nil?
-				@userSelect = params[:user_select]
-				@userSelect << '2'
-				@users = User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, [2], [3]).order(login: :asc).distinct
-			else
-				@users = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).order(login: :desc).distinct
-			end
 
-	 		@users.each do |user|  
+			user_display.each do |user|
 	 			@weeks.each do |week|
 	 				if week[0].to_f == '53'
 	 					calYear = week[1].to_i
@@ -90,9 +80,7 @@ class GraphController < ApplicationController
 	 				weekEnd = Date.commercial(calYear, calWeek, 7)
 
 
-					@issues = Issue.where("editor_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd)
-					#@issues = Issue.find(:all, :include => [ :priority ], :conditions => ["editor_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd]).select { |i| i.project.active? }
-
+					@issues = Issue.where("editor_id = ? AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?) OR (start_date <= ? AND due_date >= ?))", user.id, weekBegin, weekEnd, weekBegin, weekEnd, weekBegin, weekEnd).select { |i| i.project.active? }
 
 					### ADD ESTIMATED HOURS HELPER HERE ...
 

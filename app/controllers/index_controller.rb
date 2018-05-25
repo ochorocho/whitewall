@@ -1,6 +1,5 @@
 class IndexController < ApplicationController
 
-	
 	include Redmine::Utils::DateCalculation
 
 	helper :issueweek
@@ -66,26 +65,6 @@ class IndexController < ApplicationController
 				@weeks << [w,y,date]
 			end
 
-			@hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
-			@hideUser << '2'
-			@usersAll = User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, [3]).distinct
-
-			@users = []
-
-			if !params[:user_select].nil?
-
-				@userSelect = params[:user_select]
-				if User.current.id.in?(params[:user_select])
-					@userSelect = User.current.id + @userSelect
-				end
-				@userSelect << '2'
-				@users += User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, @hideUser, [3]).distinct
-
-			else
-				@users += User.joins(:groups).where("users.id NOT IN (?) AND users.status NOT IN (?)", @hideUser, ['3']).distinct
-			end
-				# Move User.current to top ...
-				@users.unshift(@users.delete(User.current))
 		else
 			# NOT LOGGED IN
 		end
