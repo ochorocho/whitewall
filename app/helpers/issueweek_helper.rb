@@ -56,9 +56,9 @@ module IssueweekHelper
     if !params[:user_select].nil?
 
       @userSelect = params[:user_select]
-      if User.current.id.in?(params[:user_select])
-        @userSelect = User.current.id + @userSelect
-      end
+      # if User.current.id.in?(params[:user_select])
+      #   @userSelect = User.current.id + @userSelect
+      # end
       @userSelect << '2'
       @users += User.joins(:groups).where("users.id IN (?) AND users.id NOT IN (?) AND users.status NOT IN (?)", @userSelect, @hideUser, [3]).distinct
 
