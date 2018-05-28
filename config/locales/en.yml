@@ -45,3 +45,6 @@ en:
   label_of: "of"
   issue_closed_patch: "done"
   issue_delayed_patch: "delayed"
+  whitewall_user_settings_flash_successful: "Settings for 'White Wall' updated"
+  whitewall_user_settings_flash_error: "Error saving 'White Wall' settings"
+  whitewall_user_settings_flash_nopermission: "Permission denied"

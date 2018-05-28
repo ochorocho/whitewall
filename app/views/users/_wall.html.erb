@@ -1,14 +1,14 @@
 <div id="user_whitewall">
-  <%= form_for(:user, :url => {:action => 'update'}, :html => {:method => :put}) do %>
+    <%= form_tag("/whitewall/user/settings", method: "post", id: "displayForm") do %>
 
-    <%= hidden_field_tag 'user[working_hours][]', '10' %>
+    <%= hidden_field_tag 'user_id', @user.id %>
 
     <div class="splitcontentleft">
       <fieldset class="box tabular">
         <legend><%= l(:label_whitewall_working_hours) %></legend>
         <p>
           <label><%= l(:label_whitewall_working_hours) %></label>
-          <%= text_field_tag 'user[working_hours]', @user.working_hours %>
+          <%= text_field_tag 'working_hours', @user.working_hours, disabled: !User.current.admin?, maxlength: 2  %>
         </p>
       </fieldset>
     </div>

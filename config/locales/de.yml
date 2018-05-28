@@ -45,3 +45,6 @@ de:
   label_of: "von"
   issue_closed_patch: "erledigt"
   issue_delayed_patch: "verspätet"
+  whitewall_user_settings_flash_successful: "Einstellungen für 'Weiße Wand' aktualisiert"
+  whitewall_user_settings_flash_error: "Einstellungen für 'Weiße Wand' konnten nicht gespeichert werden"
+  whitewall_user_settings_flash_nopermission: "Kein Zugriff"
