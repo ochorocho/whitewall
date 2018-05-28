@@ -2,7 +2,7 @@
   <div class="hours">
     <div class="<%= user_hours_overdue(user_week_estimated_hours(user, week[0], week[1])) %>">
       <%= l(:label_graph_estimated_h) %>:
-      <%= user_week_estimated_hours(user, week[0], week[1]) %> <%= l(:label_of) %> <%= Setting.plugin_whitewall["whitewall_limit"] %>
+      <%= user_week_estimated_hours(user, week[0], week[1]) %> <%= l(:label_of) %> <%= user_working_hours_total(user) %>
     </div>
   </div>
   <div class="tickets">

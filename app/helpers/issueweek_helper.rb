@@ -46,6 +46,15 @@ module IssueweekHelper
     end
   end
 
+  def user_working_hours_total(user)
+    if user.working_hours.nil?
+      hours = Setting.plugin_whitewall["whitewall_limit"]
+    else
+      hours = user.working_hours
+    end
+    return hours
+  end
+
   def user_display
     @hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
     @hideUser << '2'
