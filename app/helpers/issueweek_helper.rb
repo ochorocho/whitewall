@@ -55,6 +55,7 @@ module IssueweekHelper
     return hours
   end
 
+
   def user_display
     @hideUser = Setting.plugin_whitewall["whitewall_hideuser"].split(/,/);
     @hideUser << '2'
