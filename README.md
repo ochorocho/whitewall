@@ -32,7 +32,6 @@ Go to Administration -> Plugins -> Configure (Whitewall plugin), see "Allowed Gr
 **Additional configuration:**
 
 * Tracker colors: Give each Tracker a color to display it on the wall
-* Graph: Add a line to the graph to idicate a max. hours limit
 
 
 **Found a Bug or a way to improve the code?**
